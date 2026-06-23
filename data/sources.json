@@ -42,9 +42,9 @@
     "url": "https://nri.tamu.edu/media/3986/ecometrics-analysis.pdf"
   },
   {
-    "id": "proxy_from_non_native_grass",
-    "title": "Draft proxy from non-native grass valuation",
-    "short": "Placeholder turf proxy",
-    "url": ""
+    "id": "turf_estimate_from_non_native_grass",
+    "title": "Draft turf-field estimate based on Texas non-native grass valuation",
+    "short": "Editable turf-field starting estimate",
+    "url": "https://nri.tamu.edu/media/3986/ecometrics-analysis.pdf"
   }
 ]

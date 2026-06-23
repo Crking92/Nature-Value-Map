@@ -20,7 +20,7 @@
       <div class="hero-card">
         <div class="big-number" id="heroValue">$0</div>
         <div class="big-label">estimated yearly community value</div>
-        <div class="microcopy">Planning estimate, not a sale price or cash revenue.</div>
+        <div class="microcopy">This is a planning estimate, not a sale price or cash revenue.</div>
       </div>
     </section>
 
@@ -43,9 +43,17 @@
         <div class="step-card">
           <div class="step-title"><span>2</span> What is growing there?</div>
           <div id="landCards" class="land-cards"></div>
+          <div class="editable-value-box">
+            <label for="valuePerAcre">Estimated yearly value per acre</label>
+            <div class="value-row">
+              <span>$</span><input id="valuePerAcre" type="number" min="0" step="1" value="1941"><span>/acre/year</span>
+            </div>
+            <p id="valueNote" class="small"></p>
+            <p class="small friendly-note">These are average starting values from the best available sources. Change this number if you have better local data, a newer study, a city cost estimate, or a site-specific value.</p>
+          </div>
           <details class="advanced">
             <summary>Use mixed cover instead</summary>
-            <p class="small">For example: 70% prairie, 20% turf, 10% creekside woods.</p>
+            <p class="small">For example: 70% prairie, 20% turf, 10% creekside woods. Mixed cover uses the default values for each selected class.</p>
             <div id="mixRows"></div>
           </details>
         </div>
@@ -64,7 +72,7 @@
 
         <details class="step-card costs">
           <summary><span class="step-title-inline">Optional: costs or burdens</span></summary>
-          <p class="small">Turn these on only when you have a real local cost, contract, or source-backed estimate.</p>
+          <p class="small friendly-note">These defaults are editable averages. Leave a box off if you do not have a real cost to subtract. Turn it on and change the numbers if you have local contract prices or better site data.</p>
           <label class="check"><input id="useMowing" type="checkbox"> subtract mowing</label>
           <div class="two">
             <label>$/acre/mow<input id="mowCost" type="number" value="50"></label>
@@ -113,9 +121,10 @@
         <summary>Show the sources and calculation</summary>
         <div class="method-grid">
           <div>
-            <h3>Simple formula</h3>
-            <p><code>acres × yearly value per acre × health score − optional costs</code></p>
-            <p>This gives a planning-level estimate. It is not land appraisal, revenue, or formal benefit-cost certification.</p>
+            <h3>Where the number comes from</h3>
+            <p><code>area × yearly value per acre × health score − optional costs</code></p>
+            <p>Example: if the area is 1 acre, the selected value is $1,941 per acre per year, and the health score is 85%, the gross estimate is $1,650 per year before optional costs.</p>
+            <p>If optional mowing is turned on at $50 per acre per mow and 20 mows per year, the tool subtracts $1,000 per acre per year.</p>
           </div>
           <div>
             <h3>Source note</h3>

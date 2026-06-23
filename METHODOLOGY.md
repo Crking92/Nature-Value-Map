@@ -1,15 +1,11 @@
 # Method Summary
 
-Formula:
+The displayed number comes from:
 
 ```text
-gross yearly value = acres x source-backed value per acre per year x health score
-net planning value = gross yearly value - optional source-backed costs
+area x yearly value per acre x health score - optional costs
 ```
 
-This tool is for planning and public education. It is not land appraisal, cash revenue, or formal BCA certification.
+Default values are average starting values from published sources or clearly marked estimates. Users can change the yearly value per acre if they have a better site-specific value.
 
-Design rule:
-- Keep the public interface plain.
-- Keep the source data available but not overwhelming.
-- Never invent unsupported negative values.
+The turf value is no longer described as a placeholder. It is labeled as a draft editable estimate because no clean Central Texas turfgrass ecosystem-service value was found in the current source review.

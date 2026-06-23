@@ -60,16 +60,16 @@
     "simple_note": "Best available Texas value for non-native grass cover."
   },
   {
-    "id": "turf_proxy",
+    "id": "turf_estimate",
     "label": "Mowed turf field",
     "short_label": "Turf",
     "icon": "\ud83c\udfdf\ufe0f",
     "plain": "A regularly mowed lawn, field, or turf area.",
     "value_per_acre_year": 930,
     "usd_year": 2024,
-    "confidence": "Draft proxy",
-    "source_id": "proxy_from_non_native_grass",
-    "simple_note": "No clean Central Texas turf value was found. This is a clearly labeled placeholder proxy."
+    "confidence": "Draft estimate",
+    "source_id": "turf_estimate_from_non_native_grass",
+    "simple_note": "No clean Central Texas turf ecosystem-service value was found. This starting estimate uses the non-native grass value and can be changed if the user has better local data."
   },
   {
     "id": "rural_green_open_space",
