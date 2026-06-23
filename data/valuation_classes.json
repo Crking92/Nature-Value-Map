@@ -1,0 +1,98 @@
+[
+  {
+    "id": "native_prairie",
+    "label": "Prairie / wildflower meadow",
+    "short_label": "Prairie",
+    "icon": "\ud83c\udf3c",
+    "plain": "A mostly native open area with grasses and wildflowers.",
+    "value_per_acre_year": 1941,
+    "usd_year": 2021,
+    "confidence": "Strong",
+    "source_id": "tx_am_aec_2025_grassland",
+    "simple_note": "Best choice for restored Blackland Prairie, no-mow native meadows, and seeded conservation areas."
+  },
+  {
+    "id": "wetland",
+    "label": "Wetland / pond edge",
+    "short_label": "Wetland",
+    "icon": "\ud83d\udca7",
+    "plain": "A soggy or seasonally wet place that slows water and supports wetland plants.",
+    "value_per_acre_year": 18948,
+    "usd_year": 2021,
+    "confidence": "Strong",
+    "source_id": "tx_am_aec_2025_wetland",
+    "simple_note": "Use only where the site really has wetland or wet-soil function."
+  },
+  {
+    "id": "forest",
+    "label": "Woodland / forest",
+    "short_label": "Woodland",
+    "icon": "\ud83c\udf33",
+    "plain": "An upland area mostly covered by trees.",
+    "value_per_acre_year": 12589,
+    "usd_year": 2021,
+    "confidence": "Moderate",
+    "source_id": "fema_2022_forest",
+    "simple_note": "Useful for wooded areas, but this is a national fallback value."
+  },
+  {
+    "id": "riparian_forest",
+    "label": "Creekside woods",
+    "short_label": "Creekside woods",
+    "icon": "\ud83c\udfde\ufe0f",
+    "plain": "Trees along a creek, drainage, river, or floodplain.",
+    "value_per_acre_year": 37199,
+    "usd_year": 2021,
+    "confidence": "Moderate",
+    "source_id": "fema_2022_riparian_forest",
+    "simple_note": "Use only for wooded creek corridors or floodplain forest."
+  },
+  {
+    "id": "non_native_grass",
+    "label": "Mostly non-native grass",
+    "short_label": "Exotic grass",
+    "icon": "\ud83c\udf3e",
+    "plain": "A grassy area dominated by introduced or exotic grasses.",
+    "value_per_acre_year": 930,
+    "usd_year": 2024,
+    "confidence": "Moderate",
+    "source_id": "ecometrics_2024_native_non_native",
+    "simple_note": "Best available Texas value for non-native grass cover."
+  },
+  {
+    "id": "turf_proxy",
+    "label": "Mowed turf field",
+    "short_label": "Turf",
+    "icon": "\ud83c\udfdf\ufe0f",
+    "plain": "A regularly mowed lawn, field, or turf area.",
+    "value_per_acre_year": 930,
+    "usd_year": 2024,
+    "confidence": "Draft proxy",
+    "source_id": "proxy_from_non_native_grass",
+    "simple_note": "No clean Central Texas turf value was found. This is a clearly labeled placeholder proxy."
+  },
+  {
+    "id": "rural_green_open_space",
+    "label": "Other open green land",
+    "short_label": "Other open land",
+    "icon": "\ud83d\udfe9",
+    "plain": "A vegetated open area that is not clearly prairie, wetland, forest, or turf.",
+    "value_per_acre_year": 10632,
+    "usd_year": 2021,
+    "confidence": "Moderate",
+    "source_id": "fema_2022_rural_green",
+    "simple_note": "Fallback class only. Pick a more specific category when possible."
+  },
+  {
+    "id": "urban_green_open_space",
+    "label": "Urban green open space",
+    "short_label": "Urban open space",
+    "icon": "\ud83c\udfd9\ufe0f",
+    "plain": "A broad urban green-space category.",
+    "value_per_acre_year": 19992,
+    "usd_year": 2021,
+    "confidence": "Use carefully",
+    "source_id": "tx_am_aec_2025_urban_green",
+    "simple_note": "Broad category with overlap risk. Not recommended as the default for prairie restoration."
+  }
+]

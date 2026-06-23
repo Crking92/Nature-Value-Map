@@ -1,0 +1,9 @@
+id,label,plain,value_per_acre_year,usd_year,confidence,source_id,simple_note
+native_prairie,Prairie / wildflower meadow,A mostly native open area with grasses and wildflowers.,1941,2021,Strong,tx_am_aec_2025_grassland,"Best choice for restored Blackland Prairie, no-mow native meadows, and seeded conservation areas."
+wetland,Wetland / pond edge,A soggy or seasonally wet place that slows water and supports wetland plants.,18948,2021,Strong,tx_am_aec_2025_wetland,Use only where the site really has wetland or wet-soil function.
+forest,Woodland / forest,An upland area mostly covered by trees.,12589,2021,Moderate,fema_2022_forest,"Useful for wooded areas, but this is a national fallback value."
+riparian_forest,Creekside woods,"Trees along a creek, drainage, river, or floodplain.",37199,2021,Moderate,fema_2022_riparian_forest,Use only for wooded creek corridors or floodplain forest.
+non_native_grass,Mostly non-native grass,A grassy area dominated by introduced or exotic grasses.,930,2024,Moderate,ecometrics_2024_native_non_native,Best available Texas value for non-native grass cover.
+turf_proxy,Mowed turf field,"A regularly mowed lawn, field, or turf area.",930,2024,Draft proxy,proxy_from_non_native_grass,No clean Central Texas turf value was found. This is a clearly labeled placeholder proxy.
+rural_green_open_space,Other open green land,"A vegetated open area that is not clearly prairie, wetland, forest, or turf.",10632,2021,Moderate,fema_2022_rural_green,Fallback class only. Pick a more specific category when possible.
+urban_green_open_space,Urban green open space,A broad urban green-space category.,19992,2021,Use carefully,tx_am_aec_2025_urban_green,Broad category with overlap risk. Not recommended as the default for prairie restoration.

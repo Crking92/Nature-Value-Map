@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nature Value Map — Central Texas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Central Texas beta tool</p>
+        <h1>Nature Value Map</h1>
+        <p class="hero-copy">Draw a place on the map and see an estimated yearly value for the work nature is doing there: soaking up water, cooling the land, holding soil, storing carbon, and supporting wildlife.</p>
+      </div>
+      <div class="hero-card">
+        <div class="big-number" id="heroValue">$0</div>
+        <div class="big-label">estimated yearly community value</div>
+        <div class="microcopy">Planning estimate, not a sale price or cash revenue.</div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="map-wrap">
+        <div id="map"></div>
+        <div class="map-help">
+          <strong>Step 1:</strong> Use the drawing tool on the map, or enter acres on the right.
+        </div>
+      </div>
+
+      <aside class="panel">
+        <div class="step-card active">
+          <div class="step-title"><span>1</span> Pick the area</div>
+          <label for="manualAcres">Acres, if you do not draw on the map</label>
+          <input id="manualAcres" type="number" min="0" step="0.01" value="1">
+          <button id="clearBtn" type="button" class="soft">Clear drawn area</button>
+        </div>
+
+        <div class="step-card">
+          <div class="step-title"><span>2</span> What is growing there?</div>
+          <div id="landCards" class="land-cards"></div>
+          <details class="advanced">
+            <summary>Use mixed cover instead</summary>
+            <p class="small">For example: 70% prairie, 20% turf, 10% creekside woods.</p>
+            <div id="mixRows"></div>
+          </details>
+        </div>
+
+        <div class="step-card">
+          <div class="step-title"><span>3</span> How healthy is it?</div>
+          <div class="quality-grid">
+            <button type="button" class="quality" data-quality="0.35"><strong>Starting out</strong><small>new planting, sparse cover</small></button>
+            <button type="button" class="quality" data-quality="0.65"><strong>Getting better</strong><small>mixed but improving</small></button>
+            <button type="button" class="quality selected" data-quality="0.85"><strong>Good</strong><small>mostly working well</small></button>
+            <button type="button" class="quality" data-quality="1"><strong>Excellent</strong><small>high-functioning habitat</small></button>
+          </div>
+          <input id="qualitySlider" type="range" min="0" max="100" value="85">
+          <div class="slider-readout"><span id="qualityText">85%</span> of full function</div>
+        </div>
+
+        <details class="step-card costs">
+          <summary><span class="step-title-inline">Optional: costs or burdens</span></summary>
+          <p class="small">Turn these on only when you have a real local cost, contract, or source-backed estimate.</p>
+          <label class="check"><input id="useMowing" type="checkbox"> subtract mowing</label>
+          <div class="two">
+            <label>$/acre/mow<input id="mowCost" type="number" value="50"></label>
+            <label>mows/year<input id="mowsYear" type="number" value="20"></label>
+          </div>
+          <label class="check"><input id="useIrrigation" type="checkbox"> subtract irrigation</label>
+          <label>$/acre/year<input id="irrigationCost" type="number" value="300"></label>
+          <label class="check"><input id="useFertilizer" type="checkbox"> subtract fertilizer</label>
+          <div class="two">
+            <label>$/acre/month<input id="fertCost" type="number" value="22"></label>
+            <label>months<input id="fertMonths" type="number" value="9"></label>
+          </div>
+          <label class="check"><input id="useInvasive" type="checkbox"> subtract invasive management</label>
+          <div class="two">
+            <label>$/acre/cycle<input id="invasiveCost" type="number" value="0"></label>
+            <label>cycles/year<input id="invasiveCycles" type="number" value="1"></label>
+          </div>
+        </details>
+      </aside>
+    </section>
+
+    <section class="results">
+      <div class="result-card main-result">
+        <h2>Your estimate</h2>
+        <div class="result-grid">
+          <div><span>Area</span><strong id="areaOut">—</strong></div>
+          <div><span>Gross yearly value</span><strong id="grossOut">—</strong></div>
+          <div><span>Costs / burdens</span><strong id="costOut">—</strong></div>
+          <div><span>Net yearly value</span><strong id="netOut">—</strong></div>
+        </div>
+        <div class="plain-answer" id="plainAnswer"></div>
+      </div>
+      <div class="result-card">
+        <h2>Why this matters</h2>
+        <div class="benefits">
+          <div>💧 <strong>Water</strong><span>slows runoff and supports infiltration</span></div>
+          <div>🐝 <strong>Wildlife</strong><span>supports pollinators and habitat</span></div>
+          <div>🌱 <strong>Soil</strong><span>holds soil and builds living ground</span></div>
+          <div>🌡️ <strong>Climate</strong><span>stores carbon and cools land</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about">
+      <details>
+        <summary>Show the sources and calculation</summary>
+        <div class="method-grid">
+          <div>
+            <h3>Simple formula</h3>
+            <p><code>acres × yearly value per acre × health score − optional costs</code></p>
+            <p>This gives a planning-level estimate. It is not land appraisal, revenue, or formal benefit-cost certification.</p>
+          </div>
+          <div>
+            <h3>Source note</h3>
+            <ul id="sourceList"></ul>
+          </div>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+  <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

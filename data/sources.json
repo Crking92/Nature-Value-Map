@@ -1,0 +1,50 @@
+[
+  {
+    "id": "tx_am_aec_2025_grassland",
+    "title": "Texas A&M AgriLife / AECOM 2025 \u2014 Grasslands and Prairies",
+    "short": "Texas-specific prairie value",
+    "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf"
+  },
+  {
+    "id": "tx_am_aec_2025_wetland",
+    "title": "Texas A&M AgriLife / AECOM 2025 \u2014 Wetlands",
+    "short": "Texas-specific wetland value",
+    "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf"
+  },
+  {
+    "id": "tx_am_aec_2025_urban_green",
+    "title": "Texas A&M AgriLife / AECOM 2025 \u2014 Urban Green Open Space",
+    "short": "Texas-specific urban green-space value",
+    "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf"
+  },
+  {
+    "id": "fema_2022_forest",
+    "title": "FEMA 2022 \u2014 Forest value, reproduced in Texas A&M/AECOM appendix",
+    "short": "National forest fallback",
+    "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf"
+  },
+  {
+    "id": "fema_2022_riparian_forest",
+    "title": "FEMA 2022 \u2014 Riparian forest value, reproduced in Texas A&M/AECOM appendix",
+    "short": "National creekside forest fallback",
+    "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf"
+  },
+  {
+    "id": "fema_2022_rural_green",
+    "title": "FEMA 2022 \u2014 Rural green open space value, reproduced in Texas A&M/AECOM appendix",
+    "short": "National open-space fallback",
+    "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf"
+  },
+  {
+    "id": "ecometrics_2024_native_non_native",
+    "title": "EcoMetrics / Texan by Nature / EOG 2024 \u2014 Native vs non-native grass restoration",
+    "short": "Texas native vs non-native grass comparison",
+    "url": "https://nri.tamu.edu/media/3986/ecometrics-analysis.pdf"
+  },
+  {
+    "id": "proxy_from_non_native_grass",
+    "title": "Draft proxy from non-native grass valuation",
+    "short": "Placeholder turf proxy",
+    "url": ""
+  }
+]
