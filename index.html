@@ -1,143 +1,71 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Nature Value Map — Central Texas</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="preconnect" href="https://unpkg.com">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<title>Nature Value Map — Central Texas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
+<style>
+:root{--bg:#fbf7ee;--paper:#fffdfa;--ink:#1e271e;--muted:#64705f;--soft:#eee6d8;--line:#dfd6c6;--green:#315c3a;--leaf:#6f9b57;--shadow:0 18px 45px rgba(35,45,30,.11)}
+*{box-sizing:border-box} html,body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--ink);background:var(--bg)} main{max-width:1480px;margin:auto}
+.hero{display:grid;grid-template-columns:1fr 360px;gap:24px;padding:28px 28px 18px;align-items:center} .eyebrow{text-transform:uppercase;letter-spacing:.12em;color:var(--green);font-weight:800;font-size:.78rem;margin:0 0 6px} h1{font-size:clamp(2rem,4vw,4.8rem);line-height:.94;margin:0;color:var(--green)} .hero-copy{font-size:1.1rem;line-height:1.5;max-width:760px;color:var(--muted)} .hero-card,.step-card,.result-card,.about details{background:var(--paper);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow)} .hero-card{padding:24px;text-align:center;background:linear-gradient(160deg,#fff,#eef6ea)} .big-number{font-size:2.6rem;font-weight:900;color:var(--green)} .big-label{font-weight:800} .microcopy{font-size:.85rem;color:var(--muted);margin-top:8px}
+.workspace{display:grid;grid-template-columns:1fr 430px;gap:18px;padding:0 28px 22px} .map-wrap{position:relative;min-height:640px;border-radius:32px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:#ddd} #map{height:100%;min-height:640px} .map-help{position:absolute;left:18px;bottom:18px;background:rgba(255,253,250,.95);padding:12px 14px;border-radius:18px;border:1px solid var(--line);box-shadow:0 8px 20px rgba(0,0,0,.1);max-width:390px} .panel{display:grid;gap:14px;align-content:start} .step-card{padding:16px} .step-title{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.08rem;margin-bottom:12px} .step-title span{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff} .step-title-inline{font-weight:900}
+label{display:block;font-weight:800;font-size:.84rem;color:#2c362c;margin-top:10px} input,select,button{font:inherit} input,select{width:100%;border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff;margin-top:5px} button{border:0;border-radius:16px;padding:11px 12px;font-weight:900;cursor:pointer} button.soft{background:var(--soft);color:var(--ink);width:100%;margin-top:10px}
+.land-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px} .land-card{background:#f8f3e8;border:2px solid transparent;border-radius:20px;padding:12px;text-align:left;min-height:118px;transition:.15s ease} .land-card:hover{transform:translateY(-1px);box-shadow:0 10px 25px rgba(0,0,0,.08)} .land-card.selected{border-color:var(--green);background:#eef6ea} .land-card .icon{font-size:1.8rem} .land-card strong{display:block;margin-top:4px} .land-card small{display:block;color:var(--muted);line-height:1.3;margin-top:4px}
+.editable-value-box{background:#f6f2e9;border:1px solid var(--line);border-radius:20px;padding:12px;margin-top:12px} .value-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;font-weight:900;color:var(--green)} .value-row input{font-weight:900;color:var(--green);font-size:1.05rem;margin-top:0} .friendly-note{background:#eef6ea;border-left:5px solid var(--leaf);padding:10px 12px;border-radius:12px;color:#4e5d4b} .advanced,.costs{background:#fffaf1} .advanced summary,.costs summary,.about summary{cursor:pointer;font-weight:900;color:var(--green)} .small{font-size:.88rem;color:var(--muted);line-height:1.45}
+.mix-header{display:grid;grid-template-columns:78px 1fr 86px;gap:8px;margin:12px 0 6px;color:var(--green);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;font-weight:900} .mix-row{display:grid;grid-template-columns:78px 1fr 86px;gap:8px;margin-bottom:8px} .mix-row input{text-align:center;font-weight:900} .mix-row .mix-pct{border-color:#c9d8c5;background:#f4f9f1} .mix-row .mix-quality{border-color:#dec99d;background:#fff8ea}
+.quality-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px} .quality{background:#f5efe4;text-align:left;border:2px solid transparent;color:var(--ink)} .quality.selected{background:#eef6ea;border-color:var(--green)} .quality small{display:block;color:var(--muted);font-weight:600;margin-top:3px} .slider-readout{text-align:center;color:var(--green);font-weight:900;margin-top:6px} .check{display:flex;gap:8px;align-items:center} .check input{width:auto;margin:0} .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.results{display:grid;grid-template-columns:1.3fr .8fr;gap:18px;padding:0 28px 22px} .result-card{padding:20px} .result-card h2{margin:0 0 14px;color:var(--green)} .result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px} .result-grid div{background:#f8f3e8;border:1px solid var(--line);border-radius:20px;padding:14px} .result-grid span{display:block;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;font-weight:900} .result-grid strong{display:block;font-size:1.2rem;margin-top:4px;color:var(--green)} .plain-answer{margin-top:14px;background:#eef6ea;border-left:6px solid var(--leaf);padding:14px;border-radius:16px;line-height:1.5} .benefits{display:grid;gap:10px} .benefits div{display:grid;grid-template-columns:32px 1fr;gap:8px;background:#f8f3e8;border-radius:18px;padding:12px} .benefits span{grid-column:2;color:var(--muted)} .about{padding:0 28px 28px} .about details{padding:18px} .method-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;margin-top:14px} code{background:#f3ecdd;padding:3px 6px;border-radius:7px} #sourceList{padding-left:20px} #sourceList li{margin-bottom:10px} a{color:var(--green);font-weight:800}
+@media(max-width:1000px){.hero,.workspace,.results,.method-grid{grid-template-columns:1fr} .hero-card{max-width:none} .workspace{padding:0 14px 18px} .hero,.results,.about{padding-left:14px;padding-right:14px} .result-grid{grid-template-columns:1fr 1fr} #map,.map-wrap{min-height:460px}} @media(max-width:560px){.land-cards,.quality-grid,.result-grid,.two{grid-template-columns:1fr} .hero{padding-top:18px} .mix-header{display:none} .mix-row{grid-template-columns:1fr;background:#fff;border:1px solid var(--line);border-radius:18px;padding:10px} .mix-row::before{content:"Area %, plant type, then health %";color:var(--muted);font-size:.78rem;font-weight:800}}
+</style>
 </head>
 <body>
-  <main>
-    <section class="hero">
-      <div>
-        <p class="eyebrow">Central Texas beta tool</p>
-        <h1>Nature Value Map</h1>
-        <p class="hero-copy">Draw a place on the map and see an estimated yearly value for the work nature is doing there: soaking up water, cooling the land, holding soil, storing carbon, and supporting wildlife.</p>
-      </div>
-      <div class="hero-card">
-        <div class="big-number" id="heroValue">$0</div>
-        <div class="big-label">estimated yearly community value</div>
-        <div class="microcopy">This is a planning estimate, not a sale price or cash revenue.</div>
-      </div>
-    </section>
-
-    <section class="workspace">
-      <div class="map-wrap">
-        <div id="map"></div>
-        <div class="map-help">
-          <strong>Step 1:</strong> Use the drawing tool on the map, or enter acres on the right.
-        </div>
-      </div>
-
-      <aside class="panel">
-        <div class="step-card active">
-          <div class="step-title"><span>1</span> Pick the area</div>
-          <label for="manualAcres">Acres, if you do not draw on the map</label>
-          <input id="manualAcres" type="number" min="0" step="0.01" value="1">
-          <button id="clearBtn" type="button" class="soft">Clear drawn area</button>
-        </div>
-
-        <div class="step-card">
-          <div class="step-title"><span>2</span> What is growing there?</div>
-          <div id="landCards" class="land-cards"></div>
-          <div class="editable-value-box">
-            <label for="valuePerAcre">Estimated yearly value per acre</label>
-            <div class="value-row">
-              <span>$</span><input id="valuePerAcre" type="number" min="0" step="1" value="1941"><span>/acre/year</span>
-            </div>
-            <p id="valueNote" class="small"></p>
-            <p class="small friendly-note">These are average starting values from the best available sources. Change this number if you have better local data, a newer study, a city cost estimate, or a site-specific value.</p>
-          </div>
-          <details class="advanced">
-            <summary>Use mixed cover instead</summary>
-            <p class="small">For example: 70% prairie, 20% turf, 10% creekside woods. Mixed cover uses the default values for each selected class.</p>
-            <div id="mixRows"></div>
-          </details>
-        </div>
-
-        <div class="step-card">
-          <div class="step-title"><span>3</span> How healthy is it?</div>
-          <div class="quality-grid">
-            <button type="button" class="quality" data-quality="0.35"><strong>Starting out</strong><small>new planting, sparse cover</small></button>
-            <button type="button" class="quality" data-quality="0.65"><strong>Getting better</strong><small>mixed but improving</small></button>
-            <button type="button" class="quality selected" data-quality="0.85"><strong>Good</strong><small>mostly working well</small></button>
-            <button type="button" class="quality" data-quality="1"><strong>Excellent</strong><small>high-functioning habitat</small></button>
-          </div>
-          <input id="qualitySlider" type="range" min="0" max="100" value="85">
-          <div class="slider-readout"><span id="qualityText">85%</span> of full function</div>
-        </div>
-
-        <details class="step-card costs">
-          <summary><span class="step-title-inline">Optional: costs or burdens</span></summary>
-          <p class="small friendly-note">These defaults are editable averages. Leave a box off if you do not have a real cost to subtract. Turn it on and change the numbers if you have local contract prices or better site data.</p>
-          <label class="check"><input id="useMowing" type="checkbox"> subtract mowing</label>
-          <div class="two">
-            <label>$/acre/mow<input id="mowCost" type="number" value="50"></label>
-            <label>mows/year<input id="mowsYear" type="number" value="20"></label>
-          </div>
-          <label class="check"><input id="useIrrigation" type="checkbox"> subtract irrigation</label>
-          <label>$/acre/year<input id="irrigationCost" type="number" value="300"></label>
-          <label class="check"><input id="useFertilizer" type="checkbox"> subtract fertilizer</label>
-          <div class="two">
-            <label>$/acre/month<input id="fertCost" type="number" value="22"></label>
-            <label>months<input id="fertMonths" type="number" value="9"></label>
-          </div>
-          <label class="check"><input id="useInvasive" type="checkbox"> subtract invasive management</label>
-          <div class="two">
-            <label>$/acre/cycle<input id="invasiveCost" type="number" value="0"></label>
-            <label>cycles/year<input id="invasiveCycles" type="number" value="1"></label>
-          </div>
-        </details>
-      </aside>
-    </section>
-
-    <section class="results">
-      <div class="result-card main-result">
-        <h2>Your estimate</h2>
-        <div class="result-grid">
-          <div><span>Area</span><strong id="areaOut">—</strong></div>
-          <div><span>Gross yearly value</span><strong id="grossOut">—</strong></div>
-          <div><span>Costs / burdens</span><strong id="costOut">—</strong></div>
-          <div><span>Net yearly value</span><strong id="netOut">—</strong></div>
-        </div>
-        <div class="plain-answer" id="plainAnswer"></div>
-      </div>
-      <div class="result-card">
-        <h2>Why this matters</h2>
-        <div class="benefits">
-          <div>💧 <strong>Water</strong><span>slows runoff and supports infiltration</span></div>
-          <div>🐝 <strong>Wildlife</strong><span>supports pollinators and habitat</span></div>
-          <div>🌱 <strong>Soil</strong><span>holds soil and builds living ground</span></div>
-          <div>🌡️ <strong>Climate</strong><span>stores carbon and cools land</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="about">
-      <details>
-        <summary>Show the sources and calculation</summary>
-        <div class="method-grid">
-          <div>
-            <h3>Where the number comes from</h3>
-            <p><code>area × yearly value per acre × health score − optional costs</code></p>
-            <p>Example: if the area is 1 acre, the selected value is $1,941 per acre per year, and the health score is 85%, the gross estimate is $1,650 per year before optional costs.</p>
-            <p>If optional mowing is turned on at $50 per acre per mow and 20 mows per year, the tool subtracts $1,000 per acre per year.</p>
-          </div>
-          <div>
-            <h3>Source note</h3>
-            <ul id="sourceList"></ul>
-          </div>
-        </div>
-      </details>
-    </section>
-  </main>
-
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
-  <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-  <script src="app.js"></script>
+<main>
+<section class="hero"><div><p class="eyebrow">Central Texas beta tool</p><h1>Nature Value Map</h1><p class="hero-copy">Draw a place on the map and see an estimated yearly value for the work nature is doing there: soaking up water, cooling the land, holding soil, storing carbon, and supporting wildlife.</p></div><div class="hero-card"><div class="big-number" id="heroValue">$0</div><div class="big-label">estimated yearly community value</div><div class="microcopy">This is a planning estimate, not a sale price or cash revenue.</div></div></section>
+<section class="workspace"><div class="map-wrap"><div id="map"></div><div class="map-help"><strong>Step 1:</strong> Use the drawing tool on the map, or enter acres on the right.</div></div>
+<aside class="panel">
+<div class="step-card active"><div class="step-title"><span>1</span> Pick the area</div><label for="manualAcres">Acres, if you do not draw on the map</label><input id="manualAcres" type="number" min="0" step="0.01" value="1"><button id="clearBtn" type="button" class="soft">Clear drawn area</button></div>
+<div class="step-card"><div class="step-title"><span>2</span> What is growing there?</div><div id="landCards" class="land-cards"></div><div class="editable-value-box"><label for="valuePerAcre">Estimated yearly value per acre</label><div class="value-row"><span>$</span><input id="valuePerAcre" type="number" min="0" step="1" value="1941"><span>/acre/year</span></div><p id="valueNote" class="small"></p><p class="small friendly-note">These are average starting values from the best available sources. Change this number if you have better local data, a newer study, a city cost estimate, or a site-specific value.</p></div>
+<details class="advanced"><summary>Split this area into more than one plant type</summary><p class="small">Use this when one drawn area contains more than one kind of vegetation. The first number is how much of the area is that plant type. The last number is how healthy that part is.</p><div class="mix-header" aria-hidden="true"><span>Area %</span><span>Plant type</span><span>Health %</span></div><div id="mixRows"></div><p class="small friendly-note">Example: 60% woodland, 20% prairie, 20% other open land. The area percentages should add up to 100%.</p></details></div>
+<div class="step-card"><div class="step-title"><span>3</span> How healthy is it?</div><div class="quality-grid"><button type="button" class="quality" data-quality="0.35"><strong>Starting out</strong><small>new planting, sparse cover</small></button><button type="button" class="quality" data-quality="0.65"><strong>Getting better</strong><small>mixed but improving</small></button><button type="button" class="quality selected" data-quality="0.85"><strong>Good</strong><small>mostly working well</small></button><button type="button" class="quality" data-quality="1"><strong>Excellent</strong><small>high-functioning habitat</small></button></div><input id="qualitySlider" type="range" min="0" max="100" value="85"><div class="slider-readout"><span id="qualityText">85%</span> of full function</div></div>
+<details class="step-card costs"><summary><span class="step-title-inline">Optional: costs or burdens</span></summary><p class="small friendly-note">These defaults are editable averages. Leave a box off if you do not have a real cost to subtract. Turn it on and change the numbers if you have local contract prices or better site data.</p><label class="check"><input id="useMowing" type="checkbox"> subtract mowing</label><div class="two"><label>$/acre/mow<input id="mowCost" type="number" value="50"></label><label>mows/year<input id="mowsYear" type="number" value="20"></label></div><label class="check"><input id="useIrrigation" type="checkbox"> subtract irrigation</label><label>$/acre/year<input id="irrigationCost" type="number" value="300"></label><label class="check"><input id="useFertilizer" type="checkbox"> subtract fertilizer</label><div class="two"><label>$/acre/month<input id="fertCost" type="number" value="22"></label><label>months<input id="fertMonths" type="number" value="9"></label></div><label class="check"><input id="useInvasive" type="checkbox"> subtract invasive management</label><div class="two"><label>$/acre/cycle<input id="invasiveCost" type="number" value="0"></label><label>cycles/year<input id="invasiveCycles" type="number" value="1"></label></div></details>
+</aside></section>
+<section class="results"><div class="result-card main-result"><h2>Your estimate</h2><div class="result-grid"><div><span>Area</span><strong id="areaOut">—</strong></div><div><span>Gross yearly value</span><strong id="grossOut">—</strong></div><div><span>Costs / burdens</span><strong id="costOut">—</strong></div><div><span>Net yearly value</span><strong id="netOut">—</strong></div></div><div class="plain-answer" id="plainAnswer"></div></div><div class="result-card"><h2>Why this matters</h2><div class="benefits"><div>💧 <strong>Water</strong><span>slows runoff and supports infiltration</span></div><div>🐝 <strong>Wildlife</strong><span>supports pollinators and habitat</span></div><div>🌱 <strong>Soil</strong><span>holds soil and builds living ground</span></div><div>🌡️ <strong>Climate</strong><span>stores carbon and cools land</span></div></div></div></section>
+<section class="about"><details><summary>Show the sources and calculation</summary><div class="method-grid"><div><h3>Where the number comes from</h3><p><code>area × yearly value per acre × health score − optional costs</code></p><p>Example: if the area is 1 acre, the selected value is $1,941 per acre per year, and the health score is 85%, the gross estimate is $1,650 per year before optional costs.</p><p>If optional mowing is turned on at $50 per acre per mow and 20 mows per year, the tool subtracts $1,000 per acre per year.</p></div><div><h3>Source note</h3><ul id="sourceList"></ul></div></div></details></section>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+<script>
+const CLASSES = [{"id": "native_prairie", "label": "Prairie / wildflower meadow", "icon": "🌼", "plain": "A mostly native open area with grasses and wildflowers.", "value": 1941, "confidence": "Strong", "source": "Texas A&M AgriLife / AECOM 2025 — Grasslands and Prairies", "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf", "note": "Best choice for restored Blackland Prairie, no-mow native meadows, and seeded conservation areas."}, {"id": "wetland", "label": "Wetland / pond edge", "icon": "💧", "plain": "A soggy or seasonally wet place that slows water and supports wetland plants.", "value": 18948, "confidence": "Strong", "source": "Texas A&M AgriLife / AECOM 2025 — Wetlands", "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf", "note": "Use only where the site really has wetland or wet-soil function."}, {"id": "forest", "label": "Woodland / forest", "icon": "🌳", "plain": "An upland area mostly covered by trees.", "value": 12589, "confidence": "Moderate", "source": "FEMA 2022 — Forest value reproduced in Texas A&M/AECOM appendix", "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf", "note": "Useful for wooded areas, but this is a national fallback value."}, {"id": "riparian_forest", "label": "Creekside woods", "icon": "🏞️", "plain": "Trees along a creek, drainage, river, or floodplain.", "value": 37199, "confidence": "Moderate", "source": "FEMA 2022 — Riparian forest value reproduced in Texas A&M/AECOM appendix", "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf", "note": "Use only for wooded creek corridors or floodplain forest."}, {"id": "non_native_grass", "label": "Mostly non-native grass", "icon": "🌾", "plain": "A grassy area dominated by introduced or exotic grasses.", "value": 930, "confidence": "Moderate", "source": "EcoMetrics / Texan by Nature / EOG 2024 — Native vs non-native grass restoration", "url": "https://nri.tamu.edu/media/3986/ecometrics-analysis.pdf", "note": "Best available Texas value for non-native grass cover."}, {"id": "turf_estimate", "label": "Mowed turf field", "icon": "🏟️", "plain": "A regularly mowed lawn, field, or turf area.", "value": 930, "confidence": "Draft estimate", "source": "Editable turf-field starting estimate based on Texas non-native grass valuation", "url": "https://nri.tamu.edu/media/3986/ecometrics-analysis.pdf", "note": "No clean Central Texas turf ecosystem-service value was found. This starting estimate can be changed if you have better local data."}, {"id": "rural_green_open_space", "label": "Other open green land", "icon": "🟩", "plain": "A vegetated open area that is not clearly prairie, wetland, forest, or turf.", "value": 10632, "confidence": "Moderate", "source": "FEMA 2022 — Rural green open space value reproduced in Texas A&M/AECOM appendix", "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf", "note": "Fallback class only. Pick a more specific category when possible."}, {"id": "urban_green_open_space", "label": "Urban green open space", "icon": "🏙️", "plain": "A broad urban green-space category.", "value": 19992, "confidence": "Use carefully", "source": "Texas A&M AgriLife / AECOM 2025 — Urban Green Open Space", "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf", "note": "Broad category with overlap risk. Not recommended as the default for prairie restoration."}];
+const ACRE_PER_SQ_METER = 0.00024710538146717;
+let selectedClass='native_prairie', selectedQuality=0.85, drawnFeature=null, drawnLayer=null, mixedMode=false;
+const fmtMoney=n=>{if(n===null||n===undefined||isNaN(n))return '—'; return n.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0});};
+const fmtAc=n=>(isNaN(n)?'—':n.toLocaleString(undefined,{maximumFractionDigits:2})+' acres');
+const getClass=id=>CLASSES.find(c=>c.id===id); const getCurrentValuePerAcre=()=>+document.getElementById('valuePerAcre').value||0;
+const map=L.map('map',{scrollWheelZoom:true}).setView([29.9891,-97.8772],12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:20,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+const drawnItems=new L.FeatureGroup(); map.addLayer(drawnItems);
+const drawControl=new L.Control.Draw({draw:{polygon:{allowIntersection:false,showArea:true,shapeOptions:{color:'#315c3a',weight:3}},rectangle:{shapeOptions:{color:'#315c3a',weight:3}},polyline:false,circle:false,marker:false,circlemarker:false},edit:{featureGroup:drawnItems}}); map.addControl(drawControl);
+map.on(L.Draw.Event.CREATED,e=>{if(drawnLayer)drawnItems.removeLayer(drawnLayer); drawnLayer=e.layer; drawnItems.addLayer(drawnLayer); drawnFeature=drawnLayer.toGeoJSON(); update();});
+map.on(L.Draw.Event.EDITED,e=>{e.layers.eachLayer(layer=>{drawnLayer=layer; drawnFeature=layer.toGeoJSON();}); update();});
+map.on(L.Draw.Event.DELETED,()=>{drawnLayer=null; drawnFeature=null; update();});
+function areaAcres(){if(drawnFeature)return turf.area(drawnFeature)*ACRE_PER_SQ_METER; return parseFloat(document.getElementById('manualAcres').value)||0;}
+function costs(acres){let total=0; if(document.getElementById('useMowing').checked) total += acres*(+document.getElementById('mowCost').value||0)*(+document.getElementById('mowsYear').value||0); if(document.getElementById('useIrrigation').checked) total += acres*(+document.getElementById('irrigationCost').value||0); if(document.getElementById('useFertilizer').checked) total += acres*(+document.getElementById('fertCost').value||0)*(+document.getElementById('fertMonths').value||0); if(document.getElementById('useInvasive').checked) total += acres*(+document.getElementById('invasiveCost').value||0)*(+document.getElementById('invasiveCycles').value||0); return total;}
+function grossValue(acres){if(!mixedMode)return acres*getCurrentValuePerAcre()*selectedQuality; let gross=0; document.querySelectorAll('.mix-row').forEach(row=>{const pct=+row.querySelector('.mix-pct').value||0; const id=row.querySelector('.mix-class').value; const q=(+row.querySelector('.mix-quality').value||100)/100; const c=getClass(id); if(c&&c.value)gross += acres*(pct/100)*c.value*q;}); return gross;}
+function selectedSourceNote(){const c=getClass(selectedClass); const link=c.url?`<a href="${c.url}" target="_blank" rel="noopener">${c.source}</a>`:c.source; document.getElementById('valueNote').innerHTML=`${c.note}<br><strong>Starting source:</strong> ${link}.`;}
+function update(){const acres=areaAcres(), gross=grossValue(acres), cost=costs(acres), net=gross-cost, c=getClass(selectedClass), valuePerAcre=getCurrentValuePerAcre(); document.getElementById('heroValue').textContent=fmtMoney(net); document.getElementById('areaOut').textContent=fmtAc(acres); document.getElementById('grossOut').textContent=fmtMoney(gross); document.getElementById('costOut').textContent=fmtMoney(cost); document.getElementById('netOut').textContent=fmtMoney(net); if(!mixedMode){let costText=cost>0?` After optional costs, the net estimate is <strong>${fmtMoney(net)} per year</strong>.`:""; document.getElementById('plainAnswer').innerHTML=`<strong>${fmtAc(acres)}</strong> of <strong>${c.label.toLowerCase()}</strong> is estimated at <strong>${fmtMoney(gross)} per year</strong> before optional costs. This uses <strong>${fmtMoney(valuePerAcre)}/acre/year</strong> and a <strong>${Math.round(selectedQuality*100)}%</strong> health score.${costText}`;} else {let totalPct=0; document.querySelectorAll('.mix-pct').forEach(x=>totalPct += (+x.value||0)); const pctNote=Math.abs(totalPct-100)>0.5?` The area split currently adds up to <strong>${Math.round(totalPct)}%</strong>; for best results, make it add up to <strong>100%</strong>.`:""; document.getElementById('plainAnswer').innerHTML=`<strong>${fmtAc(acres)}</strong> of mixed vegetation is estimated at <strong>${fmtMoney(gross)} per year</strong> before optional costs.${pctNote}`;}}
+function buildLandCards(){const box=document.getElementById('landCards'); box.innerHTML=CLASSES.map(c=>`<button type="button" class="land-card ${c.id===selectedClass?'selected':''}" data-id="${c.id}"><span class="icon">${c.icon}</span><strong>${c.label}</strong><small>${c.plain}</small></button>`).join(''); box.querySelectorAll('.land-card').forEach(btn=>{btn.addEventListener('click',()=>{selectedClass=btn.dataset.id; const c=getClass(selectedClass); document.getElementById('valuePerAcre').value=c.value; document.querySelectorAll('.land-card').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); selectedSourceNote(); update();});});}
+function buildMixRows(){const wrap=document.getElementById('mixRows'); const options=CLASSES.map(c=>`<option value="${c.id}">${c.label}</option>`).join(''); const rows=[{pct:60,cls:'forest',quality:80},{pct:20,cls:'native_prairie',quality:85},{pct:20,cls:'rural_green_open_space',quality:70}]; wrap.innerHTML=rows.map(row=>`<div class="mix-row"><input class="mix-pct" type="number" min="0" max="100" value="${row.pct}" aria-label="percent of area" title="Percent of the drawn area covered by this plant type"><select class="mix-class" aria-label="plant type">${options}</select><input class="mix-quality" type="number" min="0" max="100" value="${row.quality}" aria-label="health percent" title="Health or function percent for this part of the area"></div>`).join(''); const selects=wrap.querySelectorAll('.mix-class'); rows.forEach((row,i)=>{if(selects[i]) selects[i].value=row.cls;});}
+function buildSources(){document.getElementById('sourceList').innerHTML=CLASSES.map(c=>`<li><strong>${c.label}</strong><br><a href="${c.url}" target="_blank" rel="noopener">${c.source}</a></li>`).join('');}
+document.getElementById('qualitySlider').addEventListener('input',e=>{selectedQuality=(+e.target.value||0)/100; document.getElementById('qualityText').textContent=e.target.value+'%'; document.querySelectorAll('.quality').forEach(b=>b.classList.remove('selected')); update();});
+document.querySelectorAll('.quality').forEach(btn=>{btn.addEventListener('click',()=>{selectedQuality=+btn.dataset.quality; document.getElementById('qualitySlider').value=Math.round(selectedQuality*100); document.getElementById('qualityText').textContent=Math.round(selectedQuality*100)+'%'; document.querySelectorAll('.quality').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); update();});});
+document.querySelector('.advanced').addEventListener('toggle',e=>{mixedMode=e.target.open; update();});
+document.getElementById('clearBtn').addEventListener('click',()=>{drawnItems.clearLayers(); drawnLayer=null; drawnFeature=null; update();});
+document.addEventListener('input',update); document.addEventListener('change',update);
+buildLandCards(); buildMixRows(); buildSources(); selectedSourceNote(); update();
+</script>
 </body>
 </html>
