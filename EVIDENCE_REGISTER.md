@@ -66,4 +66,4 @@ See [SOURCE_AUDIT_2026-10-29.md](SOURCE_AUDIT_2026-10-29.md) for original table/
 
 ## Hays County applicability review (October 2026)
 
-Read [HAYS_APPLICABILITY_2026.md](HAYS_APPLICABILITY_2026.md) for Blackland Prairie versus Edwards Plateau soil context, 2026 peer-reviewed regional swale/detention studies, and a **FY2025 NRCS statewide modeled $225.38/ac range-planting scenario for 150 acres**. These do not replace site assessment or actual Kyle restoration invoices. The site-setting input is not GIS verified and does not alter valuation formulas.
+Read [HAYS_APPLICABILITY_2026.md](HAYS_APPLICABILITY_2026.md) for Blackland Prairie versus Edwards Plateau soil context, 2026 peer-reviewed regional swale/detention studies, and a **FY2025 NRCS statewide modeled $225.38/ac range-planting scenario for 150 acres**. These do not replace site assessment or actual Kyle restoration invoices. The site-setting input is not GIS verified and does not modify source rates. An engineered drainage setting with a natural wetland or riparian classification withholds that benchmark.
