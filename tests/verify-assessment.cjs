@@ -47,7 +47,7 @@ assert.ok(html.includes('Waterleaf Park: What can we actually prove?'),'Public w
 assert.ok(html.includes('Not established'),'Missing evidence must be visibly withheld');
 assert.ok(html.includes('5.01 acres')&&html.includes('5 acres'),'Public page must distinguish treated versus assessed');
 assert.ok(html.includes('not publicly auditable')||html.includes('not independently accessible'),'Internal workbook limitation must be visible');
-assert.ok(html.includes('not a Waterleaf benefit'),'Benchmark must not be interpreted as actual gain');
+assert.ok(html.includes('not incremental value from the documented restoration'),'Benchmark must not be interpreted as actual gain');
 assert.ok(html.includes('site-assessments/waterleaf-evidence.json'),'Must link reproducible source register');
 assert.ok(main.includes('href="assessment.html"'),'Main page must link the reviewed walkthrough');
 assert.ok(register.includes('assessment.html'),'Evidence register must link walkthrough');
