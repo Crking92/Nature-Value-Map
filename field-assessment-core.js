@@ -49,6 +49,8 @@
     if(total===0)errors.push('At least one first-hit observation is required.');
     if(trim(input.protocol)!=='adapted_first_hit')errors.push('Only the documented adapted first-hit sampling protocol is supported.');
     if(input.source_verified!=='yes' && input.source_verified!=='no')errors.push('Record whether plant origin/status was independently verified (yes/no).');
+    if(input.source_verified==='yes' && !trim(input.native_status_source))errors.push('Name the classification source if native status is claimed as verified.');
+    if(trim(input.soil_map_unit) && !trim(input.soil_map_source))errors.push('Provide a source and date for a reported soil map unit.');
     return {ok:errors.length===0,errors:errors,counts:counts,total:total};
   }
   function build(input){
@@ -108,6 +110,9 @@
   function toCSV(record){
     var data={
       schema_version:record.schema_version,
+      source_type:record.source_type,
+      method_warning:record.method_warning,
+      sample_limit:'Sample-point first hits only; not sitewide vegetation cover or ecological integrity',
       site_id:record.visit.site_id,plot_id:record.visit.plot_id,visit_date:record.visit.visit_date,
       observer_id:record.visit.observer_id,protocol:record.method,
       sampling_location:record.visit.sampling_location,sampling_design:record.visit.sampling_design,
