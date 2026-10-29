@@ -88,7 +88,7 @@
   function update(){
     var acres=area();var c=cls(selected);var ref=calculateReference(acres);
     var isReference=ref.value!==null;
-    set('areaOut',acres===null?'Check acreage':acres.toLocaleString('en-US',{maximumFractionDigits:2})+' acres');
+    set('areaOut',acres===null?'Check acreage':acres.toLocaleString('en-US',{maximumFractionDigits:2})+(acres===1?' acre':' acres'));
     set('rateOut',isReference?money(ref.rate)+'/ac/yr':'Not established');
     set('grossOut',isReference?money(ref.value):'Not established');
     set('heroValue',isReference?money(ref.value):'—');
