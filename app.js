@@ -181,13 +181,54 @@
     set('siteFitOut',msg+' Site setting was entered by the user; it is not verified against soil or vegetation maps.');
   }
 
+  function itemizedMowingRate(acres){
+    if(!el('useItemizedMowing').checked){
+      set('itemizedMowOut','Itemized mowing is not enabled; the editable per-acre price above is used.');
+      return number('mowCost');
+    }
+    var inputs=['laborHours','laborRate','equipHours','equipRate','fuelCost','otherMowCost'];
+    var values=inputs.map(number);
+    if(acres===null||acres<=0||values.some(function(n){return n===null;})){
+      set('itemizedMowOut','Enter a positive acreage and all six valid non-negative inputs. No mowing result is generated with incomplete itemization.');
+      return null;
+    }
+    var perCut=values[0]*values[1]+values[2]*values[3]+values[4]+values[5];
+    if(!Number.isFinite(perCut)||perCut<=0){
+      set('itemizedMowOut','Itemized cost must be positive and finite; confirm labor, equipment and supplies are not counted twice.');
+      return null;
+    }
+    var perAcre=perCut/acres;
+    set('itemizedMowOut','Your itemized total is '+money(perCut)+' for one cut of the selected area, or '+money(perAcre)+'/acre/cut. User-entered estimate, not an audited City of Kyle cost.');
+    return Number.isFinite(perAcre)?perAcre:null;
+  }
+
+  function updateRunoff(acres){
+    var before=number('runoffBefore'),after=number('runoffAfter');
+    var model=el('runoffModel').value,src=el('runoffSource').value.trim();
+    var comparable=el('runoffComparable').checked;
+    var fail=function(msg){set('runoffDepthOut','Not calculated');set('runoffVolumeOut','Not calculated');set('runoffStatus',msg);};
+    if(acres===null||acres<=0){fail('A positive selected area is required.');return;}
+    if(!model||!src||before===null||after===null||!comparable){
+      fail('Enter both externally modeled annual runoff depths, the model/version/reference and confirm comparable scenarios. No runoff estimate is invented.');return;
+    }
+    if(model==='swc'&&acres>=12){
+      fail('EPA describes its Stormwater Calculator hydrology analysis for sites under 12 acres. Use appropriately designed SWMM or another documented hydrologic model for this larger area.');return;
+    }
+    var inches=before-after;
+    var gallons=inches*acres*27154;
+    if(!Number.isFinite(gallons)){fail('Model inputs produce a non-finite result.');return;}
+    set('runoffDepthOut',(inches>=0?'Reduction: ':'Increase: ')+Math.abs(inches).toLocaleString('en-US',{maximumFractionDigits:3})+' in/year');
+    set('runoffVolumeOut',(inches>=0?'Reduction: ':'Increase: ')+Math.round(Math.abs(gallons)).toLocaleString('en-US')+' gallons/year');
+    set('runoffStatus','User-reported '+(model==='swc'?'EPA Stormwater Calculator':'external hydrologic model')+' outputs; source: '+src+'. The site only performs subtraction and an acre-inch-to-gallon conversion (1 acre-inch ≈ 27,154 gallons). Inputs and hydrologic accuracy have NOT been independently validated. No flood-damage or ecosystem-dollar value is calculated.');
+  }
+
   function finances(acres){
-    var rate=number('mowCost'),before=number('mowsCurrent'),after=number('mowsProposed');
+    var rate=itemizedMowingRate(acres),before=number('mowsCurrent'),after=number('mowsProposed');
     var install=number('installCost'),care=number('careCost');
-    if(acres===null||rate===null||before===null||after===null){['currentMowOut','proposedMowOut','mowDiffOut'].forEach(function(id){set(id,'Check inputs');});set('tenYearOut','Check inputs');set('mowRangeOut','Enter valid non-negative acreage, rate and mowing frequencies.');return;}
+    if(acres===null||rate===null||before===null||after===null){['currentMowOut','proposedMowOut','mowDiffOut'].forEach(function(id){set(id,'Check inputs');});set('tenYearOut','Check inputs');set('mowRangeOut','Enter valid non-negative acreage, mowing frequency and complete price information.');set('financeNote','Financial calculation withheld: invalid or missing mowing cost inputs.');return;}
     var current=acres*rate*before,proposed=acres*rate*after,diff=current-proposed;
     var rangeLow=acres*(before-after)*40, rangeHigh=acres*(before-after)*70;
-    set('mowRangeOut','Using Kyle’s reported $40–$70/acre/cut range, the mowing-only annual difference for these frequencies would be '+money(Math.min(rangeLow,rangeHigh))+' to '+money(Math.max(rangeLow,rangeHigh))+'. This does not include restoration costs.');
+    set('mowRangeOut','For context only, Kyle’s reported $40–$70/acre/cut rate implies '+money(Math.min(rangeLow,rangeHigh))+' to '+money(Math.max(rangeLow,rangeHigh))+' in mowing-only annual difference at these frequencies. That external range is not a confidence interval on the user-entered estimate.');
     set('currentMowOut',money(current));set('proposedMowOut',money(proposed));set('mowDiffOut',money(diff));
     if(install===null||care===null){set('tenYearOut','Needs costs');
       set('financeNote','Enter installation and annual restoration management costs (enter 0 only if documented) to calculate the undiscounted 10-year difference. No total savings claim is made yet.');
@@ -222,6 +263,7 @@
     updateSiteFit();
     buildServiceBreakdown();
     finances(acres);
+    updateRunoff(acres);
   }
   function buildSources(){var list=el('sourceList');list.textContent='';Object.keys(STUDIES).forEach(function(k){var li=document.createElement('li');link(li,STUDIES[k]);list.appendChild(li);});}
   document.querySelector('.advanced').addEventListener('toggle',function(e){mixed=e.target.open;el('referenceAcknowledged').checked=false;update();});
