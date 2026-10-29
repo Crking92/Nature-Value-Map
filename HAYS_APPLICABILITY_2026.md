@@ -1,7 +1,7 @@
 # Hays County site-applicability evidence — October 2026
 
 ## Decision
-The Nature Value Map publishes **conditional study benchmarks**, not measurements of any individual Hays County parcel. Site context is user-reported and is not independently verified by the map. Selecting a context never changes dollars. See [SOURCE_AUDIT_2026-10-29.md](SOURCE_AUDIT_2026-10-29.md) for original source values and their monetary years.
+The Nature Value Map publishes **conditional study benchmarks**, not measurements of any individual Hays County parcel. Site context is user-reported and is not independently verified by the map. The site context never changes a published rate. If the user identifies an engineered drainage site but selects natural wetland or riparian forest, the incompatible dollar reference is withheld. See [SOURCE_AUDIT_2026-10-29.md](SOURCE_AUDIT_2026-10-29.md) for original source values and their monetary years.
 
 ## Why Hays County needs separate site categories
 - **Blackland Prairie:** Clay-rich soils and prairie vegetation, generally toward eastern Hays County. USGS Texas ecoregions and TPWD vegetation layers supply regional context, not parcel-level condition.
