@@ -2,226 +2,287 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Nature Value Map — Hays County | Ecosystem Evidence</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Explore how land management choices affect mowing costs, and discover what published ecosystem research does—and does not—tell us about Hays County.">
+<title>Nature Value Map — Explore Your Landscape</title>
 <link rel="preconnect" href="https://unpkg.com">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 </head>
-<body>
+<body class="explorer-page">
+<a class="skip-link" href="#explore">Skip to the explorer</a>
 <main>
-<header class="hero">
-  <div><p class="eyebrow">Hays County first · independent education and planning</p>
-  <h1>Nature Value Map</h1>
-  <p class="hero-copy">Explore what land provides—and what it costs to maintain. Draw a property or natural area, examine published ecosystem-service benchmarks, and compare mowing with native-habitat management.</p>
-  <p class="notice"><strong>Research-first estimates:</strong> Published regional values are not measurements of your property. Unverified values stay unavailable; mowing and restoration expenses are calculated separately.</p></div>
-  <div class="hero-card"><div class="big-number" id="heroValue">—</div><div class="big-label">Published annual reference for selected area</div><div class="microcopy" id="heroNote">2021 USD when eligible · Not revenue or property appraisal</div></div>
+<header class="hero explorer-hero">
+  <nav class="top-nav" aria-label="Main navigation">
+    <a class="brand" href="index.html" aria-label="Nature Value Map home">🌿 Nature Value Map</a>
+    <a href="#learn">About the research</a>
+  </nav>
+  <div class="hero-intro">
+    <p class="eyebrow">Hays County, Texas · Interactive landscape explorer</p>
+    <h1>What could your land do?</h1>
+    <p class="hero-copy">Pick an area, try a different way of managing it, and see what changes. Start simple. Dive into the science whenever you're curious.</p>
+    <a href="#explore" class="start-link">Start exploring <span aria-hidden="true">↓</span></a>
+    <p class="small gentle-note">This is a learning tool. Example costs are not verified savings; published ecological values are not site measurements.</p>
+  </div>
 </header>
-<section class="workspace">
-  <div class="map-wrap"><div id="map" role="region" aria-label="Interactive map of Kyle, Texas"></div><div class="map-help"><strong>Step 1:</strong> Draw a polygon or rectangle on the map, or type the acreage. Drawing takes priority.</div></div>
-  <aside class="panel">
-    <div class="step-card"><div class="step-title"><span>1</span> Choose an area</div><label for="manualAcres">Acres when not drawing</label><input id="manualAcres" type="number" min="0" step="0.01" value="1"><button id="clearBtn" type="button" class="soft">Clear drawn area</button><p id="areaHelp" class="small">Map drawing area is calculated geodesically.</p></div>
-    <div class="step-card"><div class="step-title"><span>2</span> Choose existing land cover</div><div id="landCards" class="land-cards"></div><div class="editable-value-box"><div class="small" id="valueNote"></div></div>
-    <label class="check"><input id="referenceAcknowledged" type="checkbox"> Show an exploratory scaled study reference. I understand it is <strong>not</strong> my site's measured ecological value or a verified restoration gain.</label>
-    <p class="small">Research values remain visible below even without this confirmation. Selecting a category or mixed-cover mode clears this confirmation.</p>
-    <div class="step-card">
-      <label for="siteSetting">Site setting (your description; not map-verified)</label>
+
+<section id="explore" class="simple-stage" aria-labelledby="exploreTitle">
+  <div class="section-heading">
+    <p class="eyebrow">Try it yourself</p>
+    <h2 id="exploreTitle">Your landscape, your choices.</h2>
+    <p>You can start with one acre. You don't need an address or a map.</p>
+  </div>
+  <div class="onboard-grid">
+    <section class="step-card simple-card" aria-labelledby="areaTitle">
+      <p class="step-kicker">01 · Start here</p>
+      <h3 id="areaTitle">How much land?</h3>
+      <label for="manualAcres">Area in acres</label>
+      <div class="acre-control"><input id="manualAcres" type="number" min="0" step="0.01" value="1" inputmode="decimal"><span>acres</span></div>
+      <div class="quick-acres" role="group" aria-label="Choose an example acreage">
+        <button type="button" data-acres="0.25">¼ acre</button>
+        <button type="button" data-acres="1">1 acre</button>
+        <button type="button" data-acres="5">5 acres</button>
+        <button type="button" data-acres="10">10 acres</button>
+      </div>
+      <details id="mapDetails" class="drawer map-drawer">
+        <summary><span>📍 Draw your own area on a map</span><small>Optional · Opens the Kyle map</small></summary>
+        <div class="map-wrap">
+          <div id="map" role="region" aria-label="Interactive map of Kyle, Texas"></div>
+          <div class="map-help">Use the polygon or rectangle tools to draw an area. Drawing overrides the typed acreage.</div>
+        </div>
+        <button id="clearBtn" type="button" class="soft">Clear drawn area</button>
+        <p id="areaHelp" class="small">The area of a drawn polygon is calculated from its geometry.</p>
+      </details>
+    </section>
+
+    <section class="step-card simple-card" aria-labelledby="landscapeTitle">
+      <p class="step-kicker">02 · Explore a landscape</p>
+      <h3 id="landscapeTitle">What kind of landscape?</h3>
+      <p class="small">Tap a type to explore its research. This does not assume your property is that habitat.</p>
+      <div id="landCards" class="land-cards" aria-label="Landscape options"></div>
+      <button id="moreLandscapes" type="button" class="more-link" aria-expanded="false">Show more landscapes <span aria-hidden="true">+</span></button>
+      <p class="small subtle">Some habitats have a published economic reference; others don't. We don't fill those gaps with invented numbers.</p>
+    </section>
+  </div>
+
+  <section class="compare-card" aria-labelledby="compareTitle">
+    <div class="compare-intro">
+      <div><p class="step-kicker">03 · See what changes</p><h3 id="compareTitle">What if you mowed less?</h3></div>
+      <p>Move the sliders. The amounts update as you play.</p>
+    </div>
+    <div class="before-after">
+      <div class="comparison-half">
+        <div class="comparison-illustration before-illustration" aria-hidden="true">🌱</div>
+        <p class="comparison-label">Today · Example</p>
+        <label for="mowsCurrent">Mows per year <output id="currentCutsLabel" for="mowsCurrent">15</output></label>
+        <input id="mowsCurrent" type="range" min="0" max="30" step="1" value="15" aria-label="Current mowings per year">
+        <div class="comparison-cost"><span>Annual mowing cost</span><strong id="currentMowOut">—</strong></div>
+      </div>
+      <div class="comparison-half after-half">
+        <div class="comparison-illustration after-illustration" aria-hidden="true">🌾 🌸</div>
+        <p class="comparison-label">Different management · Example</p>
+        <label for="mowsProposed">Mows per year <output id="proposedCutsLabel" for="mowsProposed">2</output></label>
+        <input id="mowsProposed" type="range" min="0" max="30" step="1" value="2" aria-label="Proposed mowings per year">
+        <div class="comparison-cost"><span>Annual mowing cost</span><strong id="proposedMowOut">—</strong></div>
+      </div>
+    </div>
+    <div class="example-rate">
+      <label for="mowCost">Example cost per acre, per mow</label>
+      <div class="price-control"><span>$</span><input id="mowCost" type="number" min="0" step="1" value="55" aria-label="Mowing cost per acre per cut"></div>
+      <small>Kyle publicly reported roughly $40–$70 per acre per cut. $55 is the midpoint, <strong>not a verified average</strong>.</small>
+    </div>
+    <div class="quick-result" aria-live="polite">
+      <div>
+        <p class="eyebrow">Illustrative annual mowing-cost difference</p>
+        <strong id="mowDiffOut">—</strong>
+        <p>For <span id="areaOut">1 acre</span>, using the mowing assumptions above.</p>
+      </div>
+      <div class="result-side">
+        <span>Only mowing is compared here.</span>
+        <span>Planting and ongoing habitat management aren't included.</span>
+      </div>
+    </div>
+    <div class="result-actions">
+      <button id="shareScenario" type="button" class="share-button">Copy this example <span aria-hidden="true">↗</span></button>
+      <span id="shareStatus" role="status" aria-live="polite"></span>
+    </div>
+    <details class="small-drawer"><summary>How did we calculate this?</summary>
+      <p>This is <strong>area × (current mowing cycles − proposed cycles) × cost per acre per cut</strong>. It is a hypothetical mowing-only expense difference, not profit, cash received, an ecological benefit, or the total cost of restoration.</p>
+      <p id="mowRangeOut">Kyle-reported rate sensitivity: —</p>
+      <p><a href="https://kyletx.new.swagit.com/videos/335169" target="_blank" rel="noopener noreferrer">City of Kyle Council source, February 18, 2025</a> · <a href="COST_MODEL_PROTOCOL.md">Calculation method and limitations</a></p>
+    </details>
+  </section>
+</section>
+
+<section class="discovery" id="learn" aria-labelledby="discoverTitle">
+  <div class="section-heading">
+    <p class="eyebrow">Curious about more?</p>
+    <h2 id="discoverTitle">Go deeper when you want to.</h2>
+    <p>Everything below is optional. Open the topics that interest you.</p>
+  </div>
+
+  <details class="explore-drawer" id="researchDetails">
+    <summary><span class="drawer-icon">📚</span><span class="drawer-title"><strong>What does research say about this landscape?</strong><small>Published service values, original studies, and important limits</small></span></summary>
+    <div class="drawer-content">
+      <p><strong>We never claim these benchmarks are what your property earns.</strong> The published numbers describe ecosystem categories, not verified improvements from restoring an individual parcel.</p>
+      <div class="editable-value-box" id="valueNote"></div>
+      <div class="research-confirm">
+        <label class="check"><input id="referenceAcknowledged" type="checkbox"> Show the area-scaled study illustration. I understand this is <strong>not</strong> measured property value or a verified restoration gain.</label>
+        <p class="small">Changing landscape type or using mixed land cover clears this acknowledgement.</p>
+      </div>
+      <div class="result-grid">
+        <div><span>Published rate</span><strong id="rateOut">—</strong></div>
+        <div><span>Annual scaled illustration</span><strong id="grossOut">Confirm reference use</strong></div>
+        <div><span>Evidence status</span><strong id="statusOut">—</strong></div>
+      </div>
+      <div class="plain-answer" id="plainAnswer"></div>
+      <p id="sourceOut" class="small"></p>
+      <div class="visually-hidden" id="heroValue">—</div>
+      <div id="heroNote" class="small">Published benchmark, not site income</div>
+      <details class="small-drawer"><summary>What services are included in that dollar amount?</summary>
+        <p>These are components of the published amount, not additional benefits to add again.</p>
+        <div id="serviceBreakdown"></div>
+        <p class="small" id="serviceFootnote"></p>
+      </details>
+    </div>
+  </details>
+
+  <details class="explore-drawer" id="siteDetails">
+    <summary><span class="drawer-icon">🧭</span><span class="drawer-title"><strong>Describe your site more precisely</strong><small>Soils, wetlands, mixed land cover, and optional field observations</small></span></summary>
+    <div class="drawer-content">
+      <label for="siteSetting">Site setting (user-described, not mapped or verified)</label>
       <select id="siteSetting">
         <option value="unknown">Unknown / not checked</option>
         <option value="blackland">Blackland Prairie — deep or clay-rich soils</option>
-        <option value="edwards">Edwards Plateau — limestone / shallow soils</option>
+        <option value="edwards">Edwards Plateau — limestone or shallow soils</option>
         <option value="engineered">Roadside swale / detention / engineered drainage</option>
-        <option value="riparian">Natural creek or riparian floodplain</option>
+        <option value="riparian">Natural creek / riparian floodplain</option>
         <option value="wetland">Confirmed inland wetland (field verified)</option>
       </select>
-      <p id="siteFitOut" class="small" aria-live="polite">No site setting confirmed. Published benchmarks are not site-specific results.</p>
-      <p class="small">Use <a href="https://websoilsurvey.sc.egov.usda.gov/App/HomePage.htm" target="_blank" rel="noopener noreferrer">USDA soil survey</a> and <a href="https://tpwd.texas.gov/landwater/land/programs/landscape-ecology/ems/" target="_blank" rel="noopener noreferrer">TPWD ecological mapping</a> to investigate your actual location. Neither has been automatically queried.</p>
+      <p id="siteFitOut" class="small" aria-live="polite"></p>
+      <p class="small">Check site conditions using <a href="https://websoilsurvey.sc.egov.usda.gov/App/HomePage.htm" target="_blank" rel="noopener noreferrer">USDA Web Soil Survey</a> and <a href="https://tpwd.texas.gov/landwater/land/programs/landscape-ecology/ems/" target="_blank" rel="noopener noreferrer">TPWD ecological mapping</a>. This site does not automatically verify either.</p>
+      <details class="advanced small-drawer"><summary>My area includes several landscape types</summary>
+        <p>Enter non-overlapping percentages totaling 100%. Incompatible or unsupported categories prevent a result.</p>
+        <div class="mix-header"><span>Area %</span><span>Land cover</span><span></span></div>
+        <div id="mixRows"></div>
+        <p id="mixError" class="small" aria-live="polite"></p>
+      </details>
+      <details class="small-drawer"><summary>Add what you've observed</summary>
+        <p>These are informal observations, not a scientifically validated habitat score.</p>
+        <div class="questions">
+          <label class="check"><input class="habitat-check" type="checkbox"> Locally native vegetation appears prominent</label>
+          <label class="check"><input class="habitat-check" type="checkbox"> Invasive plants appear controlled</label>
+          <label class="check"><input class="habitat-check" type="checkbox"> Different growth layers, flowers or seedheads are present</label>
+          <label class="check"><input class="habitat-check" type="checkbox"> Little visible erosion or exposed soil</label>
+        </div>
+        <p id="habitatOut" class="friendly-note">0 of 4 observations selected.</p>
+      </details>
     </div>
-    <details class="advanced"><summary>My area contains multiple land-cover types</summary><p class="small">Enter your own non-overlapping percentages totaling exactly 100%. No example land-cover percentages are prefilled. Values from incompatible monetary years or restricted case studies will not be combined.</p><div class="mix-header" aria-hidden="true"><span>Area %</span><span>Land cover</span><span></span></div><div id="mixRows"></div><p id="mixError" class="small" aria-live="polite"></p></details></div>
-    <div class="step-card"><div class="step-title"><span>3</span> Describe habitat conditions</div><p class="small">Answer only what you can actually observe. These are field notes—not a validated habitat-quality index, and they do not change the dollar estimate.</p>
-      <div class="questions">
-        <label class="check"><input class="habitat-check" type="checkbox"> Locally native vegetation is prominent</label>
-        <label class="check"><input class="habitat-check" type="checkbox"> Invasive plants appear controlled</label>
-        <label class="check"><input class="habitat-check" type="checkbox"> Vegetation has varied layers, blooms, or seedheads</label>
-        <label class="check"><input class="habitat-check" type="checkbox"> Little active erosion or exposed soil is apparent</label>
-      </div><p class="friendly-note" id="habitatOut">0 of 4 observations selected. No monetary adjustment.</p>
-    </div>
-  </aside>
-</section>
-<section class="results">
-  <div class="result-card main-result">
-    <h2>Published ecosystem-service reference — not a restoration gain</h2>
-    <div class="result-grid">
-      <div><span>Mapped area</span><strong id="areaOut">—</strong></div>
-      <div><span>Reference per acre</span><strong id="rateOut">—</strong></div>
-      <div><span>Annual reference</span><strong id="grossOut">—</strong></div>
-      <div><span>Evidence type</span><strong id="statusOut">—</strong></div>
-    </div>
-    <div class="plain-answer" id="plainAnswer"></div><p class="small"><strong>Important:</strong> The land already provides some services before restoration. This study reference is not the increase in benefits resulting from a conversion. The mapped area and selected land cover are user-provided, not independently surveyed.</p>
-    <p class="small" id="sourceOut"></p>
-  </div>
+  </details>
 
-  <div class="result-card">
-    <h2>Physical ecosystem services</h2>
-    <p>Healthy vegetation can affect runoff, soil stability, carbon, habitat, and other services. <strong>No site-specific gallons, tons, or biodiversity counts are calculated</strong> without valid local observations and an appropriate model.</p>
-    <div class="benefits"><div>💧 <strong>Runoff</strong><span>Site soils, slope, precipitation and land cover required</span></div><div>🐝 <strong>Habitat</strong><span>Native species, host plants, and survey data required</span></div><div>🌱 <strong>Soil</strong><span>Site condition and erosion data required</span></div><div>🌡️ <strong>Carbon</strong><span>Stock and sequestration methods must be identified separately</span></div></div>
-  </div>
-  <div class="result-card service-card">
-    <h2>Where does that dollar figure come from?</h2>
-    <p class="small">Breakdown of the selected land-cover benchmark. Each entry is an <strong>annual published economic reference per acre</strong>, not a field measurement. These amounts are already contained in the total above.</p>
-    <div id="serviceBreakdown" aria-live="polite"></div>
-    <p class="small" id="serviceFootnote"></p>
-  </div>
-</section>
-<section class="results">
-  <div class="result-card main-result">
-    <h2>Mowing and restoration cost comparison</h2>
-    <p>Based on the City of Kyle's reported <strong>$40–$70 per acre per mowing cycle</strong>. The suggested $55 example is the range midpoint, <em>not</em> a measured average. Edit every assumption for your property.</p>
-    <div class="form-grid">
-      <label>Mowing price, $/acre/cut<input id="mowCost" type="number" min="0" step="1" value="55"></label>
-      <label>Current cuts per year<input id="mowsCurrent" type="number" min="0" step="1" value="15"></label>
-      <label>Proposed cuts per year<input id="mowsProposed" type="number" min="0" step="1" value="2"></label>
-      <label>Restoration installation, $/acre once<input id="installCost" type="number" min="0" step="1" placeholder="Enter local quote"></label>
-      <label>Other restoration management, $/acre/year (exclude mowing entered above)<input id="careCost" type="number" min="0" step="1" placeholder="Enter local estimate"></label>
-    </div>
-    <div class="result-grid">
-      <div><span>Current mowing / year</span><strong id="currentMowOut">—</strong></div>
-      <div><span>Proposed mowing / year</span><strong id="proposedMowOut">—</strong></div>
-      <div><span>Mowing-only difference / year</span><strong id="mowDiffOut">—</strong></div>
-      <div><span>10-year scenario difference</span><strong id="tenYearOut">Needs costs</strong></div>
-    </div>
-    <p class="small" id="mowRangeOut">Kyle reported-rate mowing-only range: —</p>
-    <details class="cost-detail">
-      <summary>Build a mowing price from itemized labor and equipment costs</summary>
-      <p class="small">When enabled, this replaces the illustrative $/acre/cut input above. All entries apply to one mowing of the <strong>entire selected area</strong>; these are your inputs, not city-verified expenses.</p>
-      <label class="check"><input type="checkbox" id="useItemizedMowing"> Use itemized mowing costs instead of the per-acre price</label>
+  <details class="explore-drawer" id="costDetails">
+    <summary><span class="drawer-icon">💰</span><span class="drawer-title"><strong>Make the cost comparison more realistic</strong><small>Add planting costs, maintenance, or itemized labor and equipment</small></span></summary>
+    <div class="drawer-content">
+      <p>The first result shows only mowing. To estimate the wider operating-cost difference, enter restoration expenses or a locally documented bid. Missing inputs stay unknown.</p>
       <div class="form-grid">
-        <label>Total crew labor-hours per cut<input id="laborHours" type="number" min="0" step="0.1" placeholder="Enter total crew-hours"></label>
-        <label>Fully loaded labor rate, $/hour<input id="laborRate" type="number" min="0" step="0.01" placeholder="Enter rate"></label>
-        <label>Equipment operating hours per cut<input id="equipHours" type="number" min="0" step="0.1" placeholder="Enter hours"></label>
-        <label>Equipment cost, $/hour<input id="equipRate" type="number" min="0" step="0.01" placeholder="Enter hourly cost"></label>
-        <label>Fuel & supplies not in equipment rate, $/cut<input id="fuelCost" type="number" min="0" step="0.01" placeholder="Enter cost"></label>
-        <label>Mobilization & other non-overlapping costs, $/cut<input id="otherMowCost" type="number" min="0" step="0.01" placeholder="Enter cost"></label>
+        <label>Restoration installation, $/acre once<input id="installCost" type="number" min="0" step="1" placeholder="From quote or estimate"></label>
+        <label>Other management, $/acre/year (exclude mowing above)<input id="careCost" type="number" min="0" step="1" placeholder="Invasive control, follow-up care"></label>
       </div>
-      <p class="small" id="itemizedMowOut" aria-live="polite">Itemized price is off.</p>
-      <p class="small">Do not double-count labor in equipment rates, or fuel in both equipment and supplies. This simple model assumes each mowing cycle has the same resource cost; real passes can differ. <a href="COST_MODEL_PROTOCOL.md">See the itemized-cost method.</a></p>
-    </details>
-    <div class="form-grid cost-context">
-      <label>Basis for your restoration cost inputs
-        <select id="costBasis">
-          <option value="assumption">Planning assumption, not independently verified</option>
-          <option value="quote">User-reported contractor quote or bid</option>
-          <option value="invoice">User-reported invoice or work order</option>
-        </select>
-      </label>
-      <label>Cost source details (optional, for your notes)
-        <input id="costReference" type="text" placeholder="e.g., vendor and quote date">
-      </label>
+      <div class="result-grid">
+        <div><span>Undiscounted 10-year cost scenario</span><strong id="tenYearOut">Needs costs</strong></div>
+      </div>
+      <p id="financeNote" class="small">Enter both cost inputs to calculate. A positive number is a hypothetical difference, not audited project savings.</p>
+      <details class="cost-detail small-drawer">
+        <summary>Calculate a mowing price from actual labor and equipment inputs</summary>
+        <label class="check"><input id="useItemizedMowing" type="checkbox"> Use itemized costs instead of $/acre/cut</label>
+        <div class="form-grid">
+          <label>Total crew labor hours per cut<input id="laborHours" type="number" min="0" step="0.1" placeholder="Total staff-hours"></label>
+          <label>Fully loaded labor, $/hour<input id="laborRate" type="number" min="0" step="0.01" placeholder="Hourly rate"></label>
+          <label>Equipment hours per cut<input id="equipHours" type="number" min="0" step="0.1" placeholder="Hours"></label>
+          <label>Equipment cost, $/hour<input id="equipRate" type="number" min="0" step="0.01" placeholder="Hourly cost"></label>
+          <label>Fuel and supplies not in equipment rate<input id="fuelCost" type="number" min="0" step="0.01" placeholder="$ per site pass"></label>
+          <label>Other non-overlapping costs<input id="otherMowCost" type="number" min="0" step="0.01" placeholder="$ per site pass"></label>
+        </div>
+        <p class="small" id="itemizedMowOut">Itemized price is off.</p>
+        <p class="small">Avoid counting the same labor, equipment or fuel twice. <a href="COST_MODEL_PROTOCOL.md">Read the cost methodology</a>.</p>
+      </details>
+      <div class="form-grid cost-context">
+        <label>Basis for cost inputs
+          <select id="costBasis">
+            <option value="assumption">Planning assumption (not independently verified)</option>
+            <option value="quote">User-reported quote or bid</option>
+            <option value="invoice">User-reported invoice or work order</option>
+          </select>
+        </label>
+        <label>Source note (optional)<input id="costReference" type="text" placeholder="Vendor, document or estimate date"></label>
+      </div>
+      <p class="small">The illustration assumes identical cost per mowing pass and constant expenses for ten years. It does not discount future costs or add ecosystem benefits to cash expenses.</p>
     </div>
-    <p class="small" id="financeNote">The 10-year comparison requires both restoration-cost inputs. It is undiscounted and excludes costs not entered.</p>
-    <p class="small"><a href="https://kyletx.new.swagit.com/videos/335169" target="_blank" rel="noopener noreferrer">Source: City of Kyle Council presentation, February 18, 2025</a>. Annual mowing frequencies shown are illustrative user-editable inputs.</p>
-  </div>
-  <div class="result-card">
-    <h2>What this comparison can—and cannot—tell you</h2>
-    <p><strong>Mowing differences are not the same as total savings.</strong> Native habitat still requires establishment, invasive-plant management, inspections, and sometimes selective mowing.</p>
-    <p>This version does not sum ecological benefit-transfer dollars and your avoided mowing costs into a single “net value.” They describe different types of benefits and have different assumptions and dollar years.</p>
-    <p class="small">Ten-year illustration = 10 × (current annual mowing − proposed annual mowing − other restoration management) − one-time restoration installation. Enter non-mowing management separately so the same mowing cost is not subtracted twice. Before using the result in a financial decision, normalize inputs to one price year and perform a discounted analysis; this version has no discounting, inflation, or allowance for other omitted costs.</p>
-  </div>
-</section>
+  </details>
 
-
-<section class="runoff-module" aria-labelledby="runoffTitle">
-  <div class="result-card main-result">
-    <p class="eyebrow">Physical evidence · Model-output comparison</p>
-    <h2 id="runoffTitle">Stormwater runoff — compare documented model results</h2>
-    <p><strong>This website does not run a hydrologic model.</strong> Complete existing-condition and proposed-condition scenarios in a suitable external model, then enter the model's average annual runoff depth for both. Nature Value Map converts the difference in inches into an equivalent annual volume over the selected acreage.</p>
-    <div class="form-grid">
-      <label>Model used
-        <select id="runoffModel">
-          <option value="">Select model</option>
-          <option value="swc">EPA National Stormwater Calculator (web 3.4.0)</option>
-          <option value="swmm">EPA SWMM or another documented model</option>
-        </select>
-      </label>
-      <label>Model output/report identifier and version
-        <input type="text" id="runoffSource" placeholder="e.g., report ID, date, version">
-      </label>
-      <label>Existing-condition average annual runoff (inches/year)
-        <input id="runoffBefore" type="number" min="0" step="0.001" placeholder="From model output">
-      </label>
-      <label>Restored-condition average annual runoff (inches/year)
-        <input id="runoffAfter" type="number" min="0" step="0.001" placeholder="From model output">
-      </label>
-    </div>
-    <label class="check"><input type="checkbox" id="runoffComparable"> I confirm the two model results use the same footprint, rainfall/analysis period and comparable assumptions, with treatment-related changes documented in the original report.</label>
-    <p class="small"><a href="https://www.epa.gov/water-research/national-stormwater-calculator" target="_blank" rel="noopener noreferrer">EPA National Stormwater Calculator and user's guide</a> · <a href="https://www.epa.gov/water-research/storm-water-management-model-swmm" target="_blank" rel="noopener noreferrer">EPA SWMM</a> · <a href="RUNOFF_MODEL_PROTOCOL.md">See input checklist and method</a></p>
-    <div class="result-grid">
-      <div><span>Modeled runoff depth difference</span><strong id="runoffDepthOut">Needs model outputs</strong></div>
-      <div><span>Converted annual runoff-volume difference</span><strong id="runoffVolumeOut">Needs model outputs</strong></div>
-    </div>
-    <p class="small" id="runoffStatus" aria-live="polite">Waiting for documented matching external-model outputs. No generic gallons-per-acre claim is made.</p>
-    <p class="small"><strong>Important:</strong> An annual runoff-volume difference is not automatically aquifer recharge, stored water, avoided flooding, or an economic benefit. Those require separate modeling and source evidence.</p>
-  </div>
-</section>
-<section class="research-section" aria-labelledby="studyTitle">
- <div class="research-header"><p class="eyebrow">Research beyond dollar totals</p><h2 id="studyTitle">What do comparisons actually show?</h2><p>Different studies answer different questions. These findings are <strong>not inputs to the map's ecosystem-dollar reference</strong>, and they are not added together.</p></div>
- <div class="research-grid">
-  <article class="research-tile">
-   <p class="tile-kicker">Peer-reviewed · 2023</p><h3>Lawn versus meadow: real ecological trade-offs</h3>
-   <p>Paudel and States reviewed biodiversity, infiltration, aesthetics, recreation and other ecosystem services and disservices of grassy lawns and floral meadows. The review does not supply a universal Hays County dollar-per-acre lawn value.</p>
-   <a href="https://doi.org/10.1016/j.ufug.2023.127932" target="_blank" rel="noopener noreferrer">Read the peer-reviewed review</a>
-  </article>
-  <article class="research-tile">
-   <p class="tile-kicker">Peer-reviewed · Corn Belt · 2020 USD</p><h3>What has lawn-to-pollinator conversion cost elsewhere?</h3>
-   <p>A 10-year modeled study reported <strong>$54–$167/ac/year</strong> annualized for converted pollinator habitat, versus <strong>$326–$1,034/ac/year</strong> for hired lawn care. It used a 2% discount rate, Midwestern assumptions and specific establishment practices—not local quotes.</p>
-   <a href="https://doi.org/10.3996/JFWM-20-075" target="_blank" rel="noopener noreferrer">Read Janke, Tyndall &amp; Bradbury (2021)</a>
-  </article>
-  <article class="research-tile">
-   <p class="tile-kicker">Federal model · Runoff</p><h3>Estimate water effects with actual site inputs</h3>
-   <p>EPA's National Stormwater Calculator models annual runoff using land cover, soil, rainfall and other site conditions. EPA describes hydrology analysis for <strong>sites under 12 acres</strong>; larger or complex sites may need a different model.</p>
-   <a href="https://www.epa.gov/water-research/national-stormwater-calculator" target="_blank" rel="noopener noreferrer">Open EPA tool and limitations</a>
-  </article>
-  <article class="research-tile">
-   <p class="tile-kicker">USDA/CSU model · Carbon</p><h3>Use a conservation-practice carbon model</h3>
-   <p>COMET-Planner uses state, county, land use, conservation practice and acreage for regional planning estimates. It is primarily intended for applicable agricultural and conservation practices—not automatically every urban lawn conversion.</p>
-   <a href="https://comet-planner.com/" target="_blank" rel="noopener noreferrer">Explore COMET-Planner</a>
-  </article>
- </div>
- 
- <div class="research-grid" aria-label="Central Texas research and cost sources">
-  <article class="research-tile">
-    <p class="tile-kicker">Peer-reviewed · Central Texas · 2026</p>
-    <h3>Engineered swales aren't automatically wetlands</h3>
-    <p>A Central Texas study documented native and non-native vegetation in roadside swales and detention basins in the Edwards Aquifer recharge area. These sites often contained upland and facultative vegetation, with few obligate wetland plants. Its findings support field assessment—not assigning the $18,948 wetland benchmark to every basin.</p>
-    <a href="https://doi.org/10.1016/j.jenvman.2026.129841" target="_blank" rel="noopener noreferrer">Read Hutchinson et al. (2026)</a>
-  </article>
-  <article class="research-tile">
-    <p class="tile-kicker">Government technical cost scenario · Texas FY2025</p>
-    <h3>Statewide native range-planting cost: $225.38 per acre</h3>
-    <p>NRCS Practice 550, Scenario 4, models a <strong>150-acre</strong> predominantly native range-planting project with standard seedbed preparation and a 75%-native minimum. This is <strong>not a Kyle parks quote</strong>, and it does not meet a strict 100% local-native plant specification.</p>
-    <a href="https://www.nrcs.usda.gov/sites/default/files/2024-11/fy25-tx-scenarios_0.pdf#page=667" target="_blank" rel="noopener noreferrer">View NRCS scenario and disclaimer</a>
-  </article>
- </div>
- <p class="research-note"><strong>New: Repeatable field observations.</strong> <a href="field-assessment.html">Open the Hays County vegetation and soil field form</a> to record fixed-plot first-hit counts and export each visit to JSON or CSV. This records sampled observations, not whole-property ecological improvement or dollar values.</p>
- <p class="research-note"><strong>Real Hays County evidence example:</strong> <a href="assessment.html">Waterleaf Park — what is documented, and what cannot yet be calculated</a>. This walkthrough distinguishes published City activity reports from internal work logs and unverified environmental or financial outcomes.</p>
- <p class="research-note"><a href="HAYS_APPLICABILITY_2026.md">Read the Hays County applicability audit</a> for soil and landscape classification, regional peer-reviewed studies, historical restoration-cost references, and the criteria required before a local estimate can replace a published benchmark. Future evidence protocols: <a href="CARBON_EVIDENCE_PROTOCOL.md">carbon stocks and GHG changes</a> · <a href="HABITAT_MONITORING_PROTOCOL.md">native biodiversity and habitat monitoring</a>.</p>
- 
-<p class="research-note">Restoration-cost research note: <a href="https://www.nrcs.usda.gov/state-offices/texas/payment-schedule" target="_blank" rel="noopener noreferrer">NRCS Texas payment schedules</a> can help identify supported conservation practices and payment scenarios. <strong>Program payments are not installation invoices</strong>, and they are not prefilled as Hays County restoration costs.</p>
-</section>
-<section class="about">
-  <details open><summary>Sources, assumptions and limitations</summary>
-    <div class="method-grid">
-      <div><h3>How calculations work</h3><p><code>Acres × published reference $/acre/year</code> for eligible land-cover references only. Habitat questions are descriptive, not numeric multipliers.</p><p>Mixed-cover references are calculated only when percentages total 100%, land-cover zones do not overlap, and every selected reference is eligible and expressed in 2021 dollars.</p><p>All economic valuations are transfers from studies—not measurements of the mapped site. Dollar figures from different studies are not averaged automatically.</p><p><a href="METHODOLOGY.md">Read the detailed methodology</a> · <a href="EVIDENCE_REGISTER.md">Open the source register</a></p></div>
-      <div><h3>Original sources</h3><ul id="sourceList"></ul></div>
+  <details class="explore-drawer" id="waterDetails">
+    <summary><span class="drawer-icon">💧</span><span class="drawer-title"><strong>What about water, wildlife, and carbon?</strong><small>Explore what research can say and what needs a real model</small></span></summary>
+    <div class="drawer-content">
+      <div class="benefits">
+        <div>💧 <strong>Runoff</strong><span>Needs soils, rainfall and a suitable hydrological model</span></div>
+        <div>🐝 <strong>Habitat</strong><span>Host plants and observed wildlife aren't a universal dollar figure</span></div>
+        <div>🌱 <strong>Soil</strong><span>Erosion and infiltration need site-specific measurements</span></div>
+        <div>🌡️ <strong>Carbon</strong><span>Stored carbon and annual sequestration are different</span></div>
+      </div>
+      <details class="small-drawer"><summary>Compare two existing runoff-model results</summary>
+        <p><strong>This website does not run a hydrological model.</strong> Supply documented before/after average annual runoff depths (inches/year) from an external model. The app only subtracts and converts volume.</p>
+        <div class="form-grid">
+          <label>Model used<select id="runoffModel">
+            <option value="">Select model</option>
+            <option value="swc">EPA National Stormwater Calculator, web 3.4.0</option>
+            <option value="swmm">EPA SWMM or another documented model</option>
+          </select></label>
+          <label>Model output ID, report and version<input id="runoffSource" type="text" placeholder="Report ID, date and model version"></label>
+          <label>Existing-condition runoff, in/year<input id="runoffBefore" type="number" min="0" step="0.001" placeholder="External model output"></label>
+          <label>Restored-condition runoff, in/year<input id="runoffAfter" type="number" min="0" step="0.001" placeholder="External model output"></label>
+        </div>
+        <label class="check"><input type="checkbox" id="runoffComparable"> These model runs use the same area, climate record, and comparable assumptions, with changes documented.</label>
+        <div class="result-grid">
+          <div><span>Annual runoff depth difference</span><strong id="runoffDepthOut">Not calculated</strong></div>
+          <div><span>Converted runoff volume difference</span><strong id="runoffVolumeOut">Not calculated</strong></div>
+        </div>
+        <p id="runoffStatus" class="small"></p>
+        <p class="small">A runoff difference is not automatically groundwater recharge, flood protection, or a monetary gain.</p>
+        <p><a href="https://www.epa.gov/water-research/national-stormwater-calculator" target="_blank" rel="noopener noreferrer">EPA calculator</a> · <a href="RUNOFF_MODEL_PROTOCOL.md">Our runoff evidence protocol</a></p>
+      </details>
+      <p class="small"><a href="CARBON_EVIDENCE_PROTOCOL.md">Carbon methods</a> · <a href="HABITAT_MONITORING_PROTOCOL.md">Biodiversity methods</a></p>
     </div>
   </details>
 </section>
-<footer class="footer">Independent educational and planning tool · Initial focus: Hays County, Texas · Research limitations always apply.</footer>
+
+<section class="research-footer" aria-labelledby="evidenceTitle">
+  <h2 id="evidenceTitle">Want to see the evidence?</h2>
+  <p>Real examples and original sources are one click away. No need to read a report to use the explorer.</p>
+  <div class="resource-cards">
+    <a href="assessment.html"><span>📍</span><strong>Waterleaf Park</strong><small>See which local restoration claims are documented—and which aren't.</small></a>
+    <a href="field-assessment.html"><span>🌱</span><strong>Field observations</strong><small>Record what is actually growing at a site, using a repeatable method.</small></a>
+    <a href="EVIDENCE_REGISTER.md"><span>📑</span><strong>Evidence library</strong><small>Inspect the figures, original references, and limitations.</small></a>
+  </div>
+  <details class="small-drawer evidence-library">
+    <summary>See research studies and methodology</summary>
+    <p>Published values are benefit-transfer references, not measured ecosystem services on a selected parcel. We do not combine social ecosystem-service values with City operating expenses.</p>
+    <ul>
+      <li><a href="https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf" target="_blank" rel="noopener noreferrer">Texas A&M AgriLife/AECOM 2025 ecosystem service values</a> — Texas literature synthesis, 2021 dollars.</li>
+      <li><a href="https://doi.org/10.1016/j.ufug.2023.127932" target="_blank" rel="noopener noreferrer">Paudel &amp; States (2023)</a> — lawns versus floral meadow ecosystem services.</li>
+      <li><a href="https://doi.org/10.3996/JFWM-20-075" target="_blank" rel="noopener noreferrer">Janke et al. (2021)</a> — modeled Corn Belt conversion costs, not Hays County quotes.</li>
+      <li><a href="https://doi.org/10.1016/j.jenvman.2026.129841" target="_blank" rel="noopener noreferrer">Hutchinson et al. (2026)</a> — constructed swales and basins near the Edwards Aquifer recharge zone.</li>
+      <li><a href="METHODOLOGY.md">Full calculator methods</a> · <a href="PUBLICATION_STANDARD.md">Scientific publication standard</a> · <a href="METHODS_GAPS_AND_RESEARCH_PLAN.md">Current research gaps</a>.</li>
+    </ul>
+    <p class="small">Original source index used by the calculator:</p>
+    <ul id="sourceList"></ul>
+  </details>
+</section>
+<footer class="footer">Nature Value Map · Hays County-first exploration · Research-backed examples, not guaranteed site outcomes.</footer>
 </main>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-<script src="app.js?v=6"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>
