@@ -18,3 +18,23 @@ label{display:block;font-weight:800;font-size:.84rem;color:#2c362c;margin-top:10
 #plainAnswer{overflow-wrap:anywhere}#sourceOut{overflow-wrap:anywhere}
 #mixError{color:#814b14;font-weight:700}
 @media(max-width:640px){.form-grid{grid-template-columns:1fr}.result-grid{grid-template-columns:1fr 1fr}.hero-card .big-number{font-size:2rem}}
+
+
+/* Evidence drilldown — compact service bars, text labels, no implied local measurements */
+.service-card{grid-column:1/-1}
+.service-rows{display:grid;gap:11px;margin-top:14px}
+.service-row{display:grid;grid-template-columns:minmax(155px,1.2fr) minmax(80px,2fr) 90px;align-items:center;gap:12px}
+.service-name{font-size:.92rem;font-weight:700}
+.service-track{height:13px;border-radius:100px;background:#e7eee4;overflow:hidden}
+.service-fill{display:block;height:100%;background:#527d59;border-radius:100px}
+.service-dollar{text-align:right;font-variant-numeric:tabular-nums;color:var(--green);white-space:nowrap}
+.service-origin{color:var(--muted);grid-column:1/-1;font-size:.78rem;margin-top:-8px}
+.service-summary{font-weight:850;color:var(--green)}
+.research-section{padding:8px 28px 24px}.research-header{margin-bottom:16px}.research-header h2{color:var(--green)}
+.research-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.research-tile{border:1px solid var(--line);background:var(--paper);border-radius:22px;padding:18px}
+.research-tile h3{color:var(--green);margin:.3rem 0 .6rem}.research-tile p{line-height:1.5}
+.tile-kicker{text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-size:.73rem;font-weight:800}
+.research-note{font-size:.9rem;line-height:1.5;padding:10px 0}
+@media(max-width:840px){.research-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.service-row{grid-template-columns:1.5fr 1fr 70px;gap:7px}.service-name{font-size:.82rem}.service-dollar{font-size:.8rem}.research-section{padding-left:14px;padding-right:14px}.mix-row::before{content:"Area percentage and land-cover category"}}

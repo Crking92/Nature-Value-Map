@@ -44,3 +44,39 @@ The habitat checklist is descriptive and not a calibrated ecological score. This
 5. Review and document uncertainties, applicability and corrected source figures before promoting references into parcel-specific estimates.
 
 A full per-category register is in [EVIDENCE_REGISTER.md](EVIDENCE_REGISTER.md).
+
+
+## 5. Reading the ecosystem-service breakdown (new)
+
+The site lists **published annual economic reference values per acre** from Texas A&M AgriLife/AECOM (2025), Table 3 and Appendix B for grasslands/prairies, and Table 1 and Appendix B for wetlands and urban green open space. These are not separate additional benefits; components already sum to the category's published total.
+
+Prairie component transcriptions (2021 USD/acre/year): climate regulation 236 (2 studies), flood-risk reduction 363 (1), food provisioning 129 (1), habitat 286 (1), recreation/tourism 95 (1), water supply 190 (2), water quality 330 (1), soil quality 312 (1). **Arithmetic validation:** sum 1,941.
+
+Wetland components from Table 1: aesthetics 921, climate 289, flood 4,349, food 1,988, habitat 3,792, recreation 1,271, water supply 5,937, water quality 401. **Sum: 18,948.** Treat highly cautiously for Hays County inland sites because the synthesis draws on heterogeneous wetland types and locations.
+
+Urban green open space components from Table 1: aesthetics 9,820, climate 2,891, flood 104, habitat 5,872, recreation 1,305. **Sum: 19,992.** Broad category; do not use as substitute for manicured turf or native prairie. Note the large proportion associated with aesthetic valuation.
+
+These sources combine multiple underlying valuation techniques and include nonmarket benefits. The source study counts for prairie are as reported in AECOM Table 3, **not** sample sizes or statistical confidence intervals. Absence of a monetized service (e.g. no pollination line item) does not mean there is no biological benefit.
+
+Other national fallback classes (woodland, riparian forest, rural green space) have no published-component drilldown in this release. No components are fabricated.
+
+## 6. Peer-reviewed comparison and physical model pathways
+
+- Paudel, S. & States, S.L. (2023). *Urban green spaces and sustainability: Exploring the ecosystem services and disservices of grassy lawns versus floral meadows*. Urban Forestry & Urban Greening 84:127932. https://doi.org/10.1016/j.ufug.2023.127932 — reviews ecological trade-offs; **no Hays-specific all-in turf $/acre/year value** established for this map.
+- Janke, A.K., Tyndall, J.C. & Bradbury, S.P. (2021). *Financial Analysis of Converting Rural Lawns to Pollinator Habitat in the Corn Belt*. Journal of Fish and Wildlife Management 12(1):151–162. https://doi.org/10.3996/JFWM-20-075 — modeled, discounted 10-year annualized conversion $54–$167/ac/year vs hired lawn $326–$1,034/ac/year, **2020 USD, Corn Belt**. Not used as a Hays County project quote or prefilled cost.
+- EPA National Stormwater Calculator: https://www.epa.gov/water-research/national-stormwater-calculator — estimates runoff based on mapped site conditions, historic precipitation and low-impact-development choices. EPA describes **under 12 acres** for hydrology analysis (screening use); do not invent gallons/acre or blindly extrapolate to larger parks.
+- USDA/Colorado State COMET-Planner: https://comet-planner.com/ — regional approximate mitigation estimates for suitable conservation-practice scenarios, by location, land use, implementation and acreage. Not universal urban turf conversion, not site-specific carbon measurement.
+- USDA NRCS Texas payment schedules: https://www.nrcs.usda.gov/state-offices/texas/payment-schedule — financial assistance amounts for eligible conservation practices; **not proof of actual municipal landscape-restoration expenditures**. Costs continue to require local quotes, invoices or clearly labeled user assumptions.
+
+### Next evidence-gathering criteria
+
+For a Hays County restoration cost: document project acreage, preparation method, seed/plants and labor, machinery, erosion control, irrigation, management frequency, maintenance timeline, reported dollar year and whether work is in-house or contracted. Separate establishment costs from recurring costs.
+
+For physical modeling: document site geometry, surface composition, soils/infiltration, slope, water inputs, target conservation practice, model version, unit basis, scenario assumptions, and credible uncertainty. Keep modeled physical results separate from economic benefit transfers to avoid monetizing the same service twice.
+
+
+### Additional mowing-rate sensitivity and input provenance
+
+The map now displays a **mowing-only difference range** calculated as acres × (current cuts − proposed cuts) × $40–$70 per acre per cut. Endpoints are sorted if the proposed cut frequency exceeds the current frequency. This is a **scenario sensitivity range**, not a statistical confidence interval, and excludes restoration costs. The main editable $55 example remains user-defined.
+
+A user can label restoration cost inputs as a planning assumption, an externally supplied quote/bid, or an invoice/work order and optionally enter a source note. These labels are **user reported, not independently verified** by the site. The annualized Janke (2021) Midwestern peer-reviewed study is contextual evidence only and is never automatically inserted into Hays County scenario inputs.
