@@ -16,6 +16,81 @@
     {id:'rural_green_open_space',label:'Other rural green space',icon:'🟩',value:10632,year:2021,source:'fema',eligible:true,warning:'Broad national fallback class; choose a more specific land-cover class when possible.'},
     {id:'urban_green_open_space',label:'Urban green open space',icon:'🏙️',value:19992,year:2021,source:'gift',eligible:true,warning:'Broad urban-green category has high overlap risk; do not use as a proxy for turf or native prairie.'}
   ];
+
+  // Direct transcriptions of AECOM 2025 Table 1 (report p.12) and Table 3 (p.22).
+  // A dash in the source is not a zero benefit; only listed, monetized categories appear here.
+  var SERVICE_COMPONENTS = {
+    native_prairie: [
+      {label:'Climate regulation',value:236,count:2,origin:'Conservation Fund (2022); Liu et al. (2022)'},
+      {label:'Flood and storm hazard reduction',value:363,count:1,origin:'Conservation Fund (2022)'},
+      {label:'Food provisioning',value:129,count:1,origin:'Liu et al. (2022)'},
+      {label:'Habitat',value:286,count:1,origin:'Liu et al. (2022)'},
+      {label:'Recreation / tourism',value:95,count:1,origin:'Liu et al. (2022)'},
+      {label:'Water supply',value:190,count:2,origin:'Conservation Fund (2022); Liu et al. (2022)'},
+      {label:'Water quality',value:330,count:1,origin:'Conservation Fund (2022)'},
+      {label:'Soil quality',value:312,count:1,origin:'Liu et al. (2022)'}
+    ],
+    wetland: [
+      {label:'Aesthetic value',value:921},
+      {label:'Climate regulation',value:289},
+      {label:'Flood and storm hazard reduction',value:4349},
+      {label:'Food provisioning',value:1988},
+      {label:'Habitat',value:3792},
+      {label:'Recreation / tourism',value:1271},
+      {label:'Water supply',value:5937},
+      {label:'Water quality',value:401}
+    ],
+    urban_green_open_space: [
+      {label:'Aesthetic value',value:9820},
+      {label:'Climate regulation',value:2891},
+      {label:'Flood and storm hazard reduction',value:104},
+      {label:'Habitat',value:5872},
+      {label:'Recreation / tourism',value:1305}
+    ]
+  };
+  // Fail closed if source-table subtotals and saved benchmark ever become inconsistent.
+  Object.keys(SERVICE_COMPONENTS).forEach(function(id){
+    var total=SERVICE_COMPONENTS[id].reduce(function(s,c){return s+c.value;},0);
+    if(total!==CLASSES.find(function(c){return c.id===id;}).value){
+      throw new Error('Evidence table and valuation mismatch: '+id);
+    }
+  });
+  function buildServiceBreakdown(){
+    var holder=el('serviceBreakdown');holder.textContent='';
+    var note=el('serviceFootnote');
+    if(mixed){
+      holder.textContent='Select a single land-cover category to inspect its original study components. Mixed-area totals are sums of separate categories and should not be interpreted as one study.';
+      note.textContent='';return;
+    }
+    var rows=SERVICE_COMPONENTS[selected];
+    if(!rows){
+      holder.textContent=cls(selected).eligible?
+        'The original national fallback is not itemized in this release. See the FEMA source before relying on this broad category.':
+        'No general land-cover economic breakdown is established for this category.';
+      note.textContent='';return;
+    }
+    var total=cls(selected).value;
+    var container=document.createElement('div');container.className='service-rows';
+    rows.slice().sort(function(a,b){return b.value-a.value;}).forEach(function(d){
+      var row=document.createElement('div');row.className='service-row';
+      var name=document.createElement('div');name.className='service-name';name.textContent=d.label;
+      var track=document.createElement('div');track.className='service-track';
+      var fill=document.createElement('span');fill.className='service-fill';fill.style.width=(d.value/total*100)+'%';track.appendChild(fill);
+      var moneyBox=document.createElement('strong');moneyBox.className='service-dollar';moneyBox.textContent=money(d.value);
+      row.append(name,track,moneyBox);
+      if(d.count){
+        var meta=document.createElement('small');meta.className='service-origin';meta.textContent=d.count+' contributing '+(d.count===1?'study':'studies')+': '+d.origin;row.appendChild(meta);
+      }
+      container.appendChild(row);
+    });
+    var summary=document.createElement('p');summary.className='service-summary';summary.textContent='Published component sum: '+money(total)+' per acre per year (2021 USD).';
+    holder.append(container,summary);
+    var source=document.createElement('a');source.href=STUDIES.gift.url;source.target='_blank';source.rel='noopener noreferrer';
+    source.textContent=selected==='native_prairie'?'Texas A&M/AECOM Table 3 and Appendix B':'Texas A&M/AECOM Table 1 and Appendix B';
+    note.textContent='Only the monetized services listed in the report are itemized. Unvalued categories (such as pollination in the prairie synthesis) are not zero ecological benefits. ';
+    note.appendChild(source);
+  }
+
   var selected = 'native_prairie';
   var mixed = false;
   var feature = null;
@@ -106,6 +181,7 @@
     set('mixError',mixed?ref.message:'');
     var count=document.querySelectorAll('.habitat-check:checked').length;
     set('habitatOut',count+' of 4 observations selected. These notes do not change monetary estimates; this is not a validated ecological condition score.');
+    buildServiceBreakdown();
     finances(acres);
   }
   function buildSources(){var list=el('sourceList');list.textContent='';Object.keys(STUDIES).forEach(function(k){var li=document.createElement('li');link(li,STUDIES[k]);list.appendChild(li);});}
