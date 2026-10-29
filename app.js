@@ -132,6 +132,9 @@
   function calculateReference(acres){
     if(acres===null){return {value:null,rate:null,message:'Enter a valid non-negative area.'};}
     if(!mixed){var c=cls(selected);if(!c.eligible || c.value===null){return {value:null,rate:null,message:c.warning};}
+      if(el('siteSetting').value==='engineered' && (selected==='wetland'||selected==='riparian_forest')){
+        return {value:null,rate:null,message:'This user-described engineered drainage area has not been verified as natural wetland or riparian forest. The selected benchmark is withheld. Reclassify the actual habitat or obtain a site assessment.'};
+      }
       return {value:acres*c.value,rate:c.value,message:c.warning};
     }
     var pctSum=0,total=0,invalid='';
