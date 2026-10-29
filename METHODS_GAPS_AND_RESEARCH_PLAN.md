@@ -78,3 +78,8 @@ The automated test file \`tests/verify-scenarios.cjs\` checks calculator behavio
 ## Implemented reproducibility example — Waterleaf Park (October 2026)
 
 A [public evidence walkthrough](assessment.html) and [structured source data](site-assessments/waterleaf-evidence.json) show an actual Kyle restoration initiative while withholding site outcome numbers not supported by comparable field data, budget records or model runs. The [blank site template](site-assessments/site-template.json) records unknown data as `null` and requires future reviewer evidence. The separate [site guide](site-assessments/README.md) explains the controlled update process. No field-measured runoff or quantified ecosystem restoration gain has been claimed or inferred from the City's activity reports.
+
+
+## Field-data collection module implemented (October 2026)
+
+The [Hays County monitoring form](field-assessment.html) and [adapted first-hit protocol](FIELD_MONITORING_PROTOCOL.md) capture stable site/transect IDs, sample design, recorded first-hit point counts, native-status source checks, surface observations, and photo references. CSV/JSON exports are sample-level evidence, **not** full BLM AIM or NatureServe ecological-integrity assessments, not demonstrated improvement and not model input certainty. Baseline/follow-up comparability and representative sampling are prerequisites for ecological outcome claims.
