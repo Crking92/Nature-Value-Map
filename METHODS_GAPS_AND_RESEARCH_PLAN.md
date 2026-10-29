@@ -73,3 +73,8 @@ The automated test file \`tests/verify-scenarios.cjs\` checks calculator behavio
 **External hydrology model output comparison:** accepts existing/proposed annual runoff depth from a documented external model, requires comparable site/climate assumptions and performs only an acre-inch volume conversion. It is **not a SWMM integration**, not a new native meadow hydrology study, and not a verified or measured runoff reduction. See [runoff model protocol](RUNOFF_MODEL_PROTOCOL.md).
 
 **Next scientific phase:** independently review site-specific rainfall/soils and model results; build distinct current/proposed mowing rates and price-year normalization. The research prerequisites for carbon stock versus flux and native vegetation/host-plant monitoring are now documented in [CARBON_EVIDENCE_PROTOCOL.md](CARBON_EVIDENCE_PROTOCOL.md) and [HABITAT_MONITORING_PROTOCOL.md](HABITAT_MONITORING_PROTOCOL.md). These are not yet numeric calculators.
+
+
+## Implemented reproducibility example — Waterleaf Park (October 2026)
+
+A [public evidence walkthrough](assessment.html) and [structured source data](site-assessments/waterleaf-evidence.json) show an actual Kyle restoration initiative while withholding site outcome numbers not supported by comparable field data, budget records or model runs. The [blank site template](site-assessments/site-template.json) records unknown data as `null` and requires future reviewer evidence. The separate [site guide](site-assessments/README.md) explains the controlled update process. No field-measured runoff or quantified ecosystem restoration gain has been claimed or inferred from the City's activity reports.
