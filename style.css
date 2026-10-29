@@ -38,3 +38,14 @@ label{display:block;font-weight:800;font-size:.84rem;color:#2c362c;margin-top:10
 .research-note{font-size:.9rem;line-height:1.5;padding:10px 0}
 @media(max-width:840px){.research-grid{grid-template-columns:1fr}}
 @media(max-width:560px){.service-row{grid-template-columns:1.5fr 1fr 70px;gap:7px}.service-name{font-size:.82rem}.service-dollar{font-size:.8rem}.research-section{padding-left:14px;padding-right:14px}.mix-row::before{content:"Area percentage and land-cover category"}}
+
+/* Evidence-only modeling input; existing map styles intentionally unchanged */
+.cost-detail{border:1px solid var(--line);border-radius:16px;padding:12px;margin:14px 0;background:#fcfbf8}
+.cost-detail summary{font-weight:800;cursor:pointer}
+.cost-detail .check,.runoff-module .check{display:flex;align-items:flex-start;gap:9px;margin:12px 0;font-weight:650;line-height:1.45}
+.cost-detail .check input,.runoff-module .check input{width:auto;min-width:18px;margin-top:3px}
+.runoff-module{padding:0 28px 22px}
+.runoff-module .result-card{padding:22px}
+.runoff-module h2{color:var(--green)}
+.runoff-module p{line-height:1.55}
+@media(max-width:640px){.runoff-module{padding:0 14px 18px}}
