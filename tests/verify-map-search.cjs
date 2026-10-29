@@ -48,7 +48,9 @@ assert.ok(!src.includes('oninput=')&&!src.includes('autocomplete search'),'Searc
 assert.ok(wf.includes('node tests/verify-map-search.cjs'),'CI must test map search');
 
 class El {
- constructor(){this.value='';this.textContent='';this.style={};this.children=[];this.listeners={};this.attrs={};this.className='';this.disabled=false;this.checked=false;}
+ constructor(){this.value='';this._text='';this.style={};this.children=[];this.listeners={};this.attrs={};this.className='';this.disabled=false;this.checked=false;}
+ get textContent(){return this._text;}
+ set textContent(v){this._text=String(v);this.children=[];}
  append(...c){this.children.push(...c);}
  appendChild(c){this.children.push(c);}
  get firstChild(){return this.children[0]||null;}
