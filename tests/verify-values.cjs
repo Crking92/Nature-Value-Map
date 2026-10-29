@@ -51,6 +51,7 @@ for(const [id,services] of Object.entries(expectedServices)){
 assert.equal(SERVICE_COMPONENTS.forest,undefined,'Do not fabricate forest study decomposition');
 assert.equal(SERVICE_COMPONENTS.turf_estimate,undefined,'Turf monetary decomposition not established');
 assert.ok(!source.includes('selectedQuality'),'Unsupported quality multiplier reintroduced');
+assert.ok(source.includes("selected==='wetland'||selected==='riparian_forest'"),'Engineered drainage incompatible-class guard removed');
 assert.ok(source.includes('c.year!==2021'),'Incompatible mixed monetary years no longer blocked');
 assert.ok(source.includes('install===null||care===null'),'Unknown restoration costs no longer withheld');
 const fallbackRounded = {
