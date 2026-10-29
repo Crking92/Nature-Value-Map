@@ -95,3 +95,12 @@ See [HAYS_APPLICABILITY_2026.md](HAYS_APPLICABILITY_2026.md). The optional site 
 ## Source validation before any new public number
 
 The [Numerical Publication Standard](PUBLICATION_STANDARD.md) governs future releases. Every value needs original-source table/units/year, ecosystem applicability, baseline comparison when describing gains, and overlap/uncertainty review. The $1,941 2021-dollar prairie benchmark is **not** a Waterleaf annual incremental benefit. Waterleaf poster financial figures were reported estimates and are excluded from model defaults pending a reproducible actual-cost and site-benefit study. Municipal cash savings and social ecosystem benefits remain distinct.
+
+
+## October 2026 safeguards — exploratory references versus site claims
+
+The website now **withholds area-scaled ecosystem-dollar figures until the user explicitly acknowledges** that these are generic published planning references, not measurements and not added ecosystem-service gains from restoration. The underlying study's per-acre reference and sources remain visible without acknowledgment; switching land-cover categories or between single and mixed modes clears acknowledgment. This confirmation documents understanding only and **does not certify** the site or convert a transferred study value into a reliable parcel estimate.
+
+Mixed-cover percentages start blank, must total 100% and must represent disjoint areas. Previously, mixed-cover calculations could bypass the engineered-drainage wetland/riparian safeguard; the same safeguard is now applied to every nonzero mixed-cover row. No wetlands or riparian reference is transferred to user-described engineered drainage through either path.
+
+The 10-year cost result is explicitly an **undiscounted hypothetical cash-cost difference**, not benefit-cost analysis or net present value. Other restoration-management input explicitly excludes mowing already entered in the proposed mowing line. To use actual invoices in an economic comparison, normalize expenses to the same price year and apply an explained discounting method. The main 2021 USD ecosystem references must not be added to different-year cash expenses.

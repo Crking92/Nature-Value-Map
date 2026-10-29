@@ -82,3 +82,8 @@ The internal land-management tracking workbook records **1.86 acres / 40 lb** of
 ## October 2026 stronger release gate for unverified local financial claims
 
 Read [Numerical Publication Standard](PUBLICATION_STANDARD.md). The Waterleaf poster's figures are **historical reported estimates without independently reproducible calculation support** and do **not** qualify as local calibration or live calculator defaults. Related project work logs corroborate recorded seeding activity, not an ecosystem-dollar return. A coincidentally matching research estimate must not be used to backfill an unverified project claim. Restoration incremental benefits require a valid comparable baseline; known research benchmarks are not incremental gains by themselves.
+
+
+## October 2026 defensibility safeguard in user experience
+
+Area-scaled study-dollar figures now require an explicit research-use acknowledgement. This is a **communication and input-use safeguard, not scientific certification**. The same engineered-drainage exclusion applies to wetland/riparian references in single and mixed cover, and no mixed-area percentages are prefilled. The published per-acre source figures and service breakdown remain visible without showing a parcel-level total. See [METHODS_GAPS_AND_RESEARCH_PLAN.md](METHODS_GAPS_AND_RESEARCH_PLAN.md) for site-specific model prerequisites, USGS land-cover accuracy and claim eligibility.
