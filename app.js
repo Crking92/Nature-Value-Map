@@ -147,6 +147,34 @@
     if(invalid){return {value:null,rate:null,message:invalid};}
     return {value:total,rate:acres>0?total/acres:0,message:'Mixed-cover reference assumes distinct, non-overlapping areas. Broad categories must not be counted alongside more specific categories over the same land.'};
   }
+
+  function updateSiteFit() {
+    var setting=el('siteSetting').value;
+    var kind=mixed?'mixed':selected;
+    var msg='';
+    if(setting==='unknown') msg='Site setting not independently checked. The published dollar figure is a planning benchmark, not a site-verified estimate.';
+    else if(kind==='wetland' || kind==='riparian_forest'){
+      msg=setting==='wetland' && kind==='wetland'?
+        'You reported a field-confirmed inland wetland. The statewide wetland synthesis includes other wetland types and is still not validated for this parcel.':
+        setting==='riparian' && kind==='riparian_forest'?
+        'You reported a riparian area. The published national riparian value is still not a measurement of this stream corridor.':
+        'Potential mismatch: this class requires verified wetland or riparian habitat, not merely nearby water or an engineered drainage structure.';
+    } else if(setting==='engineered') {
+      msg='Engineered drainage swales and detention basins are not automatically wetlands, native prairies, or natural floodplains. Require observed vegetation, soils and hydrology; no source-derived local $/acre is established.';
+    } else if(kind==='native_prairie') {
+      msg=setting==='edwards'?
+        'Edwards Plateau soils and vegetation can differ substantially from the prairie source studies. This remains a regional reference only.':
+        setting==='blackland'?
+        'Blackland Prairie is a plausible regional comparison if actual native grassland cover is present, but soils, maturity and ecological function are not measured by this tool.':
+        'The selected site type alone does not establish the presence or maturity of native prairie vegetation.';
+    } else if(kind==='turf_estimate'||kind==='non_native_grass'){
+      msg='No general Hays County ecosystem-service valuation is available for this selection. Mowing-cost scenarios can still be calculated separately.';
+    } else {
+      msg='Even with the site setting selected, the published land-cover category is a conditional state or national reference, not a measured Hays County parcel value.';
+    }
+    set('siteFitOut',msg+' Site setting was entered by the user; it is not verified against soil or vegetation maps.');
+  }
+
   function finances(acres){
     var rate=number('mowCost'),before=number('mowsCurrent'),after=number('mowsProposed');
     var install=number('installCost'),care=number('careCost');
@@ -185,6 +213,7 @@
     set('mixError',mixed?ref.message:'');
     var count=document.querySelectorAll('.habitat-check:checked').length;
     set('habitatOut',count+' of 4 observations selected. These notes do not change monetary estimates; this is not a validated ecological condition score.');
+    updateSiteFit();
     buildServiceBreakdown();
     finances(acres);
   }
