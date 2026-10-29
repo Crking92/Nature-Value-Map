@@ -49,3 +49,155 @@ label{display:block;font-weight:800;font-size:.84rem;color:#2c362c;margin-top:10
 .runoff-module h2{color:var(--green)}
 .runoff-module p{line-height:1.55}
 @media(max-width:640px){.runoff-module{padding:0 14px 18px}}
+
+
+/* Nature Value Map 2.0 — simple progressive explorer homepage.
+   The older page-specific styling remains for assessment/field tools. */
+.explorer-page{background:#f8f8f1;color:#223027}
+.explorer-page main{max-width:1320px}
+.skip-link{position:absolute;top:-100px;left:16px;z-index:10000;padding:12px 16px;background:#fff;color:#173f2a;border:2px solid #245d3a;border-radius:9px}
+.skip-link:focus{top:10px}
+.explorer-hero.hero{display:block;padding:0 38px 34px;background:radial-gradient(circle at 92% 22%,#dceacc 0,transparent 31%),linear-gradient(120deg,#eef4e7,#faf9ef);border-radius:0 0 34px 34px;box-shadow:none}
+.top-nav{min-height:68px;display:flex;justify-content:space-between;align-items:center;gap:14px;border-bottom:1px solid #d8e2d2;font-weight:750}
+.top-nav .brand{color:#26593a;text-decoration:none;font-size:1.15rem;font-weight:850}
+.top-nav a:not(.brand){color:#4d694f;font-size:.9rem;text-underline-offset:3px}
+.hero-intro{max-width:820px;padding:48px 0 8px}
+.hero-intro h1{font-size:clamp(2.5rem,6vw,5rem);line-height:1.02;letter-spacing:-.045em;margin:7px 0 15px}
+.hero-intro .hero-copy{font-size:clamp(1.02rem,2.1vw,1.32rem);line-height:1.55;color:#4b614e;max-width:740px}
+.hero-intro .gentle-note{margin:14px 0 0;color:#667667}
+.start-link{display:inline-flex;gap:17px;align-items:center;background:#2b613d;color:white;text-decoration:none;border-radius:999px;padding:15px 21px;font-weight:800;box-shadow:0 8px 18px rgba(30,79,41,.12);margin-top:6px}
+.start-link:hover{background:#20492d}
+.start-link:focus-visible,.explorer-page button:focus-visible,.explorer-page summary:focus-visible,.explorer-page input:focus-visible,.explorer-page select:focus-visible{outline:3px solid #b07333;outline-offset:3px}
+.simple-stage,.discovery,.research-footer{padding:35px 38px}
+.section-heading{max-width:760px;margin:0 0 23px}
+.section-heading .eyebrow{margin:0 0 5px}
+.section-heading h2{font-size:clamp(1.65rem,3vw,2.45rem);margin:0 0 4px;letter-spacing:-.025em;color:#234b31}
+.section-heading>p:last-child{margin:0;color:#627064;font-size:1rem;line-height:1.5}
+.onboard-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:20px;align-items:start}
+.explorer-page .step-card.simple-card{padding:25px;border:1px solid #dfebd9;border-radius:24px;box-shadow:0 7px 22px rgba(33,69,37,.055);background:#fffefa}
+.simple-card h3{font-size:1.65rem;color:#254c34;margin:6px 0 15px;letter-spacing:-.02em}
+.step-kicker{text-transform:uppercase;letter-spacing:.09em;font-size:.75rem;color:#568266;font-weight:850;margin:0}
+.simple-card label{font-size:.95rem;color:#435746;margin-top:14px}
+.acre-control{position:relative;display:flex;align-items:center;gap:10px}
+.acre-control input{max-width:210px;font-size:2rem;font-weight:850;padding:13px 14px;border:2px solid #a3b8a0;border-radius:16px;background:white;color:#274a30}
+.acre-control>span{font-size:1rem;color:#6f816e;font-weight:750}
+.quick-acres{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 7px}
+.explorer-page .quick-acres button{border:1px solid #cbdcc6;background:#f1f7ed;color:#2b5a36;border-radius:999px;padding:9px 14px;font-size:.9rem;font-weight:750}
+.explorer-page .quick-acres button:hover{background:#daead3}
+.explorer-page .land-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.explorer-page .land-card{min-height:97px;border-radius:17px;border:1.5px solid #dce8d7;background:#f9fbf5;padding:12px;transition:background .15s,border-color .15s,transform .15s;box-shadow:none}
+.explorer-page .land-card:hover{border-color:#98b59c;background:#f0f8ed;transform:translateY(-2px)}
+.explorer-page .land-card.selected{background:#e5f1df;border:2px solid #3e7e4b;box-shadow:inset 0 0 0 1px #b6d5b8}
+.explorer-page .land-card[hidden]{display:none!important}
+.explorer-page .land-card .icon{font-size:1.65rem}
+.explorer-page .land-card strong{font-size:.9rem;line-height:1.25}
+.explorer-page .land-card small{font-size:.76rem}
+.explorer-page .more-link{background:transparent;border:0;color:#285b3b;padding:10px 0 3px;text-align:left;font-weight:850;cursor:pointer}
+.explorer-page .subtle{color:#788579;font-size:.82rem;margin:11px 0 0}
+.explorer-page .drawer{margin:17px 0 0;border-top:1px solid #e1e8dc;padding-top:13px}
+.explorer-page summary{cursor:pointer;font-weight:800;color:#2e5c40}
+.explorer-page .map-drawer summary{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:7px;font-size:.95rem}
+.explorer-page .map-drawer summary small{font-size:.76rem;color:#748479;font-weight:500}
+.explorer-page .map-drawer .map-wrap{margin-top:17px;min-height:380px;overflow:hidden;border-radius:15px}
+.explorer-page .map-drawer #map{height:430px;min-height:430px;width:100%}
+.explorer-page .map-drawer .map-help{max-width:280px;left:8px;bottom:8px;font-size:.78rem;padding:8px;background:#fffcf4eb}
+.explorer-page .map-drawer .soft{margin-top:12px}
+.compare-card{background:#fffefa;border:1px solid #d6e5d4;border-radius:25px;padding:26px;margin-top:22px;box-shadow:0 9px 25px rgba(33,69,37,.05)}
+.compare-intro{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:17px}
+.compare-intro h3{font-size:1.8rem;margin:5px 0 0;color:#254c34;letter-spacing:-.025em}
+.compare-intro>p{max-width:320px;color:#637363;margin:0;font-size:.95rem}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.comparison-half{background:#f3f2e9;border:1px solid #e4e3d8;border-radius:19px;padding:18px}
+.after-half{background:#eff7ed;border-color:#d8e9d8}
+.comparison-illustration{height:100px;border-radius:13px;display:flex;align-items:end;justify-content:center;padding-bottom:15px;font-size:2.7rem}
+.before-illustration{background:repeating-linear-gradient(90deg,#d5e7bd 0,#d5e7bd 16px,#c4d9a7 16px,#c4d9a7 32px)}
+.after-illustration{background:linear-gradient(#dcecd5,#cae2c4 80%,#b4d09b)}
+.comparison-label{font-size:.77rem;font-weight:850;letter-spacing:.04em;text-transform:uppercase;margin:14px 0 8px;color:#617564}
+.comparison-half label{font-weight:750;font-size:.96rem;display:flex;align-items:center;justify-content:space-between;gap:6px;margin:4px 0}
+.comparison-half output{font-size:1.35rem;color:#2b613d;font-weight:900;font-variant-numeric:tabular-nums}
+.explorer-page input[type="range"]{width:100%;padding:0;height:31px;accent-color:#2e6c42;cursor:pointer;border:0;background:transparent}
+.comparison-cost{border-top:1px solid #d3ddcd;padding-top:13px;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px}
+.comparison-cost span{font-size:.86rem;color:#617464}
+.comparison-cost strong{color:#294e37;font-size:1.25rem;font-variant-numeric:tabular-nums}
+.example-rate{display:flex;align-items:center;flex-wrap:wrap;gap:8px 13px;margin:20px 0 18px}
+.example-rate>label{margin:0;font-size:.9rem;color:#495a4c}
+.example-rate small{color:#778579;font-size:.8rem;line-height:1.35;flex-basis:100%}
+.price-control{display:flex;align-items:center;gap:2px;background:#f4f7f1;border:1px solid #d7e5d2;border-radius:11px;padding-left:12px}
+.price-control span{font-weight:800}
+.price-control input{width:75px;border:0;background:transparent;font-weight:850;margin:0;padding:8px 10px 8px 1px;font-size:1.1rem}
+.quick-result{display:flex;justify-content:space-between;align-items:center;gap:25px;background:#264f35;color:white;padding:22px 24px;border-radius:18px}
+.quick-result .eyebrow{color:#cde9c9}
+.quick-result strong{display:block;font-size:clamp(2rem,4.5vw,3.4rem);line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.quick-result p:last-child{color:#e1ecdf;margin:9px 0 0;font-size:.89rem}
+.result-side{display:flex;flex-direction:column;gap:7px;max-width:230px;font-size:.81rem;color:#d6e6d5;line-height:1.4}
+.result-actions{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin:13px 0}
+.explorer-page .share-button{background:#e6efe2;color:#28583b;border-radius:12px;padding:10px 15px}
+#shareStatus{color:#4a694e;font-size:.85rem}
+.explorer-page .small-drawer{border-top:1px solid #e2eadf;padding:12px 0 2px;margin:13px 0 0}
+.explorer-page .small-drawer>summary{color:#325f43}
+.explorer-page .small-drawer p,.explorer-page .drawer-content p{line-height:1.55}
+.discovery{padding-top:17px}
+.explore-drawer{background:#fffefa;border:1px solid #dde9da;border-radius:19px;margin:11px 0;box-shadow:0 4px 10px rgba(43,84,47,.035);overflow:hidden}
+.explore-drawer>summary{list-style:none;display:flex;align-items:center;gap:16px;padding:19px 21px;cursor:pointer}
+.explore-drawer>summary::-webkit-details-marker{display:none}
+.explore-drawer>summary:after{content:"+";margin-left:auto;font-size:1.5rem;color:#448158}
+.explore-drawer[open]>summary:after{content:"−"}
+.drawer-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:#edf4e9;font-size:1.3rem;flex:none}
+.drawer-title{display:flex;flex-direction:column;gap:3px;line-height:1.3}
+.drawer-title strong{color:#295139;font-size:1.02rem}
+.drawer-title small{font-weight:450;color:#798779;font-size:.83rem}
+.drawer-content{padding:0 23px 22px 81px;max-width:1000px}
+.drawer-content>p:first-child{margin-top:3px;color:#5b685b}
+.drawer-content .editable-value-box{margin:12px 0}
+.drawer-content .result-grid{margin:14px 0}
+.drawer-content .research-confirm{background:#f2f7ed;border-radius:14px;padding:14px;margin:12px 0}
+.drawer-content .research-confirm label{margin:0;line-height:1.5;font-size:.9rem}
+.drawer-content .form-grid{margin:14px 0}
+.drawer-content .check{display:flex;align-items:start;gap:9px;margin:10px 0}
+.drawer-content .check input{flex:none;width:17px;min-width:17px;height:17px;margin:4px 0 0}
+.drawer-content .cost-detail{margin:16px 0}
+.drawer-content .benefits{margin-bottom:20px}
+.drawer-content .visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.research-footer{padding-top:20px}
+.research-footer>h2{color:#234b31;font-size:1.75rem}
+.research-footer>p{color:#667568}
+.resource-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin:16px 0}
+.resource-cards>a{background:#fffefa;border:1px solid #dce7d6;text-decoration:none;color:#2d5138;padding:20px;border-radius:17px;display:flex;flex-direction:column;gap:6px;min-height:156px}
+.resource-cards>a:hover{border-color:#8eaf88;background:#f5faf1}
+.resource-cards span{font-size:1.7rem}
+.resource-cards strong{font-size:1.07rem}
+.resource-cards small{font-size:.87rem;color:#637569;line-height:1.5}
+.evidence-library{margin-top:20px}
+.evidence-library li{margin:8px 0;line-height:1.5}
+.explorer-page .footer{text-align:center;padding:26px 38px 35px;color:#6b786d}
+@media(max-width:850px){
+ .explorer-hero.hero{padding:0 22px 25px}
+ .hero-intro{padding:31px 0 8px}
+ .simple-stage,.discovery,.research-footer{padding:25px 22px}
+ .onboard-grid{grid-template-columns:1fr}
+ .drawer-content{padding-left:22px}
+}
+@media(max-width:650px){
+ .explorer-hero.hero{padding:0 16px 21px;border-radius:0 0 22px 22px}
+ .top-nav{min-height:58px}
+ .hero-intro{padding-top:28px}
+ .simple-stage,.discovery,.research-footer{padding:24px 14px}
+ .explorer-page .step-card.simple-card,.compare-card{padding:17px}
+ .compare-intro{display:block}
+ .compare-intro>p{margin-top:8px}
+ .before-after{grid-template-columns:1fr;gap:9px}
+ .comparison-illustration{height:67px;font-size:2.2rem}
+ .comparison-half{padding:13px}
+ .quick-result{display:block;padding:20px}
+ .result-side{max-width:100%;margin-top:10px}
+ .explorer-page .land-cards{grid-template-columns:1fr 1fr}
+ .explorer-page .land-card{padding:10px;min-height:91px}
+ .explore-drawer>summary{padding:15px 13px;gap:10px}
+ .drawer-icon{width:38px;height:38px}
+ .drawer-title strong{font-size:.92rem}
+ .drawer-title small{font-size:.78rem}
+ .drawer-content{padding:0 15px 20px}
+ .resource-cards{grid-template-columns:1fr}
+ .resource-cards>a{min-height:0}
+}
+@media(prefers-reduced-motion:reduce){.explorer-page *, .explorer-page *:before,.explorer-page *:after{scroll-behavior:auto!important;transition:none!important}}
