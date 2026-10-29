@@ -73,3 +73,10 @@ Other national fallback classes (woodland, riparian forest, rural green space) h
 For a Hays County restoration cost: document project acreage, preparation method, seed/plants and labor, machinery, erosion control, irrigation, management frequency, maintenance timeline, reported dollar year and whether work is in-house or contracted. Separate establishment costs from recurring costs.
 
 For physical modeling: document site geometry, surface composition, soils/infiltration, slope, water inputs, target conservation practice, model version, unit basis, scenario assumptions, and credible uncertainty. Keep modeled physical results separate from economic benefit transfers to avoid monetizing the same service twice.
+
+
+### Additional mowing-rate sensitivity and input provenance
+
+The map now displays a **mowing-only difference range** calculated as acres × (current cuts − proposed cuts) × $40–$70 per acre per cut. Endpoints are sorted if the proposed cut frequency exceeds the current frequency. This is a **scenario sensitivity range**, not a statistical confidence interval, and excludes restoration costs. The main editable $55 example remains user-defined.
+
+A user can label restoration cost inputs as a planning assumption, an externally supplied quote/bid, or an invoice/work order and optionally enter a source note. These labels are **user reported, not independently verified** by the site. The annualized Janke (2021) Midwestern peer-reviewed study is contextual evidence only and is never automatically inserted into Hays County scenario inputs.
