@@ -57,3 +57,8 @@ Wetland study values have high ecological and geographic heterogeneity; urban gr
 ## Publication and scientific limitations
 
 No Hays County-specific turf ecosystem-dollar default, no unmeasured carbon tonnes or runoff gallons, and no statistical CI on the low/high synthetic benefit-transfer ranges. Ineligible land-cover cases remain blank. Research context is always distinguished from verified model inputs.
+
+
+## 2026-10-29 independent transcription/eligibility audit
+
+See [SOURCE_AUDIT_2026-10-29.md](SOURCE_AUDIT_2026-10-29.md) for original table/page references, component-by-component reconciliation, FEMA rounding discrepancies, source-quality limitations, and publication rules. All values remain published **references**, not measured property outcomes. Automated regression verification: `node tests/verify-values.cjs`.

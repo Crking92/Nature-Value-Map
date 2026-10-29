@@ -80,3 +80,8 @@ For physical modeling: document site geometry, surface composition, soils/infilt
 The map now displays a **mowing-only difference range** calculated as acres × (current cuts − proposed cuts) × $40–$70 per acre per cut. Endpoints are sorted if the proposed cut frequency exceeds the current frequency. This is a **scenario sensitivity range**, not a statistical confidence interval, and excludes restoration costs. The main editable $55 example remains user-defined.
 
 A user can label restoration cost inputs as a planning assumption, an externally supplied quote/bid, or an invoice/work order and optionally enter a source note. These labels are **user reported, not independently verified** by the site. The annualized Janke (2021) Midwestern peer-reviewed study is contextual evidence only and is never automatically inserted into Hays County scenario inputs.
+
+
+## Data QA and source traceability
+
+The [2026-10-29 source audit](SOURCE_AUDIT_2026-10-29.md) records original page/table provenance, monetary years, applicability restrictions and component-sum checks for all eight classes. To detect unreviewed data changes, run `node tests/verify-values.cjs` after touching any value or component. This verifies the website against reviewed source transcriptions; it does **not** turn benefit transfers into site measurements or scientifically validate land-cover selection.
