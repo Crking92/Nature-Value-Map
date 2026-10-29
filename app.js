@@ -104,17 +104,26 @@
   function set(id,value){el(id).textContent=value;}
   function link(container,info){while(container.firstChild){container.removeChild(container.firstChild);}
     if(!info){return;}var a=document.createElement('a');a.href=info.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=info.label;container.appendChild(a);}
-  var map=L.map('map',{scrollWheelZoom:false}).setView([29.9891,-97.8772],12);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:20,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
-  var drawn=new L.FeatureGroup();map.addLayer(drawn);
-  map.addControl(new L.Control.Draw({draw:{polygon:{allowIntersection:false,showArea:true},rectangle:true,polyline:false,circle:false,marker:false,circlemarker:false},edit:{featureGroup:drawn}}));
-  map.on(L.Draw.Event.CREATED,function(e){drawn.clearLayers();layer=e.layer;drawn.addLayer(layer);feature=layer.toGeoJSON();update();});
-  map.on(L.Draw.Event.EDITED,function(e){e.layers.eachLayer(function(x){layer=x;feature=x.toGeoJSON();});update();});
-  map.on(L.Draw.Event.DELETED,function(){feature=null;layer=null;update();});
+  // The map is optional. Missing mapping scripts must never break the calculator.
+  var map=null,drawn={clearLayers:function(){}};
+  if(typeof L!=='undefined' && typeof L.map==='function' && L.FeatureGroup && L.Control && L.Control.Draw && L.Draw){
+    try {
+      map=L.map('map',{scrollWheelZoom:false}).setView([29.9891,-97.8772],12);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:20,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+      drawn=new L.FeatureGroup();map.addLayer(drawn);
+      map.addControl(new L.Control.Draw({draw:{polygon:{allowIntersection:false,showArea:true},rectangle:true,polyline:false,circle:false,marker:false,circlemarker:false},edit:{featureGroup:drawn}}));
+      map.on(L.Draw.Event.CREATED,function(e){drawn.clearLayers();layer=e.layer;drawn.addLayer(layer);feature=layer.toGeoJSON();update();});
+      map.on(L.Draw.Event.EDITED,function(e){e.layers.eachLayer(function(x){layer=x;feature=x.toGeoJSON();});update();});
+      map.on(L.Draw.Event.DELETED,function(){feature=null;layer=null;update();});
+    }catch(error){
+      map=null;drawn={clearLayers:function(){}};feature=null;layer=null;
+    }
+  }
+  if(!map){set('areaHelp','Map tools could not load. You can still choose a preset acreage or type your own.');}
   el('clearBtn').addEventListener('click',function(){drawn.clearLayers();feature=null;layer=null;update();});
   // The map is optional and initially collapsed. Fix Leaflet's size only after opening it.
   el('mapDetails').addEventListener('toggle',function(e){
-    if(e.target.open){setTimeout(function(){map.invalidateSize();},100);}
+    if(e.target.open&&map&&typeof map.invalidateSize==='function'){setTimeout(function(){map.invalidateSize();},100);}
   });
   // A manual acreage edit overrides and clears any previously drawn polygon.
   el('manualAcres').addEventListener('input',function(){
@@ -161,7 +170,7 @@
       set('shareStatus','Copied, including assumptions and limitations.');
     }).catch(function(){set('shareStatus','Copy permission was blocked.');});
   });
-  function area(){if(feature){var a=turf.area(feature)*0.00024710538146717;return Number.isFinite(a)&&a>=0?a:null;}return number('manualAcres');}
+  function area(){if(feature){if(typeof turf==='undefined'||!turf||typeof turf.area!=='function')return null;var a=turf.area(feature)*0.00024710538146717;return Number.isFinite(a)&&a>=0?a:null;}return number('manualAcres');}
   function buildCards(){var holder=el('landCards');holder.textContent='';CLASSES.forEach(function(c){
     var b=document.createElement('button');b.type='button';b.className='land-card'+(selected===c.id?' selected':'');
     b.setAttribute('aria-pressed',String(selected===c.id));
@@ -300,7 +309,7 @@
     set('areaOut',acres===null?'Check acreage':acres.toLocaleString('en-US',{maximumFractionDigits:2})+(acres===1?' acre':' acres'));
     set('currentCutsLabel',el('mowsCurrent').value);
     set('proposedCutsLabel',el('mowsProposed').value);
-    set('areaHelp',feature?'Map drawing active; '+(acres===null?'check geometry':acres.toLocaleString('en-US',{maximumFractionDigits:2})+' acres')+' measured by drawn polygon. Choose a size or type acreage to clear it.':'The map is optional. Draw a polygon or rectangle for a geometry-based acreage.');
+    set('areaHelp',!map?'Map unavailable; type acreage or use a quick area button.':feature?'Map drawing active; '+(acres===null?'check geometry':acres.toLocaleString('en-US',{maximumFractionDigits:2})+' acres')+' measured by drawn polygon. Choose a size or type acreage to clear it.':'The map is optional. Draw a polygon or rectangle for a geometry-based acreage.');
     set('rateOut',isReference?money(ref.rate)+'/ac/yr':'Not established');
     set('grossOut',isReference?money(ref.value):(ref.requiresAcknowledgement?'Confirm reference use':'Not established'));
     set('heroValue',isReference?money(ref.value):'—');
