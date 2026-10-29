@@ -1,5 +1,8 @@
 # Waterleaf Park: meadow conversion — preliminary municipal case study
 
+> **Updated evidence decision (2026-10-29):** The user confirms that the promotional poster's Waterleaf financial and ecosystem-service dollar amounts were estimates passed along without reproducible original calculations. These figures are **not scientifically verified**, must **not** be promoted to website defaults or presented as actual City revenue, realized savings, or measured ecological gain. Finding a different report with a similar number would not retrospectively validate them. The 5.01-acre / 109-lb internal seeding log verifies a recorded operation, not the poster's financial or ecological claims. See [Numerical publication standard](../PUBLICATION_STANDARD.md).
+
+
 **Review date:** 2026-10-29  
 **Publication category:** Local example with reported inputs and unresolved claims — **not** a source of universally applicable calculator defaults.  
 **Location:** Waterleaf Park, City of Kyle, Texas. Exact treated polygon, county and ecoregion require verification.  
