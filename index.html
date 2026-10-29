@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://unpkg.com">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <main>
@@ -92,6 +92,21 @@
       <div><span>10-year scenario difference</span><strong id="tenYearOut">Needs costs</strong></div>
     </div>
     <p class="small" id="mowRangeOut">Kyle reported-rate mowing-only range: —</p>
+    <details class="cost-detail">
+      <summary>Build a mowing price from itemized labor and equipment costs</summary>
+      <p class="small">When enabled, this replaces the illustrative $/acre/cut input above. All entries apply to one mowing of the <strong>entire selected area</strong>; these are your inputs, not city-verified expenses.</p>
+      <label class="check"><input type="checkbox" id="useItemizedMowing"> Use itemized mowing costs instead of the per-acre price</label>
+      <div class="form-grid">
+        <label>Total crew labor-hours per cut<input id="laborHours" type="number" min="0" step="0.1" placeholder="Enter total crew-hours"></label>
+        <label>Fully loaded labor rate, $/hour<input id="laborRate" type="number" min="0" step="0.01" placeholder="Enter rate"></label>
+        <label>Equipment operating hours per cut<input id="equipHours" type="number" min="0" step="0.1" placeholder="Enter hours"></label>
+        <label>Equipment cost, $/hour<input id="equipRate" type="number" min="0" step="0.01" placeholder="Enter hourly cost"></label>
+        <label>Fuel & supplies not in equipment rate, $/cut<input id="fuelCost" type="number" min="0" step="0.01" placeholder="Enter cost"></label>
+        <label>Mobilization & other non-overlapping costs, $/cut<input id="otherMowCost" type="number" min="0" step="0.01" placeholder="Enter cost"></label>
+      </div>
+      <p class="small" id="itemizedMowOut" aria-live="polite">Itemized price is off.</p>
+      <p class="small">Do not double-count labor in equipment rates, or fuel in both equipment and supplies. This simple model assumes each mowing cycle has the same resource cost; real passes can differ. <a href="COST_MODEL_PROTOCOL.md">See the itemized-cost method.</a></p>
+    </details>
     <div class="form-grid cost-context">
       <label>Basis for your restoration cost inputs
         <select id="costBasis">
@@ -115,6 +130,40 @@
   </div>
 </section>
 
+
+<section class="runoff-module" aria-labelledby="runoffTitle">
+  <div class="result-card main-result">
+    <p class="eyebrow">Physical evidence · Model-output comparison</p>
+    <h2 id="runoffTitle">Stormwater runoff — compare documented model results</h2>
+    <p><strong>This website does not run a hydrologic model.</strong> Complete existing-condition and proposed-condition scenarios in a suitable external model, then enter the model's average annual runoff depth for both. Nature Value Map converts the difference in inches into an equivalent annual volume over the selected acreage.</p>
+    <div class="form-grid">
+      <label>Model used
+        <select id="runoffModel">
+          <option value="">Select model</option>
+          <option value="swc">EPA National Stormwater Calculator (web 3.4.0)</option>
+          <option value="swmm">EPA SWMM or another documented model</option>
+        </select>
+      </label>
+      <label>Model output/report identifier and version
+        <input type="text" id="runoffSource" placeholder="e.g., report ID, date, version">
+      </label>
+      <label>Existing-condition average annual runoff (inches/year)
+        <input id="runoffBefore" type="number" min="0" step="0.001" placeholder="From model output">
+      </label>
+      <label>Restored-condition average annual runoff (inches/year)
+        <input id="runoffAfter" type="number" min="0" step="0.001" placeholder="From model output">
+      </label>
+    </div>
+    <label class="check"><input type="checkbox" id="runoffComparable"> I confirm the two model results use the same footprint, rainfall/analysis period and comparable assumptions, with treatment-related changes documented in the original report.</label>
+    <p class="small"><a href="https://www.epa.gov/water-research/national-stormwater-calculator" target="_blank" rel="noopener noreferrer">EPA National Stormwater Calculator and user's guide</a> · <a href="https://www.epa.gov/water-research/storm-water-management-model-swmm" target="_blank" rel="noopener noreferrer">EPA SWMM</a> · <a href="RUNOFF_MODEL_PROTOCOL.md">See input checklist and method</a></p>
+    <div class="result-grid">
+      <div><span>Modeled runoff depth difference</span><strong id="runoffDepthOut">Needs model outputs</strong></div>
+      <div><span>Converted annual runoff-volume difference</span><strong id="runoffVolumeOut">Needs model outputs</strong></div>
+    </div>
+    <p class="small" id="runoffStatus" aria-live="polite">Waiting for documented matching external-model outputs. No generic gallons-per-acre claim is made.</p>
+    <p class="small"><strong>Important:</strong> An annual runoff-volume difference is not automatically aquifer recharge, stored water, avoided flooding, or an economic benefit. Those require separate modeling and source evidence.</p>
+  </div>
+</section>
 <section class="research-section" aria-labelledby="studyTitle">
  <div class="research-header"><p class="eyebrow">Research beyond dollar totals</p><h2 id="studyTitle">What do comparisons actually show?</h2><p>Different studies answer different questions. These findings are <strong>not inputs to the map's ecosystem-dollar reference</strong>, and they are not added together.</p></div>
  <div class="research-grid">
@@ -171,6 +220,6 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-<script src="app.js?v=5"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>

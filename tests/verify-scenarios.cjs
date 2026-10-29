@@ -79,4 +79,41 @@ assert.equal(el('tenYearOut').textContent,'$4,650','10yr modeled cost difference
 el('mowCost').value='-5';refresh();assert.equal(el('tenYearOut').textContent,'Check inputs','Negative costs blocked');
 el('mowCost').value='55';el('installCost').value='';refresh();
 assert.equal(el('tenYearOut').textContent,'Needs costs','Unknown installation cost must never be treated as zero');
-console.log('PASS: acknowledgement, scenarios, mixed land covers, engineered-drainage guard, monetary year and cost input validation.');
+// Itemized costs: all inputs are user-supplied for one pass of the full site.
+el('mowCost').value='55';el('installCost').value='1500';el('careCost').value='100';
+el('manualAcres').value='1';
+el('useItemizedMowing').checked=true;
+for(const [id,value] of Object.entries({laborHours:'2',laborRate:'20',equipHours:'1',equipRate:'25',fuelCost:'10',otherMowCost:'5'}))el(id).value=value;
+refresh();
+assert.equal(el('itemizedMowOut').textContent.includes('$80'),true,'Itemized one-site-pass cost (40+25+10+5) shown');
+assert.equal(el('mowDiffOut').textContent,'$1,040','13 fewer passes times $80');
+assert.equal(el('tenYearOut').textContent,'$7,900','Undiscounted 10-year scenario with input restoration costs');
+el('fuelCost').value='';refresh();
+assert.equal(el('tenYearOut').textContent,'Check inputs','No cost imputation when a component is blank');
+el('fuelCost').value='10';refresh();
+el('useItemizedMowing').checked=false;refresh();
+assert.equal(el('mowDiffOut').textContent,'$715','Simple user-editable rate restored');
+
+// Runoff intake: no volume invented until independent model outputs provided.
+assert.equal(el('runoffVolumeOut').textContent,'Not calculated');
+el('runoffModel').value='swc';
+el('runoffSource').value='EPA SWC 3.4.0 / sample record';
+el('runoffBefore').value='5';el('runoffAfter').value='3';
+el('runoffComparable').checked=true;refresh();
+assert.equal(el('runoffDepthOut').textContent,'Reduction: 2 in/year');
+assert.equal(el('runoffVolumeOut').textContent,'Reduction: 54,308 gallons/year','1 acre × 2 inches × 27,154');
+el('runoffAfter').value='7';refresh();
+assert.equal(el('runoffVolumeOut').textContent,'Increase: 54,308 gallons/year','Negative delta is runoff increase, not avoided runoff');
+el('runoffAfter').value='3';el('runoffSource').value='';refresh();
+assert.equal(el('runoffVolumeOut').textContent,'Not calculated','No model identifier means no published conversion');
+el('runoffSource').value='EPA SWC 3.4.0 / sample record';
+el('runoffComparable').checked=false;refresh();
+assert.equal(el('runoffVolumeOut').textContent,'Not calculated','Unconfirmed model assumptions block comparison');
+el('runoffComparable').checked=true;el('manualAcres').value='12';refresh();
+assert.equal(el('runoffVolumeOut').textContent,'Not calculated','Conservative EPA SWC 12-acre screening limit');
+el('runoffModel').value='swmm';refresh();
+assert.equal(el('runoffVolumeOut').textContent,'Reduction: 651,696 gallons/year','Other documented model may provide a larger site scenario (still unreviewed)');
+el('runoffBefore').value='-1';refresh();
+assert.equal(el('runoffVolumeOut').textContent,'Not calculated','Negative runoff depth rejected');
+
+console.log('PASS: acknowledgement, scenarios, mixed land covers, engineered-drainage guard, monetary year cost input validation, itemized costs and external model-output conversion.');

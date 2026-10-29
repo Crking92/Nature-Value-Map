@@ -87,3 +87,10 @@ Read [Numerical Publication Standard](PUBLICATION_STANDARD.md). The Waterleaf po
 ## October 2026 defensibility safeguard in user experience
 
 Area-scaled study-dollar figures now require an explicit research-use acknowledgement. This is a **communication and input-use safeguard, not scientific certification**. The same engineered-drainage exclusion applies to wetland/riparian references in single and mixed cover, and no mixed-area percentages are prefilled. The published per-acre source figures and service breakdown remain visible without showing a parcel-level total. See [METHODS_GAPS_AND_RESEARCH_PLAN.md](METHODS_GAPS_AND_RESEARCH_PLAN.md) for site-specific model prerequisites, USGS land-cover accuracy and claim eligibility.
+
+
+## Runoff and operational cost evidence modules (October 2026)
+
+- [Itemized mowing and restoration cost protocol](COST_MODEL_PROTOCOL.md): optional user-input labor, equipment hours/cost, fuel/supplies and mobilization per cut of a whole site. Avoid double counting. Incomplete inputs withhold results. Does not independently audit receipts or establish a local average.
+- [Runoff modeling intake protocol](RUNOFF_MODEL_PROTOCOL.md): reads user-entered outputs from externally configured EPA Stormwater Calculator or another identified hydrologic model. No runoff estimate is generated from land-cover category alone. Reports a **geometric conversion** of the annual runoff-depth difference, in gallons/year; the source is **1 acre-inch ≈ 27,154 US gallons** (USGS). No water-service dollar claim is inferred.
+- All ecological-dollar reference rates remain unchanged. There are still no defensible universal current-turf ecological dollars, carbon tonnes per acre, Hays County insect counts, or site-specific runoff defaults.
