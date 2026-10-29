@@ -111,17 +111,17 @@
   map.on(L.Draw.Event.EDITED,function(e){e.layers.eachLayer(function(x){layer=x;feature=x.toGeoJSON();});update();});
   map.on(L.Draw.Event.DELETED,function(){feature=null;layer=null;update();});
   el('clearBtn').addEventListener('click',function(){drawn.clearLayers();feature=null;layer=null;update();});
-  function area(){if(feature){return turf.area(feature)*0.00024710538146717;}return number('manualAcres');}
+  function area(){if(feature){var a=turf.area(feature)*0.00024710538146717;return Number.isFinite(a)&&a>=0?a:null;}return number('manualAcres');}
   function buildCards(){var holder=el('landCards');holder.textContent='';CLASSES.forEach(function(c){
     var b=document.createElement('button');b.type='button';b.className='land-card'+(selected===c.id?' selected':'');
     b.setAttribute('aria-pressed',String(selected===c.id));
     var icon=document.createElement('span');icon.className='icon';icon.textContent=c.icon;
     var title=document.createElement('strong');title.textContent=c.label;
     var desc=document.createElement('small');desc.textContent=c.value===null?'No verified dollar default':(c.eligible?'Published reference':'Case study only');
-    b.append(icon,title,desc);b.addEventListener('click',function(){selected=c.id;buildCards();update();});holder.appendChild(b);
+    b.append(icon,title,desc);b.addEventListener('click',function(){selected=c.id;el('referenceAcknowledged').checked=false;buildCards();update();});holder.appendChild(b);
   });}
   function buildMix(){var wrap=el('mixRows');wrap.textContent='';
-    [{pct:60,id:'forest'},{pct:20,id:'native_prairie'},{pct:20,id:'rural_green_open_space'}].forEach(function(r){
+    [{pct:'',id:'forest'},{pct:'',id:'native_prairie'},{pct:'',id:'rural_green_open_space'}].forEach(function(r){
       var row=document.createElement('div');row.className='mix-row';
       var p=document.createElement('input');p.className='mix-pct';p.type='number';p.min='0';p.max='100';p.step='1';p.value=String(r.pct);p.setAttribute('aria-label','Percentage of total area');
       var select=document.createElement('select');select.className='mix-class';select.setAttribute('aria-label','Land-cover category');
@@ -135,6 +135,7 @@
       if(el('siteSetting').value==='engineered' && (selected==='wetland'||selected==='riparian_forest')){
         return {value:null,rate:null,message:'This user-described engineered drainage area has not been verified as natural wetland or riparian forest. The selected benchmark is withheld. Reclassify the actual habitat or obtain a site assessment.'};
       }
+      if(!el('referenceAcknowledged').checked){return {value:null,rate:null,requiresAcknowledgement:true,message:'The per-acre research reference is available below. Confirm that you understand its limitations before showing the area-scaled illustration.'};}
       return {value:acres*c.value,rate:c.value,message:c.warning};
     }
     var pctSum=0,total=0,invalid='';
@@ -144,10 +145,12 @@
       if(!Number.isFinite(pct)||pct<0||pct>100){invalid='All area percentages must be between 0 and 100.';return;}
       pctSum+=pct;
       if(pct>0&&(!c.eligible||c.year!==2021||c.value===null)){invalid='A selected category has no compatible 2021 USD reference. Remove it or use a case-study comparison.';return;}
+      if(pct>0&&el('siteSetting').value==='engineered'&&(c.id==='wetland'||c.id==='riparian_forest')){invalid='Engineered drainage has not been verified as natural wetland or riparian forest. Its benchmark is withheld even in a mixed-cover calculation.';return;}
       if(c.value!==null){total+=acres*pct/100*c.value;}
     });
     if(!invalid&&Math.abs(pctSum-100)>0.0001){invalid='Land-cover areas total '+pctSum.toFixed(1)+'%; they must add up to exactly 100%.';}
     if(invalid){return {value:null,rate:null,message:invalid};}
+    if(!el('referenceAcknowledged').checked){return {value:null,rate:null,requiresAcknowledgement:true,message:'Confirm reference limitations before scaling the published study benchmarks to this user-defined mixture.'};}
     return {value:total,rate:acres>0?total/acres:0,message:'Mixed-cover reference assumes distinct, non-overlapping areas. Broad categories must not be counted alongside more specific categories over the same land.'};
   }
 
@@ -200,10 +203,10 @@
     var isReference=ref.value!==null;
     set('areaOut',acres===null?'Check acreage':acres.toLocaleString('en-US',{maximumFractionDigits:2})+(acres===1?' acre':' acres'));
     set('rateOut',isReference?money(ref.rate)+'/ac/yr':'Not established');
-    set('grossOut',isReference?money(ref.value):'Not established');
+    set('grossOut',isReference?money(ref.value):(ref.requiresAcknowledgement?'Confirm reference use':'Not established'));
     set('heroValue',isReference?money(ref.value):'—');
-    set('heroNote',isReference?'2021 USD · Published reference, not measured at this site':'No defensible estimate for this selection');
-    set('statusOut',isReference?'Study benchmark':'No default');
+    set('heroNote',isReference?'2021 USD · Published benchmark, not incremental restoration value':(ref.requiresAcknowledgement?'Published benchmark — acknowledgement required':'No supported scaled reference for this selection'));
+    set('statusOut',isReference?'Illustrative study transfer':(ref.requiresAcknowledgement?'Study reference only':'No eligible reference'));
     set('plainAnswer',ref.message);
     var src=mixed?null:STUDIES[c.source];var note=el('valueNote');note.textContent='';
     if(mixed){note.textContent='Mixed-cover calculation uses only compatible 2021 USD reference categories. Every zone must be distinct.';}
@@ -221,7 +224,7 @@
     finances(acres);
   }
   function buildSources(){var list=el('sourceList');list.textContent='';Object.keys(STUDIES).forEach(function(k){var li=document.createElement('li');link(li,STUDIES[k]);list.appendChild(li);});}
-  document.querySelector('.advanced').addEventListener('toggle',function(e){mixed=e.target.open;update();});
+  document.querySelector('.advanced').addEventListener('toggle',function(e){mixed=e.target.open;el('referenceAcknowledged').checked=false;update();});
   document.addEventListener('input',update);document.addEventListener('change',update);
   buildCards();buildMix();buildSources();update();
 })();
