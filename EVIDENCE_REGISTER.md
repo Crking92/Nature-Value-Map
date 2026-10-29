@@ -99,3 +99,8 @@ Area-scaled study-dollar figures now require an explicit research-use acknowledg
 ## Planned carbon and biodiversity evidence standards
 
 [Carbon and greenhouse gas evidence protocol](CARBON_EVIDENCE_PROTOCOL.md) and [Hays County biodiversity monitoring protocol](HABITAT_MONITORING_PROTOCOL.md) describe the reference data and independent validation required before carbon, native-plant, specialist-host or wildlife outcomes can be quantified. They do **not** introduce generic quantitative values, financial benefits, automatic local cover classifications, or a habitat-quality percentage.
+
+
+## Public Hays County evidence walkthrough — Waterleaf Park
+
+[Open the Waterleaf assessment walkthrough](assessment.html) and its [machine-readable evidence record](site-assessments/waterleaf-evidence.json). The 2025 City of Kyle weekly reports publicly document **5 acres assessed**, treatment of invasive King Ranch bluestem and no-till native seeding; they **do not measure** restoration effects. Separate internal records report **5.01 acres seeded / 109 lb**, but are labeled **not publicly auditable** and not assumed to have the same footprint as the promotional **3.6-acre** financial example. The record's hydrology, carbon, biodiversity and financial outcomes are explicitly **null (unknown)**, not zero. Validated site-specific model inputs and field observations are still required. Automatic test: `node tests/verify-assessment.cjs`.

@@ -6,6 +6,11 @@ on:
       - 'app.js'
       - 'tests/verify-values.cjs'
       - 'tests/verify-scenarios.cjs'
+      - 'tests/verify-assessment.cjs'
+      - 'site-assessments/**'
+      - 'assessment.html'
+      - 'EVIDENCE_REGISTER.md'
+      - 'index.html'
       - '.github/workflows/verify-evidence.yml'
   pull_request:
     paths:
@@ -31,3 +36,5 @@ jobs:
         run: node tests/verify-values.cjs
       - name: Validate live numerical scenarios
         run: node tests/verify-scenarios.cjs
+      - name: Validate Hays County site assessment integrity
+        run: node tests/verify-assessment.cjs
