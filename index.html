@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://unpkg.com">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 <main>
@@ -23,6 +23,19 @@
   <aside class="panel">
     <div class="step-card"><div class="step-title"><span>1</span> Choose an area</div><label for="manualAcres">Acres when not drawing</label><input id="manualAcres" type="number" min="0" step="0.01" value="1"><button id="clearBtn" type="button" class="soft">Clear drawn area</button><p id="areaHelp" class="small">Map drawing area is calculated geodesically.</p></div>
     <div class="step-card"><div class="step-title"><span>2</span> Choose existing land cover</div><div id="landCards" class="land-cards"></div><div class="editable-value-box"><div class="small" id="valueNote"></div></div>
+    <div class="step-card">
+      <label for="siteSetting">Site setting (your description; not map-verified)</label>
+      <select id="siteSetting">
+        <option value="unknown">Unknown / not checked</option>
+        <option value="blackland">Blackland Prairie — deep or clay-rich soils</option>
+        <option value="edwards">Edwards Plateau — limestone / shallow soils</option>
+        <option value="engineered">Roadside swale / detention / engineered drainage</option>
+        <option value="riparian">Natural creek or riparian floodplain</option>
+        <option value="wetland">Confirmed inland wetland (field verified)</option>
+      </select>
+      <p id="siteFitOut" class="small" aria-live="polite">No site setting confirmed. Published benchmarks are not site-specific results.</p>
+      <p class="small">Use <a href="https://websoilsurvey.sc.egov.usda.gov/App/HomePage.htm" target="_blank" rel="noopener noreferrer">USDA soil survey</a> and <a href="https://tpwd.texas.gov/landwater/land/programs/landscape-ecology/ems/" target="_blank" rel="noopener noreferrer">TPWD ecological mapping</a> to investigate your actual location. Neither has been automatically queried.</p>
+    </div>
     <details class="advanced"><summary>My area contains multiple land-cover types</summary><p class="small">Use non-overlapping percentages totaling exactly 100%. Values from different monetary years or restricted case studies will not be combined.</p><div class="mix-header" aria-hidden="true"><span>Area %</span><span>Land cover</span><span></span></div><div id="mixRows"></div><p id="mixError" class="small" aria-live="polite"></p></details></div>
     <div class="step-card"><div class="step-title"><span>3</span> Describe habitat conditions</div><p class="small">Answer only what you can actually observe. These are field notes—not a validated habitat-quality index, and they do not change the dollar estimate.</p>
       <div class="questions">
@@ -124,7 +137,24 @@
    <a href="https://comet-planner.com/" target="_blank" rel="noopener noreferrer">Explore COMET-Planner</a>
   </article>
  </div>
- <p class="research-note">Restoration-cost research note: <a href="https://www.nrcs.usda.gov/state-offices/texas/payment-schedule" target="_blank" rel="noopener noreferrer">NRCS Texas payment schedules</a> can help identify supported conservation practices and payment scenarios. <strong>Program payments are not installation invoices</strong>, and they are not prefilled as Hays County restoration costs.</p>
+ 
+ <div class="research-grid" aria-label="Central Texas research and cost sources">
+  <article class="research-tile">
+    <p class="tile-kicker">Peer-reviewed · Central Texas · 2026</p>
+    <h3>Engineered swales aren't automatically wetlands</h3>
+    <p>A Central Texas study documented native and non-native vegetation in roadside swales and detention basins in the Edwards Aquifer recharge area. These sites often contained upland and facultative vegetation, with few obligate wetland plants. Its findings support field assessment—not assigning the $18,948 wetland benchmark to every basin.</p>
+    <a href="https://doi.org/10.1016/j.jenvman.2026.129841" target="_blank" rel="noopener noreferrer">Read Hutchinson et al. (2026)</a>
+  </article>
+  <article class="research-tile">
+    <p class="tile-kicker">Government technical cost scenario · Texas FY2025</p>
+    <h3>Statewide native range-planting cost: $225.38 per acre</h3>
+    <p>NRCS Practice 550, Scenario 4, models a <strong>150-acre</strong> predominantly native range-planting project with standard seedbed preparation and a 75%-native minimum. This is <strong>not a Kyle parks quote</strong>, and it does not meet a strict 100% local-native plant specification.</p>
+    <a href="https://www.nrcs.usda.gov/sites/default/files/2024-11/fy25-tx-scenarios_0.pdf#page=667" target="_blank" rel="noopener noreferrer">View NRCS scenario and disclaimer</a>
+  </article>
+ </div>
+ <p class="research-note"><a href="HAYS_APPLICABILITY_2026.md">Read the Hays County applicability audit</a> for soil and landscape classification, regional peer-reviewed studies, historical restoration-cost references, and the criteria required before a local estimate can replace a published benchmark.</p>
+ 
+<p class="research-note">Restoration-cost research note: <a href="https://www.nrcs.usda.gov/state-offices/texas/payment-schedule" target="_blank" rel="noopener noreferrer">NRCS Texas payment schedules</a> can help identify supported conservation practices and payment scenarios. <strong>Program payments are not installation invoices</strong>, and they are not prefilled as Hays County restoration costs.</p>
 </section>
 <section class="about">
   <details open><summary>Sources, assumptions and limitations</summary>
@@ -139,6 +169,6 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-<script src="app.js?v=3"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>
