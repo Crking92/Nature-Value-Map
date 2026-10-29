@@ -85,3 +85,8 @@ A user can label restoration cost inputs as a planning assumption, an externally
 ## Data QA and source traceability
 
 The [2026-10-29 source audit](SOURCE_AUDIT_2026-10-29.md) records original page/table provenance, monetary years, applicability restrictions and component-sum checks for all eight classes. To detect unreviewed data changes, run `node tests/verify-values.cjs` after touching any value or component. This verifies the website against reviewed source transcriptions; it does **not** turn benefit transfers into site measurements or scientifically validate land-cover selection.
+
+
+## Hays County transferability (October 2026)
+
+See [HAYS_APPLICABILITY_2026.md](HAYS_APPLICABILITY_2026.md). The optional site setting is **self-reported, not verified from GIS or field inspection** and makes no change to the published-dollar calculations. NRCS Texas FY2025 Range Planting Practice 550 Scenario 4 gives **$225.38/ac** for a typical **150-acre** statewide modeled example, not a Kyle quote or default. It uses predominantly native (minimum 75% native) vegetation, not a strict local-native planting specification. The 2026 regional swale studies inform land-cover classification, not local economic values.
