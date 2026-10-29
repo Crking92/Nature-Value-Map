@@ -90,3 +90,8 @@ The [2026-10-29 source audit](SOURCE_AUDIT_2026-10-29.md) records original page/
 ## Hays County transferability (October 2026)
 
 See [HAYS_APPLICABILITY_2026.md](HAYS_APPLICABILITY_2026.md). The optional site setting is **self-reported, not verified from GIS or field inspection** and does not modify a published rate, but withholds an incompatible wetland or riparian dollar figure for a user-described engineered drainage setting. NRCS Texas FY2025 Range Planting Practice 550 Scenario 4 gives **$225.38/ac** for a typical **150-acre** statewide modeled example, not a Kyle quote or default. It uses predominantly native (minimum 75% native) vegetation, not a strict local-native planting specification. The 2026 regional swale studies inform land-cover classification, not local economic values.
+
+
+## Source validation before any new public number
+
+The [Numerical Publication Standard](PUBLICATION_STANDARD.md) governs future releases. Every value needs original-source table/units/year, ecosystem applicability, baseline comparison when describing gains, and overlap/uncertainty review. The $1,941 2021-dollar prairie benchmark is **not** a Waterleaf annual incremental benefit. Waterleaf poster financial figures were reported estimates and are excluded from model defaults pending a reproducible actual-cost and site-benefit study. Municipal cash savings and social ecosystem benefits remain distinct.
