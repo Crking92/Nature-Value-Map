@@ -168,9 +168,11 @@
     // Present only the four familiar choices at first; all options still exist.
     var featured={native_prairie:true,turf_estimate:true,forest:true,wetland:true};
     b.hidden=!showAllLandscapes&&!featured[c.id]&&selected!==c.id;
+    var priority={turf_estimate:0,native_prairie:1,forest:2,wetland:3};
+    b.style.order=String(Object.hasOwn(priority,c.id)?priority[c.id]:100+CLASSES.indexOf(c));
     var icon=document.createElement('span');icon.className='icon';icon.textContent=c.icon;
     var title=document.createElement('strong');title.textContent=c.label;
-    var desc=document.createElement('small');desc.textContent=c.value===null?'No verified dollar default':(c.eligible?'Published reference':'Case study only');
+    var desc=document.createElement('small');desc.textContent=c.id==='wetland'?'Verified habitat only':c.value===null?'No trustworthy dollar default':(c.eligible?'Research reference available':'Specialized study only');
     b.append(icon,title,desc);b.addEventListener('click',function(){selected=c.id;el('referenceAcknowledged').checked=false;buildCards();update();});holder.appendChild(b);
   });}
   function buildMix(){var wrap=el('mixRows');wrap.textContent='';
@@ -325,4 +327,4 @@
   document.querySelector('.advanced').addEventListener('toggle',function(e){mixed=e.target.open;el('referenceAcknowledged').checked=false;update();});
   document.addEventListener('input',update);document.addEventListener('change',update);
   buildCards();buildMix();buildSources();update();
-})()
+})();
