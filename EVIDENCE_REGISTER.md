@@ -104,3 +104,8 @@ Area-scaled study-dollar figures now require an explicit research-use acknowledg
 ## Public Hays County evidence walkthrough — Waterleaf Park
 
 [Open the Waterleaf assessment walkthrough](assessment.html) and its [machine-readable evidence record](site-assessments/waterleaf-evidence.json). The 2025 City of Kyle weekly reports publicly document **5 acres assessed**, treatment of invasive King Ranch bluestem and no-till native seeding; they **do not measure** restoration effects. Separate internal records report **5.01 acres seeded / 109 lb**, but are labeled **not publicly auditable** and not assumed to have the same footprint as the promotional **3.6-acre** financial example. The record's hydrology, carbon, biodiversity and financial outcomes are explicitly **null (unknown)**, not zero. Validated site-specific model inputs and field observations are still required. Automatic test: `node tests/verify-assessment.cjs`.
+
+
+## Repeatable Hays County crew field observations (October 2026)
+
+[Vegetation and soil field form](field-assessment.html) uses a **simplified adapted first-hit monitoring protocol**. It requires repeatable sampling IDs, point counts in seven mutually exclusive first-hit categories, explicit unknowns and taxonomic/soil-source verification where claimed. [Detailed protocol](FIELD_MONITORING_PROTOCOL.md). Results are **sampled first-hit percentages only**, never sitewide native cover, ecological integrity score, runoff, carbon or dollar values. One-visit records can be exported as user-owned JSON/CSV; the public website does not store them.
