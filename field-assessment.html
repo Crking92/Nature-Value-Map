@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hays County Field Monitoring | Nature Value Map</title>
+<meta name="description" content="Record repeatable field observations of vegetation first-hit cover, soil surface, and site context without inventing ecological scores.">
+<link rel="stylesheet" href="style.css?v=6">
+<style>
+.field-page{max-width:1180px;margin:auto;padding:20px 25px 65px;line-height:1.55}
+.field-page h1{line-height:1.1;margin:12px 0}.field-page h2{color:var(--green);margin:0 0 12px}
+.field-page h3{color:var(--green)}.field-page p{line-height:1.5}
+.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px}
+.field-page .section{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:22px;margin:17px 0}
+.field-page label{display:block;margin:0;font-size:.88rem}.field-page label>input,.field-page label>select,.field-page label>textarea{width:100%;margin-top:6px}
+.field-page textarea{min-height:80px;font:inherit;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+.field-page .hint{color:var(--muted);font-size:.89rem}
+.field-page .caution{padding:12px 14px;border-left:4px solid #97713b;background:#fbf1dd;border-radius:12px;margin:16px 0}
+.field-page .method{padding:12px 14px;border-left:4px solid #487e5d;background:#eef5eb;border-radius:12px;margin:16px 0}
+.field-page .cover-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.field-page .buttons{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.field-page button{background:var(--green);color:#fff}
+.field-page button.secondary{background:#e9eee6;color:var(--ink)}
+.field-page button:disabled{opacity:.5;cursor:not-allowed}
+.field-page .report{padding:14px;background:#f5f7f1;border-radius:14px;border:1px solid var(--line)}
+.field-page .errors{color:#842e22;font-weight:650;white-space:pre-line}
+.field-page .metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.field-page .metric{border:1px solid var(--line);border-radius:12px;padding:11px}
+.field-page .metric strong{font-size:1.4rem;color:var(--green)}
+.field-page .metric small{display:block;color:var(--muted)}
+.field-page .links{display:flex;gap:14px;flex-wrap:wrap;font-size:.9rem}
+.field-page .full{grid-column:1/-1}
+@media(max-width:650px){.field-page{padding:16px 12px 45px}.field-grid,.field-page .cover-grid,.field-page .metrics{grid-template-columns:1fr}.field-page .section{padding:16px}}
+@media print{.field-page .buttons,.field-page .links,button{display:none!important}.field-page .section{break-inside:avoid;box-shadow:none}.field-page{padding:0}.field-page input,.field-page select{border-bottom:1px solid #888}}
+</style>
+</head>
+<body>
+<main class="field-page">
+<header>
+<p><a href="index.html">← Nature Value Map</a> · <a href="assessment.html">Waterleaf evidence example</a></p>
+<p class="eyebrow">Field monitoring · Hays County, Texas</p>
+<h1>Record what you actually observe.</h1>
+<p>Collect repeatable vegetation and site observations before calculating ecological outcomes. The form creates a <strong>local JSON or CSV file</strong> that you can archive and compare with later visits. It does not submit records to GitHub or a server.</p>
+<div class="caution"><strong>Scientific limit:</strong> These are **sampled first-hit percentages**, not proven sitewide native cover, ecological integrity scores, measured soil infiltration, or ecosystem-dollar gains. This is an intentionally simplified protocol inspired by BLM guidance, not a full certified BLM AIM survey.</div>
+</header>
+<form id="fieldForm" novalidate>
+<section class="section" aria-labelledby="siteTitle">
+<h2 id="siteTitle">1. Site, plot and repeat-visit setup</h2>
+<div class="field-grid">
+<label>Site ID (same every visit) *<input name="site_id" placeholder="e.g., WATE-LMU1" required></label>
+<label>Permanent sample/plot ID *<input name="plot_id" placeholder="e.g., TRANSECT-A" required></label>
+<label>Visit date *<input name="visit_date" type="date" required></label>
+<label>Observer initials or team code *<input name="observer_id" placeholder="e.g., Crew-2" required></label>
+<label class="full">Sampling location reference *<input name="sampling_location" placeholder="e.g., permanent stake A to oak 12; GPS reference kept offline" required></label>
+<label class="full">Sampling design / relocation instructions *<textarea name="sampling_design" placeholder="Transect start/end markers; orientation; random or systematic placement; repeat the exact spacing, geometry and season" required></textarea></label>
+<label>Transect length (metres; optional)<input type="number" name="transect_length_m" min="0" step="any" placeholder="Not recorded"></label>
+<label>Point spacing (metres; optional)<input type="number" name="point_spacing_m" min="0" step="any" placeholder="Not recorded"></label>
+<label>Restoration stage
+<select name="restoration_stage">
+<option value="">Not specified</option>
+<option value="baseline">Before treatment / baseline</option>
+<option value="establishment">Establishment period</option>
+<option value="follow_up">Follow-up / post-treatment</option>
+<option value="reference">Reference comparison plot</option>
+</select></label>
+<label>Repeat photo reference<input name="repeat_photo_ref" placeholder="File ID or camera direction; photos are not uploaded"></label>
+<label class="full">Weather, season and recent disturbance notes<textarea name="weather_notes" placeholder="e.g., dry after two rainless weeks, midday, recently mowed"></textarea></label>
+</div>
+</section>
+<section class="section" aria-labelledby="methodTitle">
+<h2 id="methodTitle">2. Simplified first-hit sampling</h2>
+<input type="hidden" name="protocol" value="adapted_first_hit">
+<div class="method">Choose a fixed, documented set of points along your transect. At each point, count <strong>one first encountered class</strong> along a vertical pin/drop: native plant, introduced invasive, other introduced, litter, rock/crust, bare soil, or unknown. If you cannot reliably identify a plant as native or introduced, record <strong>unknown</strong>. These classes must be mutually exclusive. Count the same number of locations and use the same method at later visits.</div>
+<div class="cover-grid">
+<label>Native plant first hits *<input type="number" name="native" min="0" step="1" placeholder="Count (0 if none)" required></label>
+<label>Introduced invasive plant first hits *<input type="number" name="introduced_invasive" min="0" step="1" placeholder="Count (0 if none)" required></label>
+<label>Other introduced plant first hits *<input type="number" name="introduced_other" min="0" step="1" placeholder="Count (0 if none)" required></label>
+<label>Litter/dead vegetation first hits *<input type="number" name="litter" min="0" step="1" placeholder="Count (0 if none)" required></label>
+<label>Rock/biological soil crust first hits *<input type="number" name="rock" min="0" step="1" placeholder="Count (0 if none)" required></label>
+<label>Bare soil first hits *<input type="number" name="bare_soil" min="0" step="1" placeholder="Count (0 if none)" required></label>
+<label>Unknown/uncertain first hits *<input type="number" name="unknown" min="0" step="1" placeholder="Count (0 if none)" required></label>
+<label>Have native-status classifications been checked against sources? *
+<select name="source_verified" required><option value="">Select verification status</option><option value="yes">Yes — independently checked</option><option value="no">No — preliminary field IDs</option></select></label>
+<label class="full">Native status/taxonomic verification references<input name="native_status_source" placeholder="e.g., local voucher / flora / BONAP range check and date"></label>
+<label class="full">Taxa observed (field notes only; no automatic richness calculation)<textarea name="taxa_observed" placeholder="List suspected species and uncertainty; no unverified sitewide counts are generated"></textarea></label>
+</div>
+<p class="hint">This simplified top-hit protocol does not replace the BLM's full multi-layer species-level line-point intercept procedure. It supports repeatable **first-hit observations only** and must not be mixed analytically with differently collected visual-cover data.</p>
+</section>
+<section class="section" aria-labelledby="soilTitle">
+<h2 id="soilTitle">3. Soil surface and management context</h2>
+<div class="field-grid">
+<label>Observed surface condition
+<select name="surface_condition">
+<option value="not_observed">Not observed</option>
+<option value="dry">Appears dry at surface</option>
+<option value="moist">Appears moist at surface</option>
+<option value="standing_water">Standing water present</option>
+<option value="disturbed">Recent visible disturbance / trampling</option>
+<option value="other">Other — see notes</option>
+</select></label>
+<label>Soil map unit (optional)<input name="soil_map_unit" placeholder="NRCS map-unit symbol/name"></label>
+<label class="full">Soil classification source / date (optional)<input name="soil_map_source" placeholder="USDA Web Soil Survey AOI, version/date, or field soil log"></label>
+<label class="full">Site maintenance, invasive pressure, erosion signs and other observations<textarea name="field_notes" placeholder="Avoid writing 'high soil compaction' as a measured conclusion without a calibrated test. Record rills, exposed substrate, herbicide applications and follow-up work."></textarea></label>
+</div>
+<p class="hint">No soil compaction or infiltration values are calculated here. Use <a href="https://www.nrcs.usda.gov/resources/guides-and-instructions/field-book-for-describing-and-sampling-soils" target="_blank" rel="noopener noreferrer">NRCS Field Book for Describing and Sampling Soils (2024)</a> if collecting standardized soil observations.</p>
+</section>
+<section class="section" aria-labelledby="previewTitle">
+<h2 id="previewTitle">4. Validate and export a visit</h2>
+<p>The preview divides each class's count by the total number of recorded first-hit points. No invented site area, benefit score, or monetary value is attached. Export one visit at a time and preserve the sample design for future comparisons.</p>
+<div class="buttons">
+<button type="button" id="checkRecord">Validate and preview</button>
+<button type="button" id="downloadJSON" disabled>Export visit JSON</button>
+<button type="button" id="downloadCSV" disabled>Export visit CSV</button>
+<button type="button" class="secondary" onclick="window.print()">Print field sheet</button>
+</div>
+<div id="fieldErrors" class="errors" role="alert" aria-live="polite"></div>
+<div id="fieldReport" class="report" aria-live="polite"><p class="hint">No validated sample recorded yet. Empty fields are unknown, not zero.</p></div>
+<p class="hint">Files download to your device; this page does not retain observations between visits. If you change a field after validating, validate again before export. The original field file and photographs should be archived together.</p>
+</section>
+</form>
+<section class="section">
+<h2>Original method references</h2>
+<div class="links">
+<a href="FIELD_MONITORING_PROTOCOL.md">Detailed field and quality-control protocol</a>
+<a href="https://www.blm.gov/noc/blm-library/technical-reference/monitoring-manual-grassland-shrubland-and-savanna-ecosystems" target="_blank" rel="noopener noreferrer">BLM grassland monitoring manual</a>
+<a href="https://www.natureserve.org/products/ecological-integrity-assessment" target="_blank" rel="noopener noreferrer">NatureServe ecological integrity</a>
+<a href="https://research.fs.usda.gov/treesearch/3255" target="_blank" rel="noopener noreferrer">USFS repeat photography</a>
+</div>
+</section>
+<footer><a href="index.html">Back to Nature Value Map</a> · User-reported field monitoring · No automatic ecological-dollar estimate</footer>
+</main>
+<script src="field-assessment-core.js?v=1"></script>
+<script src="field-assessment.js?v=1"></script>
+</body>
+</html>
