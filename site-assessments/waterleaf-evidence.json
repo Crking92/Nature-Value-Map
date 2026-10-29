@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "waterleaf-park-kyle-tx",
+  "project_name": "Waterleaf Park native-meadow restoration",
+  "as_of": "2026-10-29",
+  "place": {
+    "municipality": "Kyle",
+    "county": "Hays",
+    "state": "Texas",
+    "geometry_verified": false,
+    "polygon": null,
+    "soil_map_unit": null,
+    "ecoregion_field_verified": false
+  },
+  "classification": "Historical site assessment demonstration. This data file is not a hydrology model, a benefit-transfer assessment, or a cost ledger.",
+  "sources": [
+    {
+      "id": "kyle_aug_2025",
+      "kind": "public_municipal_report",
+      "title": "City of Kyle Weekly Report, August 22, 2025",
+      "url": "https://www.cityofkyle.gov/media/yq3i3pzz/august_22_2025_weekly_report.pdf",
+      "printed_page": 10,
+      "statement": "Conservation staff assessed 5 acres at Waterleaf Park; invasive grasses dominated the site and native revegetation was planned."
+    },
+    {
+      "id": "kyle_dec_2025",
+      "kind": "public_municipal_report",
+      "title": "City of Kyle Weekly Report, December 5, 2025",
+      "url": "https://www.cityofkyle.gov/media/vcwjvl51/december-5-2025-weekly-report.pdf",
+      "printed_page": 12,
+      "statement": "Report documents treatment of invasive King Ranch bluestem and application of a custom native seed mix using a no-till drill."
+    },
+    {
+      "id": "internal_workbook",
+      "kind": "internal_record_not_publicly_auditable",
+      "title": "Land Management Tracking Form, Waterleaf LMU 1/2, operations dated November 18, 2025",
+      "url": null,
+      "printed_page": null,
+      "statement": "Internal records report seeding operations but no public underlying file or certified geometry is available."
+    }
+  ],
+  "claims": [
+    {
+      "id": "assessed_area",
+      "endpoint": "Assessed area",
+      "value": 5,
+      "unit": "acre",
+      "event_date": null,
+      "report_date": "2025-08-22",
+      "source_id": "kyle_aug_2025",
+      "grade": "publicly_documented_report",
+      "limitation": "Area assessed for planning, NOT a surveyed restored or modeled area."
+    },
+    {
+      "id": "invasive_cover",
+      "endpoint": "Baseline invasive-grass presence",
+      "value": null,
+      "unit": null,
+      "event_date": null,
+      "report_date": "2025-08-22",
+      "source_id": "kyle_aug_2025",
+      "grade": "publicly_documented_report",
+      "limitation": "Invasive grasses reported to dominate; no baseline species-cover percentage or controlled survey."
+    },
+    {
+      "id": "treatment_activity",
+      "endpoint": "Reported invasive King Ranch bluestem treatment and no-till native seeding",
+      "value": null,
+      "unit": null,
+      "event_date": null,
+      "report_date": "2025-12-05",
+      "source_id": "kyle_dec_2025",
+      "grade": "publicly_documented_report",
+      "limitation": "Report date is not necessarily application date. No yield, germination, cover, or soil improvement measured."
+    },
+    {
+      "id": "logged_seeded_area",
+      "endpoint": "Internally logged total seeded area",
+      "value": 5.01,
+      "unit": "acre",
+      "event_date": "2025-11-18",
+      "report_date": null,
+      "source_id": "internal_workbook",
+      "grade": "internally_logged_unverified_externally",
+      "limitation": "Sum of two internally logged units (1.86 and 3.15 acres), not public survey geometry and NOT identical by assumption to poster's 3.6-acre accounting area."
+    },
+    {
+      "id": "logged_seed_weight",
+      "endpoint": "Internally logged total seed weight",
+      "value": 109,
+      "unit": "lb",
+      "event_date": "2025-11-18",
+      "report_date": null,
+      "source_id": "internal_workbook",
+      "grade": "internally_logged_unverified_externally",
+      "limitation": "Two internal entries (40 and 69 lb), not independently verified material receipts or native plant establishment."
+    }
+  ],
+  "model_inputs": {
+    "verified_restoration_polygon_acres": null,
+    "original_site_land_cover_survey": null,
+    "restored_site_land_cover_survey": null,
+    "soil_hydrologic_group": null,
+    "field_infiltration_measurement": null,
+    "rainfall_model_period": null,
+    "baseline_runoff_depth_in_per_year": null,
+    "restored_runoff_depth_in_per_year": null,
+    "hydrology_model_report_id": null,
+    "baseline_mowing_cost_records": null,
+    "restoration_installation_invoices": null,
+    "recurring_restoration_cost_records": null,
+    "carbon_stock_measurements": null,
+    "biodiversity_survey_protocol": null,
+    "post_restoration_survey_results": null
+  },
+  "outputs": {
+    "verified_incremental_ecosystem_services_usd_per_year": null,
+    "independently_validated_annual_runoff_difference_gallons": null,
+    "verified_actual_mowing_savings_usd": null,
+    "validated_carbon_change_tco2e_per_year": null,
+    "verified_biodiversity_response": null
+  },
+  "disallowed_calculations": [
+    "Do not treat 5 assessed acres or 5.01 internally logged acres as a validated runoff-model footprint.",
+    "Do not treat a reported seeding operation as documented successful establishment or incremental ecosystem benefit.",
+    "Do not treat promotional poster ecosystem-service dollars, restoration costs, or returns as verified project outcomes.",
+    "Do not turn statewide benefit-transfer totals into site-specific incremental gains without a compatible baseline."
+  ],
+  "next_measurements": [
+    "Publicly releasable GIS polygon for assessed, seeded and financially evaluated extents, with distinct boundaries.",
+    "Matched vegetation surveys (native/exotic percent cover and structure) and repeatable protocol.",
+    "Documented soil map unit, compaction or infiltration and modeled annual runoff under both conditions.",
+    "Dated detailed mowing labor/equipment records and actual restoration costs, before and after.",
+    "Documented baseline/post-treatment carbon and biodiversity monitoring if those benefits will be claimed."
+  ]
+}
