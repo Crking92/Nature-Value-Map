@@ -77,3 +77,8 @@ See [Waterleaf Park case-study source audit](CASE_STUDIES/WATERLEAF_PARK_PRELIMI
 ### Follow-up — logged Waterleaf seeding (private operational record, October 2026 review)
 
 The internal land-management tracking workbook records **1.86 acres / 40 lb** of Custom Mix 2025 at Waterleaf LMU 1 and **3.15 acres / 69 lb** at Waterleaf LMU 2 on November 18, 2025: **5.01 acres / 109 lb combined**. These are logged seeding quantities, not proof that the poster's 3.6-acre *financial example* covers all the same land. Source is not publicly inspectable; do not treat it as an audited public record. The June 28, 2026 original flyer filename suggests a hypothetical **$20/ac retained mowing pass** explaining $720 versus $700, but the underlying mowing worksheet is still missing. The project-wide dataset named *COK Parks Mowing Data 2024–2026* has not been retrieved. More detail: [Waterleaf case study](CASE_STUDIES/WATERLEAF_PARK_PRELIMINARY.md).
+
+
+## October 2026 stronger release gate for unverified local financial claims
+
+Read [Numerical Publication Standard](PUBLICATION_STANDARD.md). The Waterleaf poster's figures are **historical reported estimates without independently reproducible calculation support** and do **not** qualify as local calibration or live calculator defaults. Related project work logs corroborate recorded seeding activity, not an ecosystem-dollar return. A coincidentally matching research estimate must not be used to backfill an unverified project claim. Restoration incremental benefits require a valid comparable baseline; known research benchmarks are not incremental gains by themselves.
