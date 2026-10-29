@@ -116,4 +116,24 @@ assert.equal(el('runoffVolumeOut').textContent,'Reduction: 651,696 gallons/year'
 el('runoffBefore').value='-1';refresh();
 assert.equal(el('runoffVolumeOut').textContent,'Not calculated','Negative runoff depth rejected');
 
+// Friendly explorer: hide extra habitat categories initially, expand on request.
+assert.equal(el('landCards').children[3].hidden,true,'Less-common categories should start collapsed');
+el('moreLandscapes').listeners.click();
+assert.equal(el('landCards').children[3].hidden,false,'More landscapes should expand');
+assert.equal(el('moreLandscapes').attrs['aria-expanded'],'true');
+el('moreLandscapes').listeners.click();
+assert.equal(el('landCards').children[3].hidden,true,'Less common choices should collapse again');
+// Updating a slider updates the visible slider number and recalculates mowing costs.
+el('manualAcres').value='1';el('mowsCurrent').value='8';
+el('mowsProposed').value='2';el('mowCost').value='55';
+el('useItemizedMowing').checked=false;refresh();
+assert.equal(el('currentCutsLabel').textContent,'8');
+assert.equal(el('proposedCutsLabel').textContent,'2');
+assert.equal(el('mowDiffOut').textContent,'$330');
+// Most importantly, external map libraries are optional for all core calculations.
+new Function('document','L','turf',src)(document,undefined,undefined);
+assert.match(el('areaHelp').textContent,/Map unavailable/);
+assert.equal(el('mowDiffOut').textContent,'$330','Costs must still work without mapping scripts');
+el('mapDetails').listeners.toggle({target:{open:true}});
+
 console.log('PASS: acknowledgement, scenarios, mixed land covers, engineered-drainage guard, monetary year cost input validation, itemized costs and external model-output conversion.');
