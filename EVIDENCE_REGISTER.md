@@ -72,3 +72,8 @@ Read [HAYS_APPLICABILITY_2026.md](HAYS_APPLICABILITY_2026.md) for Blackland Prai
 ## Preliminary local example: Waterleaf Park meadow conversion
 
 See [Waterleaf Park case-study source audit](CASE_STUDIES/WATERLEAF_PARK_PRELIMINARY.md). A City of Kyle poster reports **3.6 acres**, **$894/ac** herbicide/seed, **$720/ac/year** mowing and **$2,245/ac/year** ecosystem services. City weekly reports confirm 2025 planning and no-till native seeding, but do not independently verify the poster's per-acre costs, ecological-dollar estimate or treated area. The poster's **$23,823** three-year project total conflicts with its **3.6 acres × $7,941/ac = $28,587.60** arithmetic. It must **not** be used as a website default or as an audited realized financial return. See the case-study document for corrections and source links.
+
+
+### Follow-up — logged Waterleaf seeding (private operational record, October 2026 review)
+
+The internal land-management tracking workbook records **1.86 acres / 40 lb** of Custom Mix 2025 at Waterleaf LMU 1 and **3.15 acres / 69 lb** at Waterleaf LMU 2 on November 18, 2025: **5.01 acres / 109 lb combined**. These are logged seeding quantities, not proof that the poster's 3.6-acre *financial example* covers all the same land. Source is not publicly inspectable; do not treat it as an audited public record. The June 28, 2026 original flyer filename suggests a hypothetical **$20/ac retained mowing pass** explaining $720 versus $700, but the underlying mowing worksheet is still missing. The project-wide dataset named *COK Parks Mowing Data 2024–2026* has not been retrieved. More detail: [Waterleaf case study](CASE_STUDIES/WATERLEAF_PARK_PRELIMINARY.md).
