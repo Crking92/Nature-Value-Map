@@ -55,3 +55,38 @@ The city also issued a [Parks maintenance RFP](https://www.cityofkyle.com/media/
 5. Follow-up vegetation surveys and seed mix with local-native provenance; any updated site condition and supplemental seeding or invasive-control costs.
 
 **Decision for Nature Value Map:** Retain Waterleaf as a **transparent, preliminary local case study**. Do **not** change the site's ecosystem-service coefficients or install $894/ac as a restoration default until records validate scope and completeness.
+
+
+## October 29, 2026 follow-up — internally logged seeding and poster provenance
+
+**New evidence level: internally recorded operations; public source publication pending.** A user-authorized review of the City of Kyle's *Land Management Tracking Form* workbook located two entries bearing an operation date of **November 18, 2025**. They report:
+
+| Recorded management unit | Seed mix | Recorded area | Recorded seed mass | Matching work-area calculation |
+| --- | --- | ---: | ---: | ---: |
+| Waterleaf LMU 1 | Custom Mix 2025 | 1.86 acres | 40 pounds | 81,021.6 sq ft |
+| Waterleaf LMU 2 | Custom Mix 2025 | 3.15 acres | 69 pounds | 137,214 sq ft |
+| **Combined** | **Custom Mix 2025** | **5.01 acres** | **109 pounds** | **218,235.6 sq ft** |
+
+The area and reported square-foot quantities reconcile because 5.01 × 43,560 = 218,235.6. These are **logged operational quantities**; they are not purchase receipts or field-survey proof of habitat establishment. The underlying workbook was available through the project owner's private connected files, and its personal staffing details have deliberately **not** been reproduced or linked here. Public users cannot independently inspect the source until the city publishes or authorizes its release.
+
+**Three separate acreage claims now have different meanings:**
+1. **5 acres assessed** for conversion in the [August 22, 2025 municipal weekly report](https://www.cityofkyle.gov/media/yq3i3pzz/august_22_2025_weekly_report.pdf).
+2. **5.01 acres seeded** on November 18, 2025, according to the management work log across two Waterleaf units.
+3. **3.6 acres assigned to the conversion example** in the June 28, 2026 *Conservation Conversions* poster. A September 1, 2026 correspondence accompanying the project photograph identifies the same 3.6-acre extent as the example in the flyer, but **does not provide the treatment polygon or explain why it is smaller than the logged seeding total**.
+
+Do not equate these automatically. The 3.6 acres could be a subset of the seeding area, a different intervention, or a cost-accounting area. The existence of the 5.01-acre work log **does not** independently invalidate the poster's 3.6-acre reference.
+
+### Flyer provenance and the $20-per-acre question
+
+A copy of the PDF held in the project owner's correspondence is named **"Conservation Conversions Flyer 20 dollars per acre mow once Final 6 28 2026.pdf."** Its body matches the printed poster. The filename suggests a possible explanation for **$720 baseline mowing − $20 for one retained cut = $700 avoided mowing annually**, but **that interpretation is not confirmed by an underlying work plan or budget worksheet**. A separate September 2026 project description calls $720 the annual mowing cost, but does not specify how many recurring meadow cuts or what expense was actually avoided. Keep the $20 deduction **hypothetical**, not established fact.
+
+The September 2026 broader program correspondence specifically identifies a dataset called **"COK Parks Mowing Data 2024–2026"** as supporting division-wide estimated conservation outcomes. That source dataset itself was **not located** in the available connected files. Broader conservation acres and division-level cost/benefit totals cannot be attributed to Waterleaf from that reference.
+
+### Documentation now needed — narrowed to four reconciliations
+
+1. The final Waterleaf treatment map and which **3.6 acres** in the poster overlap the **5.01 logged seeded acres**.
+2. Original itemized herbicide and native-seed purchases, treatment dates, and whether the $894/ac figure includes labor, tractor, drill, fuel or follow-up visits.
+3. The original **COK Parks Mowing Data 2024–2026** worksheet showing $720 baseline, $700 avoided mowing, whether one $20/ac cut remains, and any rate/frequency/labor formula.
+4. The ecological-dollar calculation worksheet and its study-to-service crosswalk explaining **$2,245/ac/year**, including dollar year, prior-cover baseline, double-counting checks, and first-year establishment assumptions.
+
+**Release decision:** Preserve existing coefficients and disable any claim that a three-year Waterleaf cash payback has already been measured. No new universal cost, ecosystem-service value or site-level annual savings has been added to the calculator.
