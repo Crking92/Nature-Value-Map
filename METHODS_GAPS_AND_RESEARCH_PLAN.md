@@ -64,3 +64,12 @@ Before averaging studies: match ecological endpoint, unit (per year, per event, 
 - **Requires next scientific review:** Geographic evidence-screening rubric and regional peer-reviewed studies for physical outcomes. Annual NLCD and USDA soils can inform site-classification prompts, but not instantly certify ecology.
 
 The automated test file \`tests/verify-scenarios.cjs\` checks calculator behavior, including the former mixed-cover engineered drainage loophole. Neither tests nor acknowledgement by a user independently validate actual site conditions.
+
+
+## Implemented first-stage empirical-data intake (October 2026)
+
+**Itemized mowing estimate:** users can supply per-pass crew-hours, loaded hourly labor, equipment hours/rate, fuel not already included and other nonoverlapping mobilization expenses. Source is the user's entries, not an independently authenticated invoice. See [cost reproducibility protocol](COST_MODEL_PROTOCOL.md).
+
+**External hydrology model output comparison:** accepts existing/proposed annual runoff depth from a documented external model, requires comparable site/climate assumptions and performs only an acre-inch volume conversion. It is **not a SWMM integration**, not a new native meadow hydrology study, and not a verified or measured runoff reduction. See [runoff model protocol](RUNOFF_MODEL_PROTOCOL.md).
+
+**Next scientific phase:** independently review site-specific rainfall/soils and model results; build distinct current/proposed mowing rates and price-year normalization; select appropriate carbon stock-vs-flux measures and native vegetation/host-plant indicators before numerical publication.
