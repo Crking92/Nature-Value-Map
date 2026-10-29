@@ -150,15 +150,19 @@
   function finances(acres){
     var rate=number('mowCost'),before=number('mowsCurrent'),after=number('mowsProposed');
     var install=number('installCost'),care=number('careCost');
-    if(acres===null||rate===null||before===null||after===null){['currentMowOut','proposedMowOut','mowDiffOut'].forEach(function(id){set(id,'Check inputs');});set('tenYearOut','Check inputs');return;}
+    if(acres===null||rate===null||before===null||after===null){['currentMowOut','proposedMowOut','mowDiffOut'].forEach(function(id){set(id,'Check inputs');});set('tenYearOut','Check inputs');set('mowRangeOut','Enter valid non-negative acreage, rate and mowing frequencies.');return;}
     var current=acres*rate*before,proposed=acres*rate*after,diff=current-proposed;
+    var rangeLow=acres*(before-after)*40, rangeHigh=acres*(before-after)*70;
+    set('mowRangeOut','Using Kyle’s reported $40–$70/acre/cut range, the mowing-only annual difference for these frequencies would be '+money(Math.min(rangeLow,rangeHigh))+' to '+money(Math.max(rangeLow,rangeHigh))+'. This does not include restoration costs.');
     set('currentMowOut',money(current));set('proposedMowOut',money(proposed));set('mowDiffOut',money(diff));
     if(install===null||care===null){set('tenYearOut','Needs costs');
       set('financeNote','Enter installation and annual restoration management costs (enter 0 only if documented) to calculate the undiscounted 10-year difference. No total savings claim is made yet.');
       return;}
     var net=10*(diff-acres*care)-acres*install;
     set('tenYearOut',money(net));
-    set('financeNote','Ten-year modeled difference after user-entered restoration costs (undiscounted). Positive values mean modeled savings. Does not include other unentered costs or site-specific inflation.');
+    var basis=el('costBasis').value,source=el('costReference').value.trim();
+    var basisText=basis==='invoice'?'User reports an invoice/work order':basis==='quote'?'User reports a quote/bid':'Planning assumptions (not independently verified)';
+    set('financeNote','Ten-year modeled difference after user-entered restoration costs (undiscounted). '+basisText+(source?'; source note: '+source:'')+'. Positive values mean modeled savings, not a verified project return. Excludes unentered costs and inflation.');
   }
   function update(){
     var acres=area();var c=cls(selected);var ref=calculateReference(acres);
