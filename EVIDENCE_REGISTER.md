@@ -67,3 +67,8 @@ See [SOURCE_AUDIT_2026-10-29.md](SOURCE_AUDIT_2026-10-29.md) for original table/
 ## Hays County applicability review (October 2026)
 
 Read [HAYS_APPLICABILITY_2026.md](HAYS_APPLICABILITY_2026.md) for Blackland Prairie versus Edwards Plateau soil context, 2026 peer-reviewed regional swale/detention studies, and a **FY2025 NRCS statewide modeled $225.38/ac range-planting scenario for 150 acres**. These do not replace site assessment or actual Kyle restoration invoices. The site-setting input is not GIS verified and does not modify source rates. An engineered drainage setting with a natural wetland or riparian classification withholds that benchmark.
+
+
+## Preliminary local example: Waterleaf Park meadow conversion
+
+See [Waterleaf Park case-study source audit](CASE_STUDIES/WATERLEAF_PARK_PRELIMINARY.md). A City of Kyle poster reports **3.6 acres**, **$894/ac** herbicide/seed, **$720/ac/year** mowing and **$2,245/ac/year** ecosystem services. City weekly reports confirm 2025 planning and no-till native seeding, but do not independently verify the poster's per-acre costs, ecological-dollar estimate or treated area. The poster's **$23,823** three-year project total conflicts with its **3.6 acres × $7,941/ac = $28,587.60** arithmetic. It must **not** be used as a website default or as an audited realized financial return. See the case-study document for corrections and source links.
