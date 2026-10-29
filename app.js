@@ -106,9 +106,11 @@
     if(!info){return;}var a=document.createElement('a');a.href=info.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=info.label;container.appendChild(a);}
   // The map is optional. Missing mapping scripts must never break the calculator.
   var map=null,drawn={clearLayers:function(){}};
+  var foundPin=null;
+  var searchBusy=false;
   if(typeof L!=='undefined' && typeof L.map==='function' && L.FeatureGroup && L.Control && L.Control.Draw && L.Draw){
     try {
-      map=L.map('map',{scrollWheelZoom:false}).setView([29.9891,-97.8772],12);
+      map=L.map('map',{scrollWheelZoom:false,zoomControl:false}).setView([29.9891,-97.8772],12);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:20,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
       drawn=new L.FeatureGroup();map.addLayer(drawn);
       map.addControl(new L.Control.Draw({draw:{polygon:{allowIntersection:false,showArea:true},rectangle:true,polyline:false,circle:false,marker:false,circlemarker:false},edit:{featureGroup:drawn}}));
@@ -121,6 +123,90 @@
   }
   if(!map){set('areaHelp','Map tools could not load. You can still choose a preset acreage or type your own.');}
   el('clearBtn').addEventListener('click',function(){drawn.clearLayers();feature=null;layer=null;update();});
+  // Explicit zoom buttons help on mobile and avoid capturing page-scroll wheel events.
+  function zoomMap(direction){
+    if(!map){set('placeSearchStatus','The map is unavailable. You can still type acreage above.');return;}
+    if(direction>0 && typeof map.zoomIn==='function')map.zoomIn();
+    else if(direction<0 && typeof map.zoomOut==='function')map.zoomOut();
+    else if(typeof map.getZoom==='function'&&typeof map.setZoom==='function')map.setZoom(map.getZoom()+(direction>0?1:-1));
+  }
+  el('mapZoomIn').addEventListener('click',function(){zoomMap(1);});
+  el('mapZoomOut').addEventListener('click',function(){zoomMap(-1);});
+  el('mapBackKyle').addEventListener('click',function(){
+    if(!map){set('placeSearchStatus','The map is unavailable.');return;}
+    if(foundPin&&typeof map.removeLayer==='function')map.removeLayer(foundPin);
+    foundPin=null;
+    if(typeof map.setView==='function')map.setView([29.9891,-97.8772],12);
+    set('placeSearchStatus','Map returned to Kyle. Existing drawn-area calculations have not changed.');
+    el('placeSearchResults').textContent='';
+  });
+
+  // Address and place lookup happens ONLY when someone explicitly submits search.
+  // ArcGIS results are temporary navigation cues, not surveyed property outlines.
+  function goToPlace(hit){
+    if(!map)return;
+    if(foundPin&&typeof map.removeLayer==='function')map.removeLayer(foundPin);
+    foundPin=null;
+    // Do not leave a stale drawn area behind while viewing a new address.
+    if(feature){drawn.clearLayers();feature=null;layer=null;update();}
+    if(typeof map.setView==='function')map.setView([hit.lat,hit.lon],hit.type==='Locality'?13:17);
+    if(typeof L!=='undefined'&&typeof L.circleMarker==='function'){
+      foundPin=L.circleMarker([hit.lat,hit.lon],{radius:8,color:'#255c3b',fillColor:'#f5d083',fillOpacity:0.95,weight:3}).addTo(map);
+    }
+    el('placeSearchResults').textContent='';
+    set('placeSearchStatus','Showing '+hit.label+'. Zoom with + / −, then draw your area. Search does not determine a parcel boundary or acreage.');
+    if(typeof map.invalidateSize==='function')map.invalidateSize();
+  }
+
+  var lastSearchAt=0;
+  el('placeSearchForm').addEventListener('submit',async function(e){
+    if(e&&typeof e.preventDefault==='function')e.preventDefault();
+    var box=el('placeSearchResults');
+    box.textContent='';
+    if(!map){set('placeSearchStatus','The map could not load. You can still enter an acreage above.');return;}
+    if(typeof NVMPlaceSearch==='undefined' || typeof fetch!=='function'){
+      set('placeSearchStatus','Address search is unavailable. Use the map zoom controls and drawing tools instead.');return;
+    }
+    if(searchBusy)return;
+    var raw=el('placeSearchInput').value;
+    var endpoint;
+    try{endpoint=NVMPlaceSearch.buildUrl(raw);}
+    catch(err){set('placeSearchStatus',err.message);return;}
+    // Limit accidental rapid repeated requests; never geocode on each keystroke.
+    if(Date.now()-lastSearchAt<1100){
+      set('placeSearchStatus','Please wait a moment before searching again.');return;
+    }
+    lastSearchAt=Date.now();searchBusy=true;
+    el('placeSearchButton').disabled=true;
+    set('placeSearchStatus','Looking for matching places…');
+    var controller=typeof AbortController==='function'?new AbortController():null;
+    var timer=controller?setTimeout(function(){controller.abort();},10000):null;
+    try {
+      var response=await fetch(endpoint,{method:'GET',mode:'cors',signal:controller?controller.signal:undefined});
+      if(!response.ok)throw new Error('Search service returned an error.');
+      var hits=NVMPlaceSearch.matches(await response.json());
+      if(!hits.length){
+        set('placeSearchStatus','No reliable matches found. Try a street address with city/state, or a more specific park name.');return;
+      }
+      if(hits.length===1){goToPlace(hits[0]);return;}
+      set('placeSearchStatus','Several places match. Choose the correct one:');
+      hits.forEach(function(hit){
+        var button=document.createElement('button');
+        button.type='button';button.className='map-search-match';
+        button.textContent=hit.label;
+        button.addEventListener('click',function(){goToPlace(hit);});
+        box.appendChild(button);
+      });
+    } catch(err) {
+      set('placeSearchStatus','Search is temporarily unavailable. You can still move and zoom the map manually.');
+      // No automatic fallback queries or storing the user's search.
+    } finally {
+      if(timer!==null)clearTimeout(timer);
+      searchBusy=false;el('placeSearchButton').disabled=false;
+    }
+  });
+
+
   // The map is optional and initially collapsed. Fix Leaflet's size only after opening it.
   el('mapDetails').addEventListener('toggle',function(e){
     if(e.target.open&&map&&typeof map.invalidateSize==='function'){setTimeout(function(){map.invalidateSize();},100);}

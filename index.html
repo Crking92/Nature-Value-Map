@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://unpkg.com">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body class="explorer-page">
 <a class="skip-link" href="#explore">Skip to the explorer</a>
@@ -46,11 +46,26 @@
         <button type="button" data-acres="10">10 acres</button>
       </div>
       <details id="mapDetails" class="drawer map-drawer">
-        <summary><span>📍 Draw your own area on a map</span><small>Optional · Opens the Kyle map</small></summary>
+        <summary><span>📍 Find an address or draw on a map</span><small>Optional · Zoom and draw</small></summary>
+        <form id="placeSearchForm" class="map-search-form" role="search" autocomplete="off">
+          <label for="placeSearchInput">Search for a U.S. address, park, or place</label>
+          <div class="map-search-input-row">
+            <input id="placeSearchInput" type="search" maxlength="180" placeholder="e.g., Steeplechase Park, Kyle TX" autocomplete="off" spellcheck="false">
+            <button id="placeSearchButton" type="submit">Find</button>
+          </div>
+        </form>
+        <p id="placeSearchStatus" class="small map-search-status" role="status" aria-live="polite">Type a place and press Find to move the map there.</p>
+        <div id="placeSearchResults" class="map-search-results" aria-label="Matching places"></div>
         <div class="map-wrap">
-          <div id="map" role="region" aria-label="Interactive map of Kyle, Texas"></div>
-          <div class="map-help">Use the polygon or rectangle tools to draw an area. Drawing overrides the typed acreage.</div>
+          <div id="map" role="region" aria-label="Interactive map of Kyle, Texas, with zoom and draw tools"></div>
+          <div class="map-zoom-tools" role="group" aria-label="Map zoom controls">
+            <button id="mapZoomIn" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+            <button id="mapZoomOut" type="button" aria-label="Zoom out" title="Zoom out">−</button>
+            <button id="mapBackKyle" type="button" aria-label="Return map to Kyle, Texas">Kyle</button>
+          </div>
+          <div class="map-help">Use + / − to zoom, then draw a polygon or rectangle around your area. Searching only moves the map; it does not select a property or change acreage.</div>
         </div>
+        <p class="small map-search-credit">Address and place lookup: <a href="https://developers.arcgis.com/rest/geocode/find-address-candidates/" target="_blank" rel="noopener noreferrer">Esri ArcGIS World Geocoder</a>. Your search is sent to Esri only when you press Find; results are used to navigate this map and aren't stored by this site.</p>
         <button id="clearBtn" type="button" class="soft">Clear drawn area</button>
         <p id="areaHelp" class="small">The area of a drawn polygon is calculated from its geometry.</p>
       </details>
@@ -283,6 +298,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-<script src="app.js?v=7"></script>
+<script src="map-search-core.js?v=1"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>

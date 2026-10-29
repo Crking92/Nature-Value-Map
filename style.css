@@ -201,3 +201,28 @@ label{display:block;font-weight:800;font-size:.84rem;color:#2c362c;margin-top:10
  .resource-cards>a{min-height:0}
 }
 @media(prefers-reduced-motion:reduce){.explorer-page *, .explorer-page *:before,.explorer-page *:after{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* Map discoverability: explicit zoom buttons and submit-only place lookup. */
+.explorer-page .map-search-form{margin:16px 0 4px}
+.explorer-page .map-search-form label{display:block;font-size:.9rem;font-weight:800;color:#2b5139;margin:0 0 6px}
+.explorer-page .map-search-input-row{display:flex;align-items:stretch;gap:8px}
+.explorer-page .map-search-input-row input{min-width:0;flex:1;font-size:1rem;padding:12px;border:1.5px solid #a9bdab;border-radius:13px;margin:0}
+.explorer-page .map-search-input-row button{flex:none;background:#2b613d;color:white;padding:11px 19px;border-radius:13px;font-weight:800}
+.explorer-page .map-search-input-row button:disabled{opacity:.6;cursor:wait}
+.explorer-page .map-search-status{margin:8px 0 12px;min-height:1.2em;color:#48604d}
+.explorer-page .map-search-results{display:flex;flex-direction:column;gap:6px;margin:0 0 9px}
+.explorer-page .map-search-match{width:100%;text-align:left;border:1px solid #d5e5d1;background:#f3f8f0;color:#27543b;border-radius:10px;padding:10px 12px;line-height:1.4;font-weight:650;overflow-wrap:anywhere}
+.explorer-page .map-search-match:hover{background:#e4f1dd;border-color:#9fbc9c}
+.explorer-page .map-search-credit{margin:9px 0 2px;font-size:.78rem;color:#697a6c;line-height:1.45}
+.explorer-page .map-zoom-tools{position:absolute;right:13px;top:14px;z-index:1200;display:flex;flex-direction:column;gap:5px;pointer-events:auto}
+.explorer-page .map-zoom-tools button{min-width:43px;min-height:43px;background:rgba(255,254,250,.98);border:1px solid #9cb79c;border-radius:11px;color:#265238;font-size:1.65rem;font-weight:900;padding:5px 9px;line-height:1.2;box-shadow:0 2px 8px #0002}
+.explorer-page .map-zoom-tools #mapBackKyle{font-size:.78rem;min-width:48px;padding:9px 4px}
+.explorer-page .map-zoom-tools button:hover{background:#eaf5e6}
+.explorer-page .map-drawer .map-help{right:10px;max-width:270px}
+@media(max-width:650px){
+ .explorer-page .map-search-input-row button{padding:10px 14px}
+ .explorer-page .map-zoom-tools{right:9px;top:9px}
+ .explorer-page .map-zoom-tools button{min-width:47px;min-height:47px}
+ .explorer-page .map-drawer .map-help{max-width:250px;font-size:.75rem}
+}
