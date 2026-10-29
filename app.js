@@ -1,189 +1,115 @@
-
-const CLASSES = [{"id": "native_prairie", "label": "Prairie / wildflower meadow", "short_label": "Prairie", "icon": "🌼", "plain": "A mostly native open area with grasses and wildflowers.", "value_per_acre_year": 1941, "usd_year": 2021, "confidence": "Strong", "source_id": "tx_am_aec_2025_grassland", "simple_note": "Best choice for restored Blackland Prairie, no-mow native meadows, and seeded conservation areas."}, {"id": "wetland", "label": "Wetland / pond edge", "short_label": "Wetland", "icon": "💧", "plain": "A soggy or seasonally wet place that slows water and supports wetland plants.", "value_per_acre_year": 18948, "usd_year": 2021, "confidence": "Strong", "source_id": "tx_am_aec_2025_wetland", "simple_note": "Use only where the site really has wetland or wet-soil function."}, {"id": "forest", "label": "Woodland / forest", "short_label": "Woodland", "icon": "🌳", "plain": "An upland area mostly covered by trees.", "value_per_acre_year": 12589, "usd_year": 2021, "confidence": "Moderate", "source_id": "fema_2022_forest", "simple_note": "Useful for wooded areas, but this is a national fallback value."}, {"id": "riparian_forest", "label": "Creekside woods", "short_label": "Creekside woods", "icon": "🏞️", "plain": "Trees along a creek, drainage, river, or floodplain.", "value_per_acre_year": 37199, "usd_year": 2021, "confidence": "Moderate", "source_id": "fema_2022_riparian_forest", "simple_note": "Use only for wooded creek corridors or floodplain forest."}, {"id": "non_native_grass", "label": "Mostly non-native grass", "short_label": "Exotic grass", "icon": "🌾", "plain": "A grassy area dominated by introduced or exotic grasses.", "value_per_acre_year": 930, "usd_year": 2024, "confidence": "Moderate", "source_id": "ecometrics_2024_native_non_native", "simple_note": "Best available Texas value for non-native grass cover."}, {"id": "turf_estimate", "label": "Mowed turf field", "short_label": "Turf", "icon": "🏟️", "plain": "A regularly mowed lawn, field, or turf area.", "value_per_acre_year": 930, "usd_year": 2024, "confidence": "Draft estimate", "source_id": "turf_estimate_from_non_native_grass", "simple_note": "No clean Central Texas turf ecosystem-service value was found. This starting estimate uses the non-native grass value and can be changed if the user has better local data."}, {"id": "rural_green_open_space", "label": "Other open green land", "short_label": "Other open land", "icon": "🟩", "plain": "A vegetated open area that is not clearly prairie, wetland, forest, or turf.", "value_per_acre_year": 10632, "usd_year": 2021, "confidence": "Moderate", "source_id": "fema_2022_rural_green", "simple_note": "Fallback class only. Pick a more specific category when possible."}, {"id": "urban_green_open_space", "label": "Urban green open space", "short_label": "Urban open space", "icon": "🏙️", "plain": "A broad urban green-space category.", "value_per_acre_year": 19992, "usd_year": 2021, "confidence": "Use carefully", "source_id": "tx_am_aec_2025_urban_green", "simple_note": "Broad category with overlap risk. Not recommended as the default for prairie restoration."}];
-const SOURCES = Object.fromEntries([{"id": "tx_am_aec_2025_grassland", "title": "Texas A&M AgriLife / AECOM 2025 — Grasslands and Prairies", "short": "Texas-specific prairie value", "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf"}, {"id": "tx_am_aec_2025_wetland", "title": "Texas A&M AgriLife / AECOM 2025 — Wetlands", "short": "Texas-specific wetland value", "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf"}, {"id": "tx_am_aec_2025_urban_green", "title": "Texas A&M AgriLife / AECOM 2025 — Urban Green Open Space", "short": "Texas-specific urban green-space value", "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf"}, {"id": "fema_2022_forest", "title": "FEMA 2022 — Forest value, reproduced in Texas A&M/AECOM appendix", "short": "National forest fallback", "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf"}, {"id": "fema_2022_riparian_forest", "title": "FEMA 2022 — Riparian forest value, reproduced in Texas A&M/AECOM appendix", "short": "National creekside forest fallback", "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf"}, {"id": "fema_2022_rural_green", "title": "FEMA 2022 — Rural green open space value, reproduced in Texas A&M/AECOM appendix", "short": "National open-space fallback", "url": "https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf"}, {"id": "ecometrics_2024_native_non_native", "title": "EcoMetrics / Texan by Nature / EOG 2024 — Native vs non-native grass restoration", "short": "Texas native vs non-native grass comparison", "url": "https://nri.tamu.edu/media/3986/ecometrics-analysis.pdf"}, {"id": "turf_estimate_from_non_native_grass", "title": "Draft turf-field estimate based on Texas non-native grass valuation", "short": "Editable turf-field starting estimate", "url": "https://nri.tamu.edu/media/3986/ecometrics-analysis.pdf"}].map(s => [s.id, s]));
-const ACRE_PER_SQ_METER = 0.00024710538146717;
-
-let selectedClass = 'native_prairie';
-let selectedQuality = 0.85;
-let drawnFeature = null;
-let drawnLayer = null;
-let mixedMode = false;
-
-const fmtMoney = n => {
-  if (n === null || n === undefined || isNaN(n)) return '—';
-  return n.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0});
-};
-const fmtAc = n => (isNaN(n) ? '—' : n.toLocaleString(undefined,{maximumFractionDigits:2}) + ' acres');
-const getClass = id => CLASSES.find(c => c.id === id);
-const getCurrentValuePerAcre = () => +document.getElementById('valuePerAcre').value || 0;
-
-const map = L.map('map', { scrollWheelZoom: true }).setView([29.9891, -97.8772], 12);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 20,
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
-
-const drawnItems = new L.FeatureGroup();
-map.addLayer(drawnItems);
-const drawControl = new L.Control.Draw({
-  draw: {
-    polygon: { allowIntersection: false, showArea: true, shapeOptions:{ color:'#315c3a', weight:3 } },
-    rectangle: { shapeOptions:{ color:'#315c3a', weight:3 } },
-    polyline:false, circle:false, marker:false, circlemarker:false
-  },
-  edit: { featureGroup: drawnItems }
-});
-map.addControl(drawControl);
-
-map.on(L.Draw.Event.CREATED, e => {
-  if (drawnLayer) drawnItems.removeLayer(drawnLayer);
-  drawnLayer = e.layer;
-  drawnItems.addLayer(drawnLayer);
-  drawnFeature = drawnLayer.toGeoJSON();
-  update();
-});
-map.on(L.Draw.Event.EDITED, e => {
-  e.layers.eachLayer(layer => { drawnLayer = layer; drawnFeature = layer.toGeoJSON(); });
-  update();
-});
-map.on(L.Draw.Event.DELETED, () => {
-  drawnLayer = null; drawnFeature = null; update();
-});
-
-function areaAcres(){
-  if (drawnFeature) return turf.area(drawnFeature) * ACRE_PER_SQ_METER;
-  return parseFloat(document.getElementById('manualAcres').value) || 0;
-}
-
-function costs(acres){
-  let total = 0;
-  if (document.getElementById('useMowing').checked) total += acres * (+document.getElementById('mowCost').value || 0) * (+document.getElementById('mowsYear').value || 0);
-  if (document.getElementById('useIrrigation').checked) total += acres * (+document.getElementById('irrigationCost').value || 0);
-  if (document.getElementById('useFertilizer').checked) total += acres * (+document.getElementById('fertCost').value || 0) * (+document.getElementById('fertMonths').value || 0);
-  if (document.getElementById('useInvasive').checked) total += acres * (+document.getElementById('invasiveCost').value || 0) * (+document.getElementById('invasiveCycles').value || 0);
-  return total;
-}
-
-function grossValue(acres){
-  if (!mixedMode) return acres * getCurrentValuePerAcre() * selectedQuality;
-  let gross = 0;
-  document.querySelectorAll('.mix-row').forEach(row => {
-    const pct = +row.querySelector('.mix-pct').value || 0;
-    const id = row.querySelector('.mix-class').value;
-    const q = (+row.querySelector('.mix-quality').value || 100) / 100;
-    const c = getClass(id);
-    if (c && c.value_per_acre_year) gross += acres * (pct/100) * c.value_per_acre_year * q;
-  });
-  return gross;
-}
-
-function selectedSourceNote(){
-  const c = getClass(selectedClass);
-  const s = SOURCES[c.source_id] || {};
-  const link = s.url ? `<a href="${s.url}" target="_blank" rel="noopener">${s.short}</a>` : s.short;
-  document.getElementById('valueNote').innerHTML = `${c.simple_note}<br><strong>Starting source:</strong> ${link}.`;
-}
-
-function update(){
-  const acres = areaAcres();
-  const gross = grossValue(acres);
-  const cost = costs(acres);
-  const net = gross - cost;
-  const c = getClass(selectedClass);
-  const valuePerAcre = getCurrentValuePerAcre();
-
-  document.getElementById('heroValue').textContent = fmtMoney(net);
-  document.getElementById('areaOut').textContent = fmtAc(acres);
-  document.getElementById('grossOut').textContent = fmtMoney(gross);
-  document.getElementById('costOut').textContent = fmtMoney(cost);
-  document.getElementById('netOut').textContent = fmtMoney(net);
-
-  if (!mixedMode) {
-    let costText = cost > 0 ? ` After optional costs, the net estimate is <strong>${fmtMoney(net)} per year</strong>.` : "";
-    document.getElementById('plainAnswer').innerHTML =
-      `<strong>${fmtAc(acres)}</strong> of <strong>${c.label.toLowerCase()}</strong> is estimated at <strong>${fmtMoney(gross)} per year</strong> before optional costs. This uses <strong>${fmtMoney(valuePerAcre)}/acre/year</strong> and a <strong>${Math.round(selectedQuality*100)}%</strong> health score.${costText}`;
-  } else {
-    document.getElementById('plainAnswer').innerHTML =
-      `<strong>${fmtAc(acres)}</strong> of mixed vegetation is estimated at <strong>${fmtMoney(gross)} per year</strong> before optional costs.`;
-  }
-}
-
-function buildLandCards(){
-  const box = document.getElementById('landCards');
-  box.innerHTML = CLASSES.map(c => `
-    <button type="button" class="land-card ${c.id===selectedClass?'selected':''}" data-id="${c.id}">
-      <span class="icon">${c.icon}</span>
-      <strong>${c.label}</strong>
-      <small>${c.plain}</small>
-    </button>
-  `).join('');
-  box.querySelectorAll('.land-card').forEach(btn => {
-    btn.addEventListener('click', () => {
-      selectedClass = btn.dataset.id;
-      const c = getClass(selectedClass);
-      document.getElementById('valuePerAcre').value = c.value_per_acre_year;
-      document.querySelectorAll('.land-card').forEach(b=>b.classList.remove('selected'));
-      btn.classList.add('selected');
-      selectedSourceNote();
-      update();
+(function () {
+  'use strict';
+  // Source figures are references, not property-level predictions. Updated 2026-10-29.
+  var STUDIES = {
+    gift: {label:'Texas A&M AgriLife / AECOM, Ecosystem Service Values for Texas (2025); 2021 USD', url:'https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf'},
+    fema: {label:'FEMA (2022), national benefit-transfer table reproduced in AECOM (2025); 2021 USD', url:'https://agrilife.org/gift/files/2025/08/Ecosystem-Service-Values-for-Texas_FINAL-August-2025.pdf'},
+    eco: {label:'EcoMetrics (2024), La Salle County right-of-way restoration; 2023 USD', url:'https://nri.tamu.edu/media/3986/ecometrics-analysis.pdf'}
+  };
+  var CLASSES = [
+    {id:'native_prairie',label:'Prairie / native meadow',icon:'🌼',value:1941,year:2021,source:'gift',eligible:true,warning:'Texas literature-based grassland/prairie benchmark. Not a measurement or guarantee of benefits for newly planted sites.'},
+    {id:'wetland',label:'Wetland',icon:'💧',value:18948,year:2021,source:'gift',eligible:true,warning:'Use only for sites actually functioning as wetlands. Do not label every detention pond edge a wetland.'},
+    {id:'forest',label:'Upland woodland',icon:'🌳',value:12589,year:2021,source:'fema',eligible:true,warning:'National fallback reference with components including existence values; local applicability is uncertain.'},
+    {id:'riparian_forest',label:'Creekside forest',icon:'🏞️',value:37199,year:2021,source:'fema',eligible:true,warning:'National riparian-forest fallback; not appropriate for a narrow strip of trees without review.'},
+    {id:'non_native_grass',label:'Non-native grass restoration',icon:'🌾',value:930,year:2023,source:'eco',eligible:false,warning:'La Salle County oil-and-gas right-of-way case study only. Not a generic lawn or Hays County grassland valuation.'},
+    {id:'turf_estimate',label:'Regularly mowed turf',icon:'🏟️',value:null,year:null,source:null,eligible:false,warning:'No verified local annual ecosystem-service dollar value is assigned. Lawns can still provide benefits; this tool will not invent a value.'},
+    {id:'rural_green_open_space',label:'Other rural green space',icon:'🟩',value:10632,year:2021,source:'fema',eligible:true,warning:'Broad national fallback class; choose a more specific land-cover class when possible.'},
+    {id:'urban_green_open_space',label:'Urban green open space',icon:'🏙️',value:19992,year:2021,source:'gift',eligible:true,warning:'Broad urban-green category has high overlap risk; do not use as a proxy for turf or native prairie.'}
+  ];
+  var selected = 'native_prairie';
+  var mixed = false;
+  var feature = null;
+  var layer = null;
+  var fmt = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+  function el(id){return document.getElementById(id);}
+  function money(value){return value === null || !Number.isFinite(value) ? 'Not established' : fmt.format(value);}
+  function number(id){var x=Number(el(id).value);return el(id).value.trim()==='' || !Number.isFinite(x) || x<0 ? null : x;}
+  function cls(id){return CLASSES.find(function(c){return c.id===id;});}
+  function set(id,value){el(id).textContent=value;}
+  function link(container,info){while(container.firstChild){container.removeChild(container.firstChild);}
+    if(!info){return;}var a=document.createElement('a');a.href=info.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=info.label;container.appendChild(a);}
+  var map=L.map('map',{scrollWheelZoom:true}).setView([29.9891,-97.8772],12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:20,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+  var drawn=new L.FeatureGroup();map.addLayer(drawn);
+  map.addControl(new L.Control.Draw({draw:{polygon:{allowIntersection:false,showArea:true},rectangle:true,polyline:false,circle:false,marker:false,circlemarker:false},edit:{featureGroup:drawn}}));
+  map.on(L.Draw.Event.CREATED,function(e){drawn.clearLayers();layer=e.layer;drawn.addLayer(layer);feature=layer.toGeoJSON();update();});
+  map.on(L.Draw.Event.EDITED,function(e){e.layers.eachLayer(function(x){layer=x;feature=x.toGeoJSON();});update();});
+  map.on(L.Draw.Event.DELETED,function(){feature=null;layer=null;update();});
+  el('clearBtn').addEventListener('click',function(){drawn.clearLayers();feature=null;layer=null;update();});
+  function area(){if(feature){return turf.area(feature)*0.00024710538146717;}return number('manualAcres');}
+  function buildCards(){var holder=el('landCards');holder.textContent='';CLASSES.forEach(function(c){
+    var b=document.createElement('button');b.type='button';b.className='land-card'+(selected===c.id?' selected':'');
+    b.setAttribute('aria-pressed',String(selected===c.id));
+    var icon=document.createElement('span');icon.className='icon';icon.textContent=c.icon;
+    var title=document.createElement('strong');title.textContent=c.label;
+    var desc=document.createElement('small');desc.textContent=c.value===null?'No verified dollar default':(c.eligible?'Published reference':'Case study only');
+    b.append(icon,title,desc);b.addEventListener('click',function(){selected=c.id;buildCards();update();});holder.appendChild(b);
+  });}
+  function buildMix(){var wrap=el('mixRows');wrap.textContent='';
+    [{pct:60,id:'forest'},{pct:20,id:'native_prairie'},{pct:20,id:'rural_green_open_space'}].forEach(function(r){
+      var row=document.createElement('div');row.className='mix-row';
+      var p=document.createElement('input');p.className='mix-pct';p.type='number';p.min='0';p.max='100';p.step='1';p.value=String(r.pct);p.setAttribute('aria-label','Percentage of total area');
+      var select=document.createElement('select');select.className='mix-class';select.setAttribute('aria-label','Land-cover category');
+      CLASSES.forEach(function(c){var o=document.createElement('option');o.value=c.id;o.textContent=c.label;select.appendChild(o);});select.value=r.id;
+      var yr=document.createElement('span');yr.className='small';yr.textContent='2021 USD only';row.append(p,select,yr);wrap.appendChild(row);
     });
-  });
-}
-
-function buildMixRows(){
-  const wrap = document.getElementById('mixRows');
-  const options = CLASSES.map(c => `<option value="${c.id}">${c.label}</option>`).join('');
-  wrap.innerHTML = [70,20,10].map((pct, i) => `
-    <div class="mix-row">
-      <input class="mix-pct" type="number" value="${pct}" aria-label="percent cover">
-      <select class="mix-class">${options}</select>
-      <input class="mix-quality" type="number" value="${i===0?85:70}" aria-label="quality percent">
-    </div>
-  `).join('');
-  const selects = wrap.querySelectorAll('.mix-class');
-  if (selects[0]) selects[0].value = 'native_prairie';
-  if (selects[1]) selects[1].value = 'turf_estimate';
-  if (selects[2]) selects[2].value = 'riparian_forest';
-}
-
-function buildSources(){
-  const list = document.getElementById('sourceList');
-  list.innerHTML = Object.values(SOURCES).map(s => `
-    <li><strong>${s.short}</strong><br>${s.url ? `<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>` : s.title}</li>
-  `).join('');
-}
-
-document.getElementById('qualitySlider').addEventListener('input', e => {
-  selectedQuality = (+e.target.value || 0) / 100;
-  document.getElementById('qualityText').textContent = e.target.value + '%';
-  document.querySelectorAll('.quality').forEach(b => b.classList.remove('selected'));
-  update();
-});
-document.querySelectorAll('.quality').forEach(btn => {
-  btn.addEventListener('click', () => {
-    selectedQuality = +btn.dataset.quality;
-    document.getElementById('qualitySlider').value = Math.round(selectedQuality*100);
-    document.getElementById('qualityText').textContent = Math.round(selectedQuality*100) + '%';
-    document.querySelectorAll('.quality').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-    update();
-  });
-});
-document.querySelector('.advanced').addEventListener('toggle', e => {
-  mixedMode = e.target.open;
-  update();
-});
-document.getElementById('clearBtn').addEventListener('click', () => {
-  drawnItems.clearLayers();
-  drawnLayer = null;
-  drawnFeature = null;
-  update();
-});
-document.addEventListener('input', update);
-document.addEventListener('change', update);
-
-buildLandCards();
-buildMixRows();
-buildSources();
-selectedSourceNote();
-update();
+  }
+  function calculateReference(acres){
+    if(acres===null){return {value:null,rate:null,message:'Enter a valid non-negative area.'};}
+    if(!mixed){var c=cls(selected);if(!c.eligible || c.value===null){return {value:null,rate:null,message:c.warning};}
+      return {value:acres*c.value,rate:c.value,message:c.warning};
+    }
+    var pctSum=0,total=0,invalid='';
+    Array.from(document.querySelectorAll('.mix-row')).forEach(function(r){
+      var input=r.querySelector('.mix-pct');var raw=input.value.trim();var pct=raw===''?NaN:Number(raw);
+      var c=cls(r.querySelector('.mix-class').value);
+      if(!Number.isFinite(pct)||pct<0||pct>100){invalid='All area percentages must be between 0 and 100.';return;}
+      pctSum+=pct;
+      if(pct>0&&(!c.eligible||c.year!==2021||c.value===null)){invalid='A selected category has no compatible 2021 USD reference. Remove it or use a case-study comparison.';return;}
+      if(c.value!==null){total+=acres*pct/100*c.value;}
+    });
+    if(!invalid&&Math.abs(pctSum-100)>0.0001){invalid='Land-cover areas total '+pctSum.toFixed(1)+'%; they must add up to exactly 100%.';}
+    if(invalid){return {value:null,rate:null,message:invalid};}
+    return {value:total,rate:acres>0?total/acres:0,message:'Mixed-cover reference assumes distinct, non-overlapping areas. Broad categories must not be counted alongside more specific categories over the same land.'};
+  }
+  function finances(acres){
+    var rate=number('mowCost'),before=number('mowsCurrent'),after=number('mowsProposed');
+    var install=number('installCost'),care=number('careCost');
+    if(acres===null||rate===null||before===null||after===null){['currentMowOut','proposedMowOut','mowDiffOut'].forEach(function(id){set(id,'Check inputs');});set('tenYearOut','Check inputs');return;}
+    var current=acres*rate*before,proposed=acres*rate*after,diff=current-proposed;
+    set('currentMowOut',money(current));set('proposedMowOut',money(proposed));set('mowDiffOut',money(diff));
+    if(install===null||care===null){set('tenYearOut','Needs costs');
+      set('financeNote','Enter installation and annual restoration management costs (enter 0 only if documented) to calculate the undiscounted 10-year difference. No total savings claim is made yet.');
+      return;}
+    var net=10*(diff-acres*care)-acres*install;
+    set('tenYearOut',money(net));
+    set('financeNote','Ten-year modeled difference after user-entered restoration costs (undiscounted). Positive values mean modeled savings. Does not include other unentered costs or site-specific inflation.');
+  }
+  function update(){
+    var acres=area();var c=cls(selected);var ref=calculateReference(acres);
+    var isReference=ref.value!==null;
+    set('areaOut',acres===null?'Check acreage':acres.toLocaleString('en-US',{maximumFractionDigits:2})+(acres===1?' acre':' acres'));
+    set('rateOut',isReference?money(ref.rate)+'/ac/yr':'Not established');
+    set('grossOut',isReference?money(ref.value):'Not established');
+    set('heroValue',isReference?money(ref.value):'—');
+    set('heroNote',isReference?'2021 USD · Published reference, not measured at this site':'No defensible estimate for this selection');
+    set('statusOut',isReference?'Study benchmark':'No default');
+    set('plainAnswer',ref.message);
+    var src=mixed?null:STUDIES[c.source];var note=el('valueNote');note.textContent='';
+    if(mixed){note.textContent='Mixed-cover calculation uses only compatible 2021 USD reference categories. Every zone must be distinct.';}
+    else {
+      var head=document.createElement('strong');head.textContent=c.value===null?'No ecosystem-dollar value established.':'Source figure: '+money(c.value)+'/acre/year ('+c.year+' USD).';
+      var p=document.createElement('p');p.textContent=c.warning;note.append(head,p);
+      if(src){link(el('sourceOut'),src);}else{set('sourceOut','No general ecosystem-dollar source accepted for this category.');}
+    }
+    if(mixed){set('sourceOut','Mixed-cover references: see the list of original sources below.');}
+    set('mixError',mixed?ref.message:'');
+    var count=document.querySelectorAll('.habitat-check:checked').length;
+    set('habitatOut',count+' of 4 observations selected. These notes do not change monetary estimates; this is not a validated ecological condition score.');
+    finances(acres);
+  }
+  function buildSources(){var list=el('sourceList');list.textContent='';Object.keys(STUDIES).forEach(function(k){var li=document.createElement('li');link(li,STUDIES[k]);list.appendChild(li);});}
+  document.querySelector('.advanced').addEventListener('toggle',function(e){mixed=e.target.open;update();});
+  document.addEventListener('input',update);document.addEventListener('change',update);
+  buildCards();buildMix();buildSources();update();
+})();
