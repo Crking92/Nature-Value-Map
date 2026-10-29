@@ -15,7 +15,7 @@
 | App class / key | Source value (USD/acre/year) | Dollar year | Where verified | Publication decision |
 |---|---:|---|---|---|
 | Prairie/grassland `native_prairie` | 1,941 | 2021 | AECOM 2025, Table 3, printed p. 22 / PDF p. 26; Appendix B-3, PDF p. 46 | **Conditional benchmark**; mature grassland reference, not guaranteed for newly seeded native meadow |
-| Wetland `wetland` | 18,948 | 2021 | AECOM 2025, Table 2, printed p. 15 / PDF p. 18; Appendix B-2, PDF p. 45 | **Conditional benchmark**; heterogeneous coastal and inland wetland literature, not every detention pond edge |
+| Wetland `wetland` | 18,948 | 2021 | AECOM 2025, Table 2, printed p. 15 / PDF p. 19; Appendix B-2, PDF p. 45 | **Conditional benchmark**; heterogeneous coastal and inland wetland literature, not every detention pond edge |
 | Forest `forest` | 12,589 | 2021 | FEMA 2022, reproduced in AECOM 2025 Appendix A-1, PDF p. 43 | **Conditional national fallback**; includes 7,531/ac/year existence value |
 | Riparian `riparian_forest` | 37,199 | 2021 | FEMA 2022, reproduced in AECOM 2025 Appendix A-1, PDF p. 43 | **Conditional national fallback**; source calls this broad category 'Riparian', not specifically 'every creekside woodland' |
 | Non-native grass restoration `non_native_grass` | 930 | 2023 | EcoMetrics 2024, executive summary / original comparison table | **Case-study only**, La Salle County oil/gas right-of-way; not a lawn proxy |
