@@ -105,6 +105,8 @@
   function csvEscape(v){
     if(v===null||v===undefined)return '';
     var s=String(v);
+    // Prevent spreadsheet programs from executing user-supplied text as a CSV formula.
+    if(/^[\u0000-\u0020]*[=+@-]/.test(s))s="'"+s;
     return /[,"\n\r]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;
   }
   function toCSV(record){
