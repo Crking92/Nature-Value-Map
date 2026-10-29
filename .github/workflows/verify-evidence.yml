@@ -7,6 +7,11 @@ on:
       - 'tests/verify-values.cjs'
       - 'tests/verify-scenarios.cjs'
       - 'tests/verify-assessment.cjs'
+      - 'tests/verify-field-assessment.cjs'
+      - 'field-assessment.html'
+      - 'field-assessment-core.js'
+      - 'field-assessment.js'
+      - 'FIELD_MONITORING_PROTOCOL.md'
       - 'site-assessments/**'
       - 'assessment.html'
       - 'EVIDENCE_REGISTER.md'
@@ -38,3 +43,5 @@ jobs:
         run: node tests/verify-scenarios.cjs
       - name: Validate Hays County site assessment integrity
         run: node tests/verify-assessment.cjs
+      - name: Validate repeatable field observation records
+        run: node tests/verify-field-assessment.cjs
