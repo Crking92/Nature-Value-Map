@@ -5,6 +5,7 @@ on:
     paths:
       - 'app.js'
       - 'tests/verify-values.cjs'
+      - 'tests/verify-scenarios.cjs'
       - '.github/workflows/verify-evidence.yml'
   pull_request:
     paths:
@@ -28,3 +29,5 @@ jobs:
           node-version: '22'
       - name: Validate exact published source figures
         run: node tests/verify-values.cjs
+      - name: Validate live numerical scenarios
+        run: node tests/verify-scenarios.cjs
