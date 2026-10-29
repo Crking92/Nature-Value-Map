@@ -69,7 +69,8 @@ assert.equal(el('grossOut').textContent,'Not established','Nonzero unsupported t
 row(2,0,'turf_estimate');row(0,51,'forest');refresh();
 assert.equal(el('grossOut').textContent,'Not established','Mixed shares greater than 100 blocked');
 row(0,50,'forest');refresh();assert.equal(el('grossOut').textContent,'$7,265');
-mix(false);assert.equal(el('grossOut').textContent,'Confirm reference use','Mode change revokes acknowledgement');
+el('siteSetting').value='blackland';refresh();
+mix(false);assert.equal(el('grossOut').textContent,'Confirm reference use','Mode change revokes acknowledgement once independent habitat mismatch is cleared');
 choose(5);accept();assert.equal(el('grossOut').textContent,'Not established','No fabricated turf ecosystem-dollar default');
 el('manualAcres').value='-1';refresh();assert.equal(el('areaOut').textContent,'Check acreage');
 el('manualAcres').value='1';refresh();
