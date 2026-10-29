@@ -124,3 +124,14 @@ The geographic map, source-by-source ecosystem service decomposition, land-cover
 Visitors can copy their **scenario assumptions and mowing-only result**, together with caveats and a link to the research methods. Clipboard operations require user action and are not stored on a server. Land-cover selection is for reading an original study's *category benchmark*, and is not proof that current or proposed management produces that value.
 
 Automated checks: \`node tests/verify-homepage.cjs\` verifies progressive-disclosure structure, source controls and calculation DOM IDs; \`tests/verify-values.cjs\` and \`tests/verify-scenarios.cjs\` retain the numerical gates. These are software checks; user-experience and accessibility testing with real people remains a future release requirement.
+
+
+## Address or place lookup and zoom controls (October 2026)
+
+The optional map includes explicit zoom-in, zoom-out, and Kyle-home controls, plus a form for searching U.S. addresses, parks or place names. The geocoding provider is [Esri ArcGIS World Geocoder](https://developers.arcgis.com/rest/geocode/find-address-candidates/) in **non-stored** mode. It is used only after the visitor submits the form, with up to five candidates returned. Multiple potential matches require an explicit selection. Search text is sent directly to Esri; this website has no search analytics, geocoding database, address storage, or search-result caching.
+
+A geocoded address is **only a map-navigation location**. It is not a property boundary or surveyed parcel location, and it cannot be used to infer acreage. Selecting a search match clears any previously drawn map geometry to prevent stale-area calculations; the user must draw a new polygon or enter acreage. Search can fail, be unavailable, be approximate, or return an ambiguous result. The calculator remains usable without map or search service availability.
+
+The OSM/Leaflet basemap retains proper OSM tile attribution. Explicit zoom controls are kept separate from land-selection drawing tools. Wheel zoom remains disabled to prevent accidental zoom while scrolling the page; map dragging, touch gestures, and zoom buttons remain available.
+
+**Operational caveat:** The anonymous public ArcGIS geocoding endpoint can change availability, access policy, and request limits, so a high-traffic deployment may require a configured authenticated alternative. This implementation does not offer autocomplete or make repeated geocoding requests for each keystroke. The address search adds no scientific confidence to land-cover or valuation assumptions.
