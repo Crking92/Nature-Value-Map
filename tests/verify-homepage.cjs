@@ -39,5 +39,5 @@ assert.ok(app.includes('No incremental ecosystem')||app.includes('No added ecolo
 assert.ok(html.includes('href="assessment.html"')&&html.includes('href="field-assessment.html"'),'Deeper research links should remain discoverable');
 assert.ok(css.includes('@media(max-width:650px)'),'Small-screen layout required');
 assert.ok(css.includes('prefers-reduced-motion'),'Respect user reduced-motion preference');
-assert.ok(html.includes('app.js?v=7')&&html.includes('style.css?v=7'),'Cache-busting version should change on new homepage release');
+assert.ok(html.includes('app.js?v=8')&&html.includes('style.css?v=8')&&html.includes('map-search-core.js?v=1'),'Map controls must ship with fresh versioned assets');
 console.log('PASS: progressive homepage, accessible controls, dynamic mapping, source protection, copy action, no missing DOM IDs or unintended research defaults.');
